@@ -1,0 +1,7 @@
+bin/
+.vscode/
+
+kubernetes/
+
+ansible/main/roles/artis3n.tailscale
+ansible/main/roles/geerlingguy.docker

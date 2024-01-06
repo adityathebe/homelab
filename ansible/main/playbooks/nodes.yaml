@@ -1,0 +1,14 @@
+---
+- hosts: nodes
+  become: true
+
+  roles:
+    - kubernetes
+
+  tasks:
+    - name: install sqlite3
+      apt:
+        name: sqlite3
+        update_cache: yes
+        state: present
+      when: "'saka' in inventory_hostname"

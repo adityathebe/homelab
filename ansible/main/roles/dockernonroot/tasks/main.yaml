@@ -1,0 +1,17 @@
+---
+- name: Add Docker group
+  group:
+    name: docker
+    state: present
+
+- name: Add a user to the Docker group
+  user:
+    name: 'player'
+    groups: docker
+    append: yes
+
+- name: Start and enable the Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes

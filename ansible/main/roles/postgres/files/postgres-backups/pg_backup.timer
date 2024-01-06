@@ -1,0 +1,11 @@
+[Unit]
+Description=Backup postgres cluster
+Requires=pg_backup.service
+
+[Timer]
+Unit=pg_backup.service
+OnCalendar=*-*-* *:00:00
+
+[Install]
+WantedBy=timers.target
+

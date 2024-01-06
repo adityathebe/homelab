@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  postgres:
+    image: 'tensorchord/pgvecto-rs:pg16-v0.1.11'
+    environment:
+      - POSTGRES_USER=gunners
+      - POSTGRES_PASSWORD=gunners
+    ports:
+      - '5432:5432'
+    volumes:
+      - '{{ pg_data_path }}:/var/lib/postgresql/data'
+    container_name: postgres

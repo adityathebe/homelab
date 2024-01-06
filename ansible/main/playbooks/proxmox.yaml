@@ -1,0 +1,10 @@
+---
+- hosts: pve
+  become: false # proxmox doesn't have sudo
+
+  tasks:
+    - name: Ensure apt cache is updated
+      apt:
+        update_cache: yes
+        upgrade: yes
+        cache_valid_time: 3600

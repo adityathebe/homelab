@@ -1,0 +1,39 @@
+---
+- name: Setup Portainer
+  hosts: portainer
+  become: true
+  serial: 1
+
+  vars:
+    data_path: /home/player/data
+    user_home: /home/player
+
+  pre_tasks:
+    - name: Replace DNS entry
+      replace:
+        path: /etc/resolv.conf
+        regexp: '^nameserver 127.0.0.53$'
+        replace: 'nameserver 127.0.0.1'
+
+    - name: Prepare data directory
+      ansible.builtin.file:
+        path: '{{ item }}'
+        state: directory
+        owner: player
+        group: player
+      loop:
+        - '{{ data_path }}/adguard'
+        - '{{ data_path }}/portainer'
+
+  roles:
+    - ubuntu
+    - geerlingguy.docker
+    - dockernonroot
+    - name: 'Setup tailscale as a subnet advertiser'
+      role: artis3n.tailscale
+    - name: Setup postgres cluster on docker & the necessary backup scripts
+      role: postgres
+
+  # tasks:
+  #   - name: Setup adguard home
+  #   - name: Setup Portainer

@@ -1,0 +1,9 @@
+[Unit]
+Description=Backup postgres cluster
+Wants=pg_backup.timer
+
+[Service]
+ExecStart=/home/player/postgres-backup.sh
+
+[Install]
+WantedBy=multi-user.target
