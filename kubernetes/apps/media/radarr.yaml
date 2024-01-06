@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr
+  namespace: media
+spec:
+  selector:
+    name: radarr
+  ports:
+    - protocol: TCP
+      port: 7878
+---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: radarr-pvc
+#   namespace: media
+#   annotations:
+#     nfs.io/storage-path: radarr
+# spec:
+#   storageClassName: kubedata
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 100Mi
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: radarr
+  template:
+    metadata:
+      labels:
+        name: radarr
+    spec:
+      containers:
+        - name: radarr
+          image: lscr.io/linuxserver/radarr:latest
+          ports:
+            - containerPort: 7878
+          env:
+            - name: PGUID
+              value: '1000'
+            - name: PGID
+              value: '1337'
+            - name: TZ
+              value: 'Asia/Kathmandu'
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: torrent-downloads
+              mountPath: /downloads
+            - name: movies
+              mountPath: /movies
+      volumes:
+        # - name: config
+        #   persistentVolumeClaim:
+        #     claimName: radarr-pvc
+        - name: config
+          hostPath:
+            path: /home/player/kube_data/radarr
+            type: Directory
+        - name: torrent-downloads
+          persistentVolumeClaim:
+            claimName: torrent-pvc
+        - name: movies
+          persistentVolumeClaim:
+            claimName: movies-pvc
+      nodeSelector:
+        kubernetes.io/hostname: saka

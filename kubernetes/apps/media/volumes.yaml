@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: movies-pvc
+  namespace: media
+  annotations:
+    nfs.io/storage-path: movies
+spec:
+  storageClassName: media-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 250Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shows-pvc
+  namespace: media
+  annotations:
+    nfs.io/storage-path: shows
+spec:
+  storageClassName: media-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: torrent-pvc
+  namespace: media
+  annotations:
+    nfs.io/storage-path: transmission/current_downloads
+spec:
+  storageClassName: kubedata
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 25Gi

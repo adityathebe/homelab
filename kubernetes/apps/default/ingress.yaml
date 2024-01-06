@@ -1,0 +1,87 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+    - secretName: wildcard.home.adityathebe.com
+      hosts:
+        - ittools.home.adityathebe.com
+        - actual.home.adityathebe.com
+        - pgadmin.home.adityathebe.com
+        - mealie.home.adityathebe.com
+    - secretName: home.adityathebe.com
+      hosts:
+        - home.adityathebe.com
+  rules:
+    - host: home.adityathebe.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: homepage
+                port:
+                  number: 3000
+    - host: vikunja.home.adityathebe.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: vikunja-frontend
+                port:
+                  name: frontend
+          - pathType: Prefix
+            path: /api/v1
+            backend:
+              service:
+                name: vikunja
+                port:
+                  name: backend
+    - host: ittools.home.adityathebe.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: ittools
+                port:
+                  number: 80
+    - host: actual.home.adityathebe.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: actualbudget
+                port:
+                  number: 5006
+    - host: pgadmin.home.adityathebe.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: pgadmin
+                port:
+                  number: 80
+    - host: mealie.home.adityathebe.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: mealie
+                port:
+                  number: 9000
+

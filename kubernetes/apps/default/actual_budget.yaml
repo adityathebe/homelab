@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: actualbudget
+  namespace: default
+spec:
+  selector:
+    name: actualbudget
+  ports:
+    - protocol: TCP
+      port: 5006
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: actualbudget
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: actualbudget
+  template:
+    metadata:
+      labels:
+        name: actualbudget
+    spec:
+      containers:
+        - name: actualbudget
+          image: actualbudget/actual-server:latest
+          ports:
+            - containerPort: 5006
+          env:
+            - name: PGID
+              value: "1337"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          hostPath:
+            path: /home/player/kube_data/actual
+            type: Directory
+      nodeSelector:
+        kubernetes.io/hostname: saka

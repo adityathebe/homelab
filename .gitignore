@@ -1,7 +1,22 @@
 bin/
 .vscode/
 
-kubernetes/
+kubernetes/apps/default/mealie.yaml
+kubernetes/apps/default/pgadmin.yaml
+kubernetes/apps/default/vikunja.yaml
+
+kubernetes/apps/monitoring
+
+# Cleanup spotify secrets
+kubernetes/apps/music/navidrome.yaml
+
+# Cleanup secrets
+kubernetes/apps/immich
+
+# TMDB API KEY
+kubernetes/apps/media/movary.yaml
+
+kubernetes/configs/
 
 ansible/main/roles/artis3n.tailscale
 ansible/main/roles/geerlingguy.docker

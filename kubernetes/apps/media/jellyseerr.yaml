@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyseerr
+  namespace: media
+spec:
+  selector:
+    name: jellyseerr
+  ports:
+    - protocol: TCP
+      port: 5055
+---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: jellyseerr-pvc
+#   namespace: media
+#   annotations:
+#     nfs.io/storage-path: jellyseerr
+# spec:
+#   storageClassName: kubedata
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 100Mi
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyseerr
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: jellyseerr
+  template:
+    metadata:
+      labels:
+        name: jellyseerr
+    spec:
+      containers:
+        - name: jellyseerr
+          image: fallenbagel/jellyseerr:latest
+          ports:
+            - containerPort: 5055
+          env:
+            - name: PGUID
+              value: '1000'
+            - name: PGID
+              value: '1337'
+            - name: TZ
+              value: 'Asia/Kathmandu'
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+      volumes:
+        # - name: config
+        #   persistentVolumeClaim:
+        #     claimName: jellyseerr-pvc
+        - name: config
+          hostPath:
+            path: /home/player/kube_data/jellyseerr
+            type: Directory
+      nodeSelector:
+        kubernetes.io/hostname: saka
+

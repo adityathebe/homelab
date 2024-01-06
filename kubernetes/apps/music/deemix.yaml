@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: deemix
+  namespace: music
+spec:
+  selector:
+    app: music
+    name: deemix
+  ports:
+    - protocol: TCP
+      port: 6595
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: deemix-config-pvc
+  namespace: music
+  annotations:
+    nfs.io/storage-path: deemix
+spec:
+  storageClassName: kubedata
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deemix
+  namespace: music
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: music
+      name: deemix
+  template:
+    metadata:
+      labels:
+        app: music
+        name: deemix
+    spec:
+      containers:
+        - name: deemix
+          image: registry.gitlab.com/bockiii/deemix-docker
+          ports:
+            - containerPort: 6595
+          env:
+            - name: PGUID
+              value: '1000'
+            - name: PGID
+              value: '1337'
+            - name: UMASK_SET
+              value: '022'
+            - name: DEEMIX_SINGLE_USER
+              value: 'true'
+          volumeMounts:
+            - name: downloads
+              mountPath: /downloads
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: music-nfs-pvc
+        - name: config
+          persistentVolumeClaim:
+            claimName: deemix-config-pvc
