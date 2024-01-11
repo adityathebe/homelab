@@ -1,0 +1,16 @@
+---
+- name: ensure $HOME/.vim dir exists
+  file:
+    path: '{{item}}'
+    state: directory
+  become: false
+  loop:
+    - '{{user_home}}/.vim'
+    - '{{user_home}}/.vim/backupf'
+    - '{{user_home}}/.vim/backup'
+
+- name: Copy .vimrc
+  become: false
+  copy:
+    src: files/.vimrc
+    dest: '{{user_home}}/.vim/vimrc'

@@ -15,3 +15,5 @@
     deb: /tmp/bottom_0.9.6_amd64.deb
 
 - include_tasks: timezone.yaml
+
+- include_tasks: vim.yaml
