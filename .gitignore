@@ -20,3 +20,8 @@ kubernetes/configs/
 
 ansible/main/roles/artis3n.tailscale
 ansible/main/roles/geerlingguy.docker
+
+# Terraform
+.terraform
+.terraform.tfstate*
+terraform.tfstate*

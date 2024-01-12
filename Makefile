@@ -15,3 +15,19 @@ ansible-proxmox:
 
 ansible-galaxy:
 	cd ansible/main && ansible-galaxy install -r requirements.yaml
+
+terraform-cloudflare:
+	cd terraform/cloudflare && terraform apply
+
+terraform-sops-encrypt:
+	cd terraform/cloudflare && sops --encrypt --age $$(cat $$SOPS_AGE_KEY_FILE | grep -oP "public key: \K(.*)") --unencrypted-regex '^(kind)$$' --in-place ./secret.sops.yaml
+
+terraform-sops-decrypt:
+	cd terraform/cloudflare && sops --decrypt --age $$(cat $$SOPS_AGE_KEY_FILE | grep -oP "public key: \K(.*)") --unencrypted-regex '^(kind)$$' --in-place ./secret.sops.yaml
+
+precommit:
+	pre-commit install --install-hooks
+	pre-commit run --all-files
+
+precommit-update:
+	pre-commit autoupdate
