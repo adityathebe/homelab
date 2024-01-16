@@ -18,6 +18,7 @@ kubernetes/apps/media/movary.yaml
 
 kubernetes/configs/
 
+# Ansible galaxy
 ansible/main/roles/artis3n.tailscale
 ansible/main/roles/geerlingguy.docker
 
@@ -25,3 +26,7 @@ ansible/main/roles/geerlingguy.docker
 .terraform
 .terraform.tfstate*
 terraform.tfstate*
+
+# Sops
+.decrypted~*
+*.agekey

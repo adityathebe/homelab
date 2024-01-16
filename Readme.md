@@ -28,3 +28,9 @@
 
 ![Server](https://i.imgur.com/NZUvI2A.jpg)
 _Proxmox & Truenas(bottom) servers_
+
+## Requirements
+
+- sops (secrets management)
+- age (encryption)
+- precommit
