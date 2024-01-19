@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homelab-tls-cert
+  namespace: nginx-ingress
+spec:
+  secretName: homelab-tls-cert
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: 'home.adityathebe.com'
+  dnsNames:
+    - '*.home.adityathebe.com'
+    - 'home.adityathebe.com'

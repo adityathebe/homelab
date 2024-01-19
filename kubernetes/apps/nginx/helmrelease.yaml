@@ -35,3 +35,5 @@ spec:
           namespaceSelector:
             any: true
 
+      extraArgs:
+        default-ssl-certificate: 'nginx-ingress/homelab-tls-cert'
