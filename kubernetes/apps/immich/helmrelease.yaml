@@ -51,7 +51,7 @@ spec:
             key: PASSWORD
 
     image:
-      tag: v1.91.4
+      tag: v1.93.0
 
     immich:
       persistence:
