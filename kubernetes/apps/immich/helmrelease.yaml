@@ -83,10 +83,6 @@ spec:
             - host: photos.home.adityathebe.com
               paths:
                 - path: '/'
-          tls:
-            - secretName: wildcard.home.adityathebe.com
-              hosts:
-                - photos.home.adityathebe.com
 
     machine-learning:
       enabled: false
