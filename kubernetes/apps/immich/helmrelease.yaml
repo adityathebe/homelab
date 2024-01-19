@@ -9,7 +9,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: immich-charts/immich
+      chart: immich
       version: 0.3.1
       sourceRef:
         kind: HelmRepository
