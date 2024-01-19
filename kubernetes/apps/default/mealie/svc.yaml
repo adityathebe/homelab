@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mealie
+  namespace: default
+spec:
+  selector:
+    name: mealie
+  ports:
+    - protocol: TCP
+      port: 9000
