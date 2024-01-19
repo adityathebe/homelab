@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./kubernetes/default/actual_budget.yaml
+  path: ./kubernetes/apps/default/actualbudget
   prune: true
   sourceRef:
     kind: GitRepository
