@@ -8,7 +8,5 @@ spec:
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
-  commonName: '*.home.adityathebe.com'
   dnsNames:
     - 'home.adityathebe.com'
-    - '*.home.adityathebe.com'
