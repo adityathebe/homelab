@@ -1,7 +1,5 @@
 bin/
-.vscode/
 
-kubernetes/apps/default/mealie.yaml
 kubernetes/apps/default/pgadmin.yaml
 kubernetes/apps/default/vikunja.yaml
 
