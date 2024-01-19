@@ -30,4 +30,3 @@ terraform.tfstate*
 
 # TODO: Use SOPs
 kubernetes/apps/cert-manager/issuer/secret.yaml
-kubernetes/apps/immich/secret.yaml
