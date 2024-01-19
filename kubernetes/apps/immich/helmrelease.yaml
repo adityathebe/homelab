@@ -63,10 +63,6 @@ spec:
 
     postgresql:
       enabled: false
-      global:
-        postgresql:
-          auth:
-            existingSecret:
 
     redis:
       enabled: true

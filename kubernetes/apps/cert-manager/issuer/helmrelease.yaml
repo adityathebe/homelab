@@ -17,3 +17,6 @@ spec:
             apiKeySecretRef:
               name: cloudflare-secret
               key: CLOUDFLARE_API_KEY
+        selector:
+          dnsZones:
+            - 'adityathebe.com'
