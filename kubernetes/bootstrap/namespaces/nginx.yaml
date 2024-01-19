@@ -1,0 +1,6 @@
+api: v1
+kind: Namespace
+metadata:
+  name: nginx-ingress
+  labels:
+    kustomize.toolkit.fluxcd.io/prune: disabled

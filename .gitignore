@@ -30,3 +30,6 @@ terraform.tfstate*
 # Sops
 .decrypted~*
 *.agekey
+
+# TODO: Use SOPs
+kubernetes/apps/cert-manager/issuer/secret.yaml
