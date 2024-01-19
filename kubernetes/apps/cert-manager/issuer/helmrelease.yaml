@@ -15,9 +15,9 @@ spec:
       - dns01:
           cloudflare:
             email: thebeaditya@gmail.com
-            apiKeySecretRef:
+            apiTokenSecretRef:
               name: cloudflare-secret
-              key: CLOUDFLARE_API_KEY
+              key: CLOUDFLARE_TOKEN
         selector:
           dnsZones:
             - 'adityathebe.com'
