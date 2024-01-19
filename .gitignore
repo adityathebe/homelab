@@ -10,9 +10,6 @@ kubernetes/apps/monitoring
 # Cleanup spotify secrets
 kubernetes/apps/music/navidrome.yaml
 
-# Cleanup secrets
-kubernetes/apps/immich
-
 # TMDB API KEY
 kubernetes/apps/media/movary.yaml
 
@@ -33,3 +30,4 @@ terraform.tfstate*
 
 # TODO: Use SOPs
 kubernetes/apps/cert-manager/issuer/secret.yaml
+kubernetes/apps/immich/secret.yaml

@@ -1,0 +1,96 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: immich
+  namespace: immich
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: immich-charts/immich
+      version: 0.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: immich-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    env:
+      REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
+      IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+
+      DB_HOSTNAME:
+        valueFrom:
+          secretKeyRef:
+            name: immich-postgres
+            key: HOST
+      DB_DATABASE_NAME:
+        valueFrom:
+          secretKeyRef:
+            name: immich-postgres
+            key: DATABASE
+      DB_USERNAME:
+        valueFrom:
+          secretKeyRef:
+            name: immich-postgres
+            key: USER
+      DB_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: immich-postgres
+            key: PASSWORD
+
+    image:
+      tag: v1.91.4
+
+    immich:
+      persistence:
+        # Main data store for all photos shared between different components.
+        library:
+          # Automatically creating the library volume is not supported by this chart
+          # You have to specify an existing PVC to use
+          existingClaim: immich-pvc
+
+    postgresql:
+      enabled: false
+      global:
+        postgresql:
+          auth:
+            existingSecret:
+
+    redis:
+      enabled: true
+
+    # Immich components
+
+    server:
+      ingress:
+        main:
+          enabled: true
+          annotations:
+            # proxy-body-size is set to 0 to remove the body limit on file uploads
+            nginx.ingress.kubernetes.io/proxy-body-size: '50000M'
+            nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+            nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+            kubernetes.io/ingress.class: nginx
+          hosts:
+            - host: photos.home.adityathebe.com
+              paths:
+                - path: '/'
+          tls:
+            - secretName: wildcard.home.adityathebe.com
+              hosts:
+                - photos.home.adityathebe.com
+
+    machine-learning:
+      enabled: false
