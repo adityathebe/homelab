@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: homelab-tls-cert
   issuerRef:
-    name: letsencrypt-staging
+    name: letsencrypt-production
     kind: ClusterIssuer
   commonName: 'home.adityathebe.com'
   dnsNames:
