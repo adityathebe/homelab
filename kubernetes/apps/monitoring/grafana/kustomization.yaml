@@ -4,8 +4,3 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ./helmrelease.yaml
-configMapGenerator:
-  - name: grafana-helm-values
-    files:
-      - values.yaml=./resources/values.yaml
-    
