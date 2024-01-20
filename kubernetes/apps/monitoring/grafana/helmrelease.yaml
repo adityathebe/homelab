@@ -26,6 +26,17 @@ spec:
   values: |
     replicas: 1
 
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            uid: prometheus
+            access: proxy
+            url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+            isDefault: true
+
     dashboards:
       default:
         node-exporter-full:
