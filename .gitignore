@@ -3,7 +3,9 @@ bin/
 kubernetes/apps/default/pgadmin.yaml
 kubernetes/apps/default/vikunja.yaml
 
-kubernetes/apps/monitoring
+kubernetes/apps/monitoring/speedtest_tracker.yaml
+kubernetes/apps/monitoring/uptime_kuma.yaml
+kubernetes/apps/monitoring/ingress.yaml
 
 # Cleanup spotify secrets
 kubernetes/apps/music/navidrome.yaml
