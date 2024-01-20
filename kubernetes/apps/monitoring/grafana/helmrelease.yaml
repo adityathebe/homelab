@@ -23,7 +23,7 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  values: |
+  values:
     replicas: 1
 
     datasources:
@@ -124,7 +124,7 @@ spec:
       storageClassName: kubedata
 
     admin:
-      existingSecret: "grafana-admin"
+      existingSecret: 'grafana-admin'
       userKey: admin-user
       passwordKey: admin-password
 
