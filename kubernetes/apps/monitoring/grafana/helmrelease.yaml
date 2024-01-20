@@ -109,7 +109,13 @@ spec:
         - grafana.home.adityathebe.com
 
     persistence:
-      enabled: false
+      enabled: true
+      storageClassName: kubedata
+
+    admin:
+      existingSecret: "grafana-admin"
+      userKey: admin-user
+      passwordKey: admin-password
 
     testFramework:
       enabled: false
