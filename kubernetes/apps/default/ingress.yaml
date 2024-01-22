@@ -13,20 +13,7 @@ spec:
         - actual.home.adityathebe.com
         - pgadmin.home.adityathebe.com
         - mealie.home.adityathebe.com
-    - secretName: home.adityathebe.com
-      hosts:
-        - home.adityathebe.com
   rules:
-    - host: home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: homepage
-                port:
-                  number: 3000
     - host: vikunja.home.adityathebe.com
       http:
         paths:

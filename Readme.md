@@ -1,7 +1,3 @@
-# My `Homelab`
-
-<!-- markdownlint-disable MD033 -->
-
 <h1 align="center">
   Homelab
 </h1>
@@ -14,8 +10,8 @@
   <a href="https://k3s.io/">
     <img alt="k3s" src="https://img.shields.io/badge/k3s-v1.26.9-orange?logo=kubernetes&logoColor=white&style=flat-square">
   </a>
-  <a href="https://github.com/WRMilling/k3s-gitops/commits/master">
-    <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/WRMilling/k3s-gitops?logo=git&logoColor=white&color=purple&style=flat-square">
+  <a href="https://github.com/adityathebe/homelab/commits/master">
+    <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/adityathebe/homelab?logo=git&logoColor=white&color=purple&style=flat-square">
   </a>
 </p>
 

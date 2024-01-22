@@ -1,0 +1,264 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.26.1-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: default
+  labels:
+    app.kubernetes.io/name: homepage
+data:
+  bookmarks.yaml: |
+    ---
+  docker.yaml: |
+    ---
+    local-docker:
+    socket: /var/run/docker.sock
+  kubernetes.yaml: |
+    ---
+  services.yaml: |
+    ---
+    - Music:
+        - Airsonic:
+            icon: airsonic.png
+            href: https://airsonic.home.adityathebe.com
+            description: Music Player
+
+        - Navidrome:
+            icon: navidrome.png
+            href: https://navidrome.home.adityathebe.com
+            description: Music Player
+            widget:
+              type: navidrome
+              url: http://navidrome.music.svc:4533/navidrome
+              user: admin
+              token: {{HOMEPAGE_NAVIDROME_TOKEN}}
+              salt: admin
+
+        - Deemix:
+            icon: deemix.png
+            href: https://deemix.home.adityathebe.com
+            description: Deezer music downlader
+
+    - Monitoring:
+        - Grafana:
+            icon: grafana.png
+            href: https://grafana.home.adityathebe.com
+            description: Dashboard
+
+        - Prometheus:
+            icon: prometheus.png
+            href: https://prometheus.home.adityathebe.com
+            description: Prometheus
+            widget:
+              type: prometheus
+              url: http://prometheus-prometheus.monitoring.svc:9090
+
+        - Speed Tracker:
+            icon: speedtest-tracker.png
+            href: https://speedtest.home.adityathebe.com
+            description: Speedtest
+            widget:
+              type: speedtest
+              url: http://speedtest-tracker.monitoring.svc
+
+        - Uptime Kuma:
+            icon: uptime-kuma.png
+            href: https://uptime.home.adityathebe.com/status/overview
+            description: Uptime tracker
+            widget:
+              type: uptimekuma
+              url: http://uptimekuma.monitoring.svc:3001
+              slug: overview
+
+    - Photos:
+        - Immich:
+            icon: immich.png
+            href: https://photos.home.adityathebe.com
+            description: Photo Management
+            widget:
+              type: immich
+              url: https://photos.home.adityathebe.com
+              key: {{HOMEPAGE_IMMICH_KEY}}
+
+    - Applications:
+        - Actual:
+            icon: actual.png
+            href: https://actual.home.adityathebe.com
+            description: Budget
+
+        - IT Tools:
+            icon: it-tools.png
+            href: https://ittools.home.adityathebe.com
+            description: Swiss army knife for IT
+
+        - Vikunja:
+            icon: vikunja.png
+            href: https://vikunja.home.adityathebe.com
+            description: Todo app
+
+        - Mealia:
+            icon: mealie.png
+            href: https://mealie.home.adityathebe.com
+            description: Mealie
+            widget:
+              type: mealie
+              url: https://mealie.home.adityathebe.com
+              key: {{HOMEPAGE_MEALIE_KEY}}
+
+    - Management:
+        - Proxmox:
+            icon: proxmox.png
+            href: https://pve.home.adityathebe.com:8006
+            ping: https://pve.home.adityathebe.com:8006
+            description: Proxmox
+            widget:
+              username: {{HOMEPAGE_PROXMOX_USERNAME}}
+              password: {{HOMEPAGE_PROXMOX_PASSWORD}}
+              type: proxmox
+              url: https://pve.home.adityathebe.com:8006
+              node: pve
+
+        - Truenas:
+            icon: truenas.png
+            href: https://nas.home.adityathebe.com
+            ping: https://nas.home.adityathebe.com
+            description: TrueNAS Scale
+            widget:
+              type: truenas
+              key: {{HOMEPAGE_TRUENAS_KEY}}
+              url: https://nas.home.adityathebe.com
+
+        - Portainer:
+            icon: portainer.png
+            href: https://portainer.home.adityathebe.com/
+            ping: https://portainer.home.adityathebe.com/
+            description: Portainer
+            widget:
+              type: portainer
+              url: https://portainer.home.adityathebe.com
+              env: 2
+              key: {{HOMEPAGE_PORTAINER_KEY}}
+
+        - Adguard:
+            icon: adguard-home.png
+            href: https://adguard.home.adityathebe.com/
+            ping: https://adguard.home.adityathebe.com/
+            description: DNS
+            widget:
+              type: adguard
+              url: https://adguard.home.adityathebe.com
+              username: {{HOMEPAGE_ADGUARD_USERNAME}}
+              password: {{HOMEPAGE_ADGUARD_PASSWORD}}
+
+        - PGAdmin:
+            icon: pgadmin.png
+            href: https://pgadmin.home.adityathebe.com
+            description: Postgres management
+
+        - NPM:
+            icon: nginx-proxy-manager.png
+            href: https://npm.home.adityathebe.com
+            description: NGINX Proxy Manager
+            widget:
+              type: npm
+              url: https://npm.home.adityathebe.com
+              username: {{HOMEPAGE_NPM_USERNAME}}
+              password: {{HOMEPAGE_NPM_PASSWORD}}
+
+    - Media:
+        - Jellyfin:
+            icon: jellyfin.png
+            href: https://jellyfin.home.adityathebe.com
+            description: Media System
+            widget:
+              type: jellyfin
+              url: http://jellyfin.media.svc:8096
+              key: {{HOMEPAGE_JELLYFIN_KEY}}
+
+        - Jellyseerr:
+            icon: jellyseerr.png
+            href: https://jellyseerr.home.adityathebe.com
+            description: Request Managment
+            widget:
+              type: jellyseerr
+              url: http://jellyseerr.media.svc:5055
+              key: {{HOMEPAGE_JELLYSEERR_KEY}}
+
+        - Sonarr:
+            icon: sonarr.png
+            href: https://sonarr.home.adityathebe.com
+            description: TV Show
+            widget:
+              type: sonarr
+              url: http://sonarr.media.svc:8989
+              key: {{HOMEPAGE_SONARR_KEY}}
+
+        - Radarr:
+            icon: radarr.png
+            href: https://radarr.home.adityathebe.com
+            description: Movies
+            widget:
+              type: radarr
+              url: http://radarr.media.svc:7878
+              key: {{HOMEPAGE_RADARR_KEY}}
+
+        - Prowlarr:
+            icon: prowlarr.png
+            href: https://prowlarr.home.adityathebe.com
+            description: Torrent indexer
+            widget:
+              type: prowlarr
+              url: http://prowlarr.media.svc:9696
+              key: {{HOMEPAGE_PROWLARR_KEY}}
+
+        - Transmission:
+            icon: transmission.png
+            href: https://transmission.home.adityathebe.com
+            description: Torrent Client
+            widget:
+              type: transmission
+              url: http://transmission.media.svc:9091
+
+        - Movary:
+            icon: movary.png
+            href: https://movary.home.adityathebe.com
+            description: Movies Watched Logs
+
+  settings.yaml: |
+    ---
+    # For configuration options and examples, please see:
+    # https://gethomepage.dev/en/configs/settings
+
+    providers:
+      openweathermap: {{HOMEPAGE_OPENWEATHERMAP_TOKEN}}
+
+    color: slate
+    theme: dark
+
+    layout:
+      Media:
+        style: row
+        columns: 3
+      Music: {}
+      Photos: {}
+      Applications: {}
+      Monitoring: {}
+      Management:
+        style: row
+        columns: 6
+
+  widgets.yaml: |
+    ---
+    - resources:
+        cpu: true
+        memory: true
+        disk: /home
+
+    - openweathermap:
+        latitude: 27.6503542
+        longitude: 85.3507212
+        timezone: Asia/Kathmandu
+        units: metric
+        provider: openweathermap
+        cache: 5
