@@ -2,17 +2,23 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/carlpett/sops" {
-  version     = "0.7.0"
-  constraints = "0.7.0"
+  version     = "1.0.0"
+  constraints = "1.0.0"
   hashes = [
-    "h1:+3Fmy7UyAwy9vmw7Rl2BvCoVGbpCmrOuvnM/0cBwODA=",
-    "zh:07eca9b5fc217f3a2724df799a9cea3c15ae9b8dc49ce9bf05c88256ebd0b5dd",
-    "zh:25dfde76ec264409dd3cfc8b8720d78d45892e236bf12a7e13602b1ecf438b76",
-    "zh:2e81bb741a16ced03e747c8df94572fa7de387e99adf8b3033ecd857d6abf44b",
-    "zh:8c1c7626b35193f425b9525b88ef9d76d9c03828aa185bd4a9ffa633b0261c90",
-    "zh:a7c33a77638a39b3c90865ac0d9584977a878c8154bd96069c6e79b41ab9f711",
-    "zh:d72ae184b4898f418bce1a635133ce6e716174076e65724752a8d187699de07a",
-    "zh:fe9f72da6580e4446289e3408b12e21a4ebbd3f8652abc71d50f39ca3934058d",
+    "h1:Ef2u9JLvoQv2TNT6rpuaKQu7Ps5teZKfGSxpoBMMEOk=",
+    "h1:KxBW+RXcglqQv01N0fn/ei7kWgHF4kE3+Yc7a7ggfWI=",
+    "h1:TH4f9LP2BmNitUL0c7I5aRMc8J31aetxTNDnFPYTllc=",
+    "h1:eZHDYGcrxRCePZ+YnQD5774/LD7aROyiJb56ypsQFfA=",
+    "h1:eyhWU7mN5Q++hYu7j/w8aACehkiaFcdYp84pEF1n7XM=",
+    "h1:tnN2Mgl0NUF3cg7a0HtGmtOhHcG+tkaT6ncOPRuA9l8=",
+    "h1:xkTdN4nYt3PM5Sx09j/g+vnFWU2njQCO6CXza034R1I=",
+    "zh:064e63ea800cd1a8e575064097bc7de6fd5faa8ad50dbb3f2f9d8a3ebc9d7b97",
+    "zh:0663900085949d2faf24c170c7cdfbf76e545797915cc331da8304144c02bf27",
+    "zh:2ff26c7e5ee356c30791a12dd8e114c6237bd873d09e52805cb30dd5d758ed23",
+    "zh:44211fa474112ad0c9fcdae03f13ec7c75cdefd3ab29979b99cb834208055593",
+    "zh:6c3ab441c12b9679ad1dcac580d1ee7782f0d94efe6da6e983435ed39335cd3f",
+    "zh:8924cc939b52382ef042dc38bde93cdf438ff0aeab5e1801fbd198f05b80cd47",
+    "zh:ebc189ce22c23b903399f71e33d465001a79d7de7f7bf115c7763fcf794f4b58",
   ]
 }
 
