@@ -9,7 +9,6 @@ spec:
   tls:
     - secretName: wildcard.home.adityathebe.com
       hosts:
-        - ittools.home.adityathebe.com
         - actual.home.adityathebe.com
         - pgadmin.home.adityathebe.com
         - mealie.home.adityathebe.com
@@ -31,16 +30,6 @@ spec:
                 name: vikunja
                 port:
                   name: backend
-    - host: ittools.home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: ittools
-                port:
-                  number: 80
     - host: actual.home.adityathebe.com
       http:
         paths:
@@ -51,16 +40,6 @@ spec:
                 name: actualbudget
                 port:
                   number: 5006
-    - host: pgadmin.home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: pgadmin
-                port:
-                  number: 80
     - host: mealie.home.adityathebe.com
       http:
         paths:
