@@ -38,7 +38,7 @@ spec:
             envFrom:
               - secretRef:
                   name: navidrome
-              - configRef:
+              - configMapRef:
                   name: navidrome
             env:
               TZ: Asia/Kathmandu
