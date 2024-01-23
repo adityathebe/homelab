@@ -3,13 +3,6 @@ bin/
 kubernetes/apps/monitoring/speedtest_tracker.yaml
 kubernetes/apps/monitoring/uptime_kuma.yaml
 kubernetes/apps/monitoring/ingress.yaml
-
-# Cleanup spotify secrets
-kubernetes/apps/music/navidrome.yaml
-
-# TMDB API KEY
-kubernetes/apps/media/movary.yaml
-
 kubernetes/configs/
 
 # Ansible galaxy

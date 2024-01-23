@@ -13,7 +13,6 @@ spec:
       hosts:
         - airsonic.home.adityathebe.com
         - deemix.home.adityathebe.com
-        - navidrome.home.adityathebe.com
   rules:
     - host: deemix.home.adityathebe.com
       http:
@@ -35,13 +34,3 @@ spec:
                 name: airsonic
                 port:
                   number: 80
-    - host: navidrome.home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: navidrome
-                port:
-                  name: web

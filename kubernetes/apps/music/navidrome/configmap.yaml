@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: navidrome
+  namespace: music
+data:
+  ND_BASEURL: '/navidrome'
+  ND_LOGLEVEL: info
+  ND_PROMETHEUS_ENABLED: 'true'
+  ND_SESSIONTIMEOUT: 24h
+  ND_UIWELCOMEMESSAGE: "Welcome to Aditya's music server"
