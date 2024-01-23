@@ -227,6 +227,11 @@ data:
             href: https://movary.home.adityathebe.com
             description: Movies Watched Logs
 
+        - Invidious:
+            icon: invidious.png
+            href: https://youtube.home.adityathebe.com
+            description: Youtube frontend
+
   settings.yaml: |
     ---
     # For configuration options and examples, please see:
