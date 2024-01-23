@@ -10,26 +10,8 @@ spec:
     - secretName: wildcard.home.adityathebe.com
       hosts:
         - actual.home.adityathebe.com
-        - pgadmin.home.adityathebe.com
         - mealie.home.adityathebe.com
   rules:
-    - host: vikunja.home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: vikunja-frontend
-                port:
-                  name: frontend
-          - pathType: Prefix
-            path: /api/v1
-            backend:
-              service:
-                name: vikunja
-                port:
-                  name: backend
     - host: actual.home.adityathebe.com
       http:
         paths:

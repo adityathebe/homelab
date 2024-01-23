@@ -74,3 +74,6 @@ spec:
           main:
             main:
               - path: /var/lib/pgadmin
+
+    nodeSelector:
+      kubernetes.io/hostname: saka
