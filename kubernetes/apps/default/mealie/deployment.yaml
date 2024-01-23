@@ -75,3 +75,23 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: mealie-pvc
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mealie
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: mealie.home.adityathebe.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: mealie
+                port:
+                  number: 9000

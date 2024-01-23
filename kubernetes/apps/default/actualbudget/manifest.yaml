@@ -32,10 +32,17 @@ spec:
             - containerPort: 5006
           env:
             - name: PGID
-              value: "1337"
+              value: '1337'
           volumeMounts:
             - name: data
               mountPath: /data
+          resources:
+            requests:
+              memory: 500M
+              cpu: 500m
+            limits:
+              memory: 1000M
+              cpu: 1000m
       volumes:
         - name: data
           hostPath:
@@ -43,3 +50,23 @@ spec:
             type: Directory
       nodeSelector:
         kubernetes.io/hostname: saka
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: actual-budget
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: actual.home.adityathebe.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: actualbudget
+                port:
+                  number: 5006
