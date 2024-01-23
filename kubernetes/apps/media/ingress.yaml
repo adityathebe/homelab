@@ -15,18 +15,7 @@ spec:
         - radarr.home.adityathebe.com
         - sonarr.home.adityathebe.com
         - transmission.home.adityathebe.com
-        - movary.home.adityathebe.com
   rules:
-    - host: movary.home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: movary
-                port:
-                  number: 80
     - host: transmission.home.adityathebe.com
       http:
         paths:

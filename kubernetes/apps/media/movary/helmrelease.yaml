@@ -1,0 +1,79 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: movary
+  namespace: media
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+      interval: 15m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: leepeuker/movary
+              tag: 0.61.0
+            envFrom:
+              - secretRef:
+                  name: movary
+            env:
+              TZ: Asia/Kathmandu
+              DATABASE_MODE: sqlite
+              TMDB_ENABLE_IMAGE_CACHING: '1' # Enable to prevent rate limit issues
+              ENV: 'production'
+              APPLICATION_URL: https://movary.home.adityathebe.com
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 256Mi
+    service:
+      main:
+        ports:
+          http:
+            port: 80
+
+    ingress:
+      main:
+        enabled: true
+        className: 'nginx'
+        hosts:
+          - host: movary.home.adityathebe.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+
+    nodeSelector:
+      kubernetes.io/hostname: saka
+
+    persistence:
+      config:
+        enabled: true
+        type: hostPath
+        hostPath: /app/storage
+        globalMounts:
+          - path: /home/player/kube_data/movary
