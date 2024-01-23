@@ -1,6 +1,5 @@
 bin/
 
-kubernetes/apps/default/pgadmin.yaml
 kubernetes/apps/default/vikunja.yaml
 
 kubernetes/apps/monitoring/speedtest_tracker.yaml
