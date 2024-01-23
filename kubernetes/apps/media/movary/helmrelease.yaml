@@ -74,6 +74,8 @@ spec:
       config:
         enabled: true
         type: hostPath
-        hostPath: /app/storage
-        globalMounts:
-          - path: /home/player/kube_data/movary
+        hostPath: /home/player/kube_data/movary
+        advancedMounts:
+          main:
+            main:
+              - path: /app/storage
