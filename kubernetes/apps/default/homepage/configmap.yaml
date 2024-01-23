@@ -8,6 +8,8 @@ metadata:
   labels:
     app.kubernetes.io/name: homepage
 data:
+  custom.js: ''
+  custom.css: ''
   bookmarks.yaml: |
     ---
   docker.yaml: |
@@ -32,7 +34,7 @@ data:
               type: navidrome
               url: http://navidrome.music.svc:4533/navidrome
               user: admin
-              token: {{HOMEPAGE_NAVIDROME_TOKEN}}
+              token: {{HOMEPAGE_VAR_NAVIDROME_TOKEN}}
               salt: admin
 
         - Deemix:
@@ -79,7 +81,7 @@ data:
             widget:
               type: immich
               url: https://photos.home.adityathebe.com
-              key: {{HOMEPAGE_IMMICH_KEY}}
+              key: {{HOMEPAGE_VAR_IMMICH_KEY}}
 
     - Applications:
         - Actual:
@@ -104,7 +106,7 @@ data:
             widget:
               type: mealie
               url: https://mealie.home.adityathebe.com
-              key: {{HOMEPAGE_MEALIE_KEY}}
+              key: {{HOMEPAGE_VAR_MEALIE_KEY}}
 
     - Management:
         - Proxmox:
@@ -113,8 +115,8 @@ data:
             ping: https://pve.home.adityathebe.com:8006
             description: Proxmox
             widget:
-              username: {{HOMEPAGE_PROXMOX_USERNAME}}
-              password: {{HOMEPAGE_PROXMOX_PASSWORD}}
+              username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
+              password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
               type: proxmox
               url: https://pve.home.adityathebe.com:8006
               node: pve
@@ -126,7 +128,7 @@ data:
             description: TrueNAS Scale
             widget:
               type: truenas
-              key: {{HOMEPAGE_TRUENAS_KEY}}
+              key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
               url: https://nas.home.adityathebe.com
 
         - Portainer:
@@ -138,7 +140,7 @@ data:
               type: portainer
               url: https://portainer.home.adityathebe.com
               env: 2
-              key: {{HOMEPAGE_PORTAINER_KEY}}
+              key: {{HOMEPAGE_VAR_PORTAINER_KEY}}
 
         - Adguard:
             icon: adguard-home.png
@@ -148,8 +150,8 @@ data:
             widget:
               type: adguard
               url: https://adguard.home.adityathebe.com
-              username: {{HOMEPAGE_ADGUARD_USERNAME}}
-              password: {{HOMEPAGE_ADGUARD_PASSWORD}}
+              username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
+              password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
 
         - PGAdmin:
             icon: pgadmin.png
@@ -163,8 +165,8 @@ data:
             widget:
               type: npm
               url: https://npm.home.adityathebe.com
-              username: {{HOMEPAGE_NPM_USERNAME}}
-              password: {{HOMEPAGE_NPM_PASSWORD}}
+              username: {{HOMEPAGE_VAR_NPM_USERNAME}}
+              password: {{HOMEPAGE_VAR_NPM_PASSWORD}}
 
     - Media:
         - Jellyfin:
@@ -174,7 +176,7 @@ data:
             widget:
               type: jellyfin
               url: http://jellyfin.media.svc:8096
-              key: {{HOMEPAGE_JELLYFIN_KEY}}
+              key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
 
         - Jellyseerr:
             icon: jellyseerr.png
@@ -183,7 +185,7 @@ data:
             widget:
               type: jellyseerr
               url: http://jellyseerr.media.svc:5055
-              key: {{HOMEPAGE_JELLYSEERR_KEY}}
+              key: {{HOMEPAGE_VAR_JELLYSEERR_KEY}}
 
         - Sonarr:
             icon: sonarr.png
@@ -192,7 +194,7 @@ data:
             widget:
               type: sonarr
               url: http://sonarr.media.svc:8989
-              key: {{HOMEPAGE_SONARR_KEY}}
+              key: {{HOMEPAGE_VAR_SONARR_KEY}}
 
         - Radarr:
             icon: radarr.png
@@ -201,7 +203,7 @@ data:
             widget:
               type: radarr
               url: http://radarr.media.svc:7878
-              key: {{HOMEPAGE_RADARR_KEY}}
+              key: {{HOMEPAGE_VAR_RADARR_KEY}}
 
         - Prowlarr:
             icon: prowlarr.png
@@ -210,7 +212,7 @@ data:
             widget:
               type: prowlarr
               url: http://prowlarr.media.svc:9696
-              key: {{HOMEPAGE_PROWLARR_KEY}}
+              key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
 
         - Transmission:
             icon: transmission.png
@@ -231,7 +233,7 @@ data:
     # https://gethomepage.dev/en/configs/settings
 
     providers:
-      openweathermap: {{HOMEPAGE_OPENWEATHERMAP_TOKEN}}
+      openweathermap: {{HOMEPAGE_VAR_OPENWEATHERMAP_TOKEN}}
 
     color: slate
     theme: dark

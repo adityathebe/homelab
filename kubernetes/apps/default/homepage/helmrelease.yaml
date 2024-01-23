@@ -38,10 +38,6 @@ spec:
               - secretRef:
                   name: homepage-secret
             env:
-              - name: PUID
-                value: '1000'
-              - name: PGID
-                value: '1337'
               - name: NODE_VERSION
                 value: '18.14.2'
               - name: YARN_VERSION
@@ -85,3 +81,7 @@ spec:
             path: /app/config/settings.yaml
           - subPath: widgets.yaml
             path: /app/config/widgets.yaml
+          - subPath: custom.js
+            path: /app/config/custom.js
+          - subPath: custom.css
+            path: /app/config/custom.css
