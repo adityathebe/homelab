@@ -54,7 +54,7 @@ data:
             description: Prometheus
             widget:
               type: prometheus
-              url: http://prometheus-prometheus.monitoring.svc:9090
+              url: http://prometheus-operated.monitoring.svc:9090
 
         - Speed Tracker:
             icon: speedtest-tracker.png
