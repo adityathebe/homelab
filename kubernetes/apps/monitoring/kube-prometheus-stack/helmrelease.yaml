@@ -117,13 +117,8 @@ spec:
         serviceMonitorSelector: {}
         serviceMonitorNamespaceSelector: {}
 
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: kubedata
-              resources:
-                requests:
-                  storage: 10Gi
+        nodeSelector:
+          kubernetes.io/hostname: saka
 
         resources:
           requests:
