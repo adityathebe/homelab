@@ -23,28 +23,3 @@
 - name: Start postgres docker
   ansible.builtin.shell:
     cmd: docker compose -f '{{user_home}}/docker-compose-postgres.yaml' up -d
-
-- name: Copy Postgres backup script & systemd scripts
-  ansible.builtin.copy:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
-    owner: player
-    group: player
-    mode: '0755'
-  with_items:
-    - src: files/postgres-backups/backup.sh
-      dest: '$HOME/postgres-backup.sh'
-    - src: files/postgres-backups/pg_backup.service
-      dest: /etc/systemd/system/pg_backup.service
-    - src: files/postgres-backups/pg_backup.timer
-      dest: /etc/systemd/system/pg_backup.timer
-
-- name: Reload systemd
-  ansible.builtin.systemd:
-    daemon_reload: yes
-
-- name: Start and enable timer
-  ansible.builtin.service:
-    name: pg_backup.timer
-    state: started
-    enabled: yes
