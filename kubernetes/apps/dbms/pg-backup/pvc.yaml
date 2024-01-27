@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pg-backup
+  namespace: dbms
+  annotations:
+    nfs.io/storage-path: pg-backup
+spec:
+  storageClassName: kubedata
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi

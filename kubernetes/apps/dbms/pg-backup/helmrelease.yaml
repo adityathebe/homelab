@@ -1,0 +1,71 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: postgres-backup
+  namespace: dbms
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        type: cronjob
+        cronjob:
+          schedule: '@daily'
+          ttlSecondsAfterFinished: 43200
+        pod:
+          enableServiceLinks: false
+        containers:
+          main:
+            image:
+              repository: docker.io/prodrigestivill/postgres-backup-local
+              tag: 16@sha256:085926531fbabe298792a83384d07d6146683732e53e51891ac75eaa71e09d08
+            command: ['/backup.sh']
+            envFrom:
+              - secretRef:
+                  name: pg-backup
+            env:
+              - name: TZ
+                value: Asia/Kathmandu
+              - name: BACKUP_KEEP_DAYS
+                value: '7'
+              - name: BACKUP_KEEP_WEEKS
+                value: '4'
+              - name: BACKUP_KEEP_MONTHS
+                value: '6'
+              - name: BACKUP_KEEP_MINS
+                value: '7200'
+              - name: POSTGRES_EXTRA_OPTS
+                value: '-b -C -Z6'
+              - name: POSTGRES_CLUSTER
+                value: 'TRUE'
+
+    service:
+      main:
+        enabled: false
+
+    persistence:
+      backups:
+        enabled: true
+        existingClaim: pg-backup
+        globalMounts:
+          - path: /backups
