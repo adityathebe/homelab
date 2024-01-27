@@ -43,6 +43,9 @@ spec:
                 memory: 600M
                 cpu: 500m
 
+        nodeSelector:
+          kubernetes.io/hostname: saka
+
     service:
       main:
         ports:
@@ -69,6 +72,3 @@ spec:
         hostPath: /home/player/kube_data/uptimekuma
         globalMounts:
           - path: /app/data
-
-    nodeSelector:
-      kubernetes.io/hostname: saka
