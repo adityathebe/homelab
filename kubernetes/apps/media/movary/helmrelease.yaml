@@ -27,6 +27,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: saka
+
     controllers:
       main:
         containers:
@@ -66,9 +70,6 @@ spec:
                 service:
                   name: main
                   port: http
-
-    nodeSelector:
-      kubernetes.io/hostname: saka
 
     persistence:
       config:

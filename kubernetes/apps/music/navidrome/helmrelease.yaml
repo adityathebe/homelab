@@ -28,6 +28,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: saka
+
     controllers:
       main:
         containers:
@@ -89,6 +93,3 @@ spec:
           main:
             main:
               - path: /data
-
-    nodeSelector:
-      kubernetes.io/hostname: saka
