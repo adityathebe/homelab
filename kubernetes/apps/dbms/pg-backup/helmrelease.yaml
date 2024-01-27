@@ -55,7 +55,7 @@ spec:
               - name: BACKUP_KEEP_MINS
                 value: '7200'
               - name: POSTGRES_EXTRA_OPTS
-                value: '-b -C -Z6'
+                value: '' # empty since the default value is not compatible with pg_dumpall.
               - name: POSTGRES_CLUSTER
                 value: 'TRUE'
 
