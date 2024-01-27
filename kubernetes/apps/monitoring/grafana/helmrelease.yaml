@@ -167,6 +167,8 @@ spec:
     persistence:
       enabled: true
       storageClassName: kubedata
+      annotations:
+        nfs.io/storage-path: grafana
 
     admin:
       existingSecret: 'grafana-admin'
