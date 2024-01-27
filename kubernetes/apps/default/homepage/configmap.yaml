@@ -70,7 +70,7 @@ data:
             description: Uptime tracker
             widget:
               type: uptimekuma
-              url: http://uptimekuma.monitoring.svc:3001
+              url: http://uptime-kuma.monitoring.svc:3001
               slug: overview
 
     - Photos:
