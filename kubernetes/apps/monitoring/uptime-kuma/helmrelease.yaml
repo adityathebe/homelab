@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: uptime-kuma
+  namespace: monitoring
+spec:
+  interval: 60m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+      interval: 60m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: louislam/uptime-kuma
+              tag: '1.23.11'
+
+            resources:
+              requests:
+                memory: 400M
+                cpu: 15m
+              limits:
+                memory: 600M
+                cpu: 500m
+
+    service:
+      main:
+        ports:
+          http:
+            enabled: true
+            port: 3001
+
+    ingress:
+      main:
+        enabled: true
+        className: 'nginx'
+        hosts:
+          - host: uptime.home.adityathebe.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+
+    persistence:
+      config:
+        enabled: true
+        type: hostPath
+        hostPath: /home/player/kube_data/uptimekuma
+        globalMounts:
+          - path: /app/data
+
+    nodeSelector:
+      kubernetes.io/hostname: saka

@@ -1,7 +1,6 @@
 bin/
 
 kubernetes/apps/monitoring/speedtest_tracker.yaml
-kubernetes/apps/monitoring/uptime_kuma.yaml
 kubernetes/apps/monitoring/ingress.yaml
 kubernetes/configs/
 
