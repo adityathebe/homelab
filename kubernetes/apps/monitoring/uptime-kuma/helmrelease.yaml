@@ -27,6 +27,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: saka
+
     controllers:
       main:
         containers:
@@ -42,9 +46,6 @@ spec:
               limits:
                 memory: 600M
                 cpu: 500m
-
-        nodeSelector:
-          kubernetes.io/hostname: saka
 
     service:
       main:
