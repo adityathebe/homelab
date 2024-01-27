@@ -19,8 +19,6 @@
 Using GitOps principals and workflow to manage a lightweight <a href="https://k3s.io">k3s</a> cluster.
 </p>
 
-> In progress: My existing kubernetes manifests have secrets scattered all over them
-
 # Infrastructure
 
 I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 4 node _(2 masters & 2 workers)_ cluster on 4 Proxmox VMs.

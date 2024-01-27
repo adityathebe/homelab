@@ -1,7 +1,5 @@
 bin/
 
-kubernetes/apps/monitoring/speedtest_tracker.yaml
-kubernetes/apps/monitoring/ingress.yaml
 kubernetes/configs/
 
 # Ansible galaxy

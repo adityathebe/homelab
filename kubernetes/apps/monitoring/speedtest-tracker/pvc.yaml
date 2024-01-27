@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: speedtest-web-pvc
+  namespace: monitoring
+  annotations:
+    nfs.io/storage-path: speedtest/web
+spec:
+  storageClassName: kubedata
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: speedtest-pvc
+  namespace: monitoring
+  annotations:
+    nfs.io/storage-path: speedtest
+spec:
+  storageClassName: kubedata
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Mi
