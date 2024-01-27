@@ -4,7 +4,7 @@ Requires=pg_backup.service
 
 [Timer]
 Unit=pg_backup.service
-OnCalendar=*-*-* *:00:00
+OnUnitActiveSec=4h
 
 [Install]
 WantedBy=timers.target
