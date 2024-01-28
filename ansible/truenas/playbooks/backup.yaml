@@ -1,0 +1,22 @@
+---
+# Backup to an external HDD
+- hosts: truenas
+  become: true
+
+  vars:
+    external_hdd_mount_path: /home/admin/seagate
+
+  tasks:
+    - name: Configure rsync backups
+      shell: 'rsync -azvP /mnt/mega/{{item}} {{external_hdd_mount_path}}'
+      loop:
+        - 'media/music'
+        - 'mummy'
+        - 'family'
+        - 'anjan'
+
+    - name: Configure encrypted restic backups
+      shell: |
+        export RESTIC_PASSWORD='{{RESTIC_PASSWORD}}'
+        restic backup /mnt/mega/photos -r {{external_hdd_mount_path}}/backups
+        restic backup /mnt/mega/aditya -r {{external_hdd_mount_path}}/backups
