@@ -7,6 +7,9 @@ ansible-portainer-vault:
 ansible-nodes:
 	cd ansible/main && ansible-playbook playbooks/nodes.yaml
 
+ansible-nas:
+	cd ansible/truenas && ansible-playbook playbooks/main.yaml --ask-become-pass
+
 ansible-vms:
 	cd ansible/main && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/vms.yaml
 
