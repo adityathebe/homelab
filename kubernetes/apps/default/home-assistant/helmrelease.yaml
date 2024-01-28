@@ -47,7 +47,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: { drop: ['ALL'] }
             resources:
               requests:
                 cpu: 10m
@@ -55,10 +55,10 @@ spec:
                 memory: 1Gi
         pod:
           securityContext:
-            runAsUser: player
-            runAsGroup: player
+            runAsUser: 1000
+            runAsGroup: 1000
             runAsNonRoot: true
-            fsGroup: player
+            fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
     service:
       main:
