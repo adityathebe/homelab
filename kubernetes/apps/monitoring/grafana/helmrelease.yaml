@@ -165,10 +165,7 @@ spec:
         - grafana.home.adityathebe.com
 
     persistence:
-      enabled: true
-      storageClassName: kubedata
-      annotations:
-        nfs.io/storage-path: grafana
+      enabled: false
 
     admin:
       existingSecret: 'grafana-admin'
