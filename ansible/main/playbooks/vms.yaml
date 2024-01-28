@@ -3,7 +3,7 @@
   become: true
 
   vars:
-    adugard_ip: 192.168.1.5
+    adguard_ip: 192.168.1.5
 
   roles:
     - ubuntu
@@ -25,7 +25,7 @@
       notify: 'Reload systemd-resolved'
 
     - name: Configure DNS server address
-      command: 'resolvectl dns {{ ansible_default_ipv4.interface }} {{adugard_ip}}'
+      command: 'resolvectl dns {{ ansible_default_ipv4.interface }} {{adguard_ip}}'
       when: "ansible_hostname != 'portainer'"
       notify: 'Reload systemd-resolved'
 

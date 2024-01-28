@@ -21,7 +21,7 @@ Using GitOps principals and workflow to manage a lightweight <a href="https://k3
 
 # Infrastructure
 
-I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 4 node _(2 masters & 2 workers)_ cluster on 4 Proxmox VMs.
+I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 3 node _(1 master & 2 workers)_ cluster on 3 Proxmox VMs.
 
 ![Dashboard](https://i.imgur.com/dceiTP6.png)
 
@@ -49,6 +49,32 @@ I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) 
 
 ![Server](https://i.imgur.com/NZUvI2A.jpg)
 _Proxmox & Truenas(bottom) servers_
+
+# Setting it up
+
+1. Create flux namespace and the necessary sops secret
+
+```bash
+export SOPS_AGE_KEY_FILE='<path-to-key.txt>'
+
+kubect create ns flux-system
+
+cat $SOPS_AGE_KEY_FILE |
+kubectl create secret generic sops-age \
+--namespace=flux-system \
+--from-file=age.agekey=/dev/stdin
+```
+
+2. Flux installation
+
+```bash
+export GITHUB_TOKEN='ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+
+flux bootstrap github \
+  --repository=homelab \
+  --personal \
+  --path kubernetes/bootstrap
+```
 
 ## Requirements
 
