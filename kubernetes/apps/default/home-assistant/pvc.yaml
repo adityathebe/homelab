@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: home-assistant
-  namespace: home-automation
+  namespace: default
   annotations:
     nfs.io/storage-path: home-assistant
 spec:
