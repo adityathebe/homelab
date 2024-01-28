@@ -1,0 +1,41 @@
+---
+# Install restic and sets up systemd timer to perform scheduled backup
+#
+
+- hosts: truenas
+  become: true
+
+  vars:
+    restic_version: 0.16.3
+    restic_path: /usr/local/bin/restic
+
+    restic_user: root
+    restic_folders:
+      - { path: '/mnt/mega/photos' }
+      - { path: '/mnt/mega/aditya' }
+    restic_default_folders: [] # don't backup the default folders
+    restic_ssh_enabled: false
+    restic_repository: /home/admin/seagate/backups
+    restic_repository_name: /home/admin/seagate/backups
+    restic_systemd_timer_on_calender: '*-*-* 03:00:00'
+
+  pre_tasks:
+    - name: Download restic
+      ansible.builtin.get_url:
+        url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_amd64.bz2'
+        dest: '/tmp/restic_{{ restic_version }}_linux_amd64.bz2'
+
+    - name: Extract restic
+      command: 'bzip2 -dk /tmp/restic_{{ restic_version }}_linux_amd64.bz2'
+      args:
+        creates: '/tmp/restic_{{ restic_version }}_linux_amd64'
+
+    - name: Install restic
+      ansible.builtin.copy:
+        remote_src: true
+        src: '/tmp/restic_{{ restic_version }}_linux_amd64'
+        dest: '{{ restic_path }}'
+        mode: 0755
+
+  roles:
+    - ansible-restic

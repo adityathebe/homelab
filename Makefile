@@ -7,11 +7,11 @@ ansible-portainer-vault:
 ansible-nodes:
 	cd ansible/main && ansible-playbook playbooks/nodes.yaml
 
-ansible-nas:
-	cd ansible/truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/main.yaml --ask-become-pass
+ansible-nas-vault:
+	cd ansible/truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-vault edit --vault-password-file='/bin/cat' host_vars/truenas.yaml
 
-ansible-nas-backup:
-	cd ansible/truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/backup.yaml --ask-become-pass
+ansible-nas:
+	cd ansible/truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/restic.yaml --ask-become-pass
 
 ansible-vms:
 	cd ansible/main && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/vms.yaml
@@ -21,6 +21,7 @@ ansible-proxmox:
 
 ansible-galaxy:
 	cd ansible/main && ansible-galaxy install -r requirements.yaml
+	cd ansible/truenas && ansible-galaxy install -r requirements.yaml
 
 terraform-cloudflare:
 	cd terraform/cloudflare && terraform apply

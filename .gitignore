@@ -5,6 +5,7 @@ kubernetes/configs/
 # Ansible galaxy
 ansible/main/roles/artis3n.tailscale
 ansible/main/roles/geerlingguy.docker
+ansible/truenas/roles/ansible-restic
 
 # Terraform
 .terraform
