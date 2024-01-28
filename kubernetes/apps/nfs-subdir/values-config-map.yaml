@@ -9,7 +9,9 @@ data:
     nfs:
       server: nas.home.adityathebe.com
       path: /mnt/mega/kubernetes
-      mountOptions: '{nfsvers=4.0,hard}'
+      mountOptions: 
+        - nfsvers=4.0
+        - hard
 
     storageClass:
       name: kubedata
@@ -29,7 +31,9 @@ data:
     nfs:
       server: nas.home.adityathebe.com
       path: /mnt/mega/media
-      mountOptions: '{nfsvers=4.0,hard}'
+      mountOptions: 
+        - nfsvers=4.0
+        - hard
 
     storageClass:
       name: media-nfs
@@ -49,7 +53,9 @@ data:
     nfs:
       server: nas.home.adityathebe.com
       path: /mnt/mega/photos
-      mountOptions: '{nfsvers=4.0,hard}'
+      mountOptions: 
+        - nfsvers=4.0
+        - hard
 
     storageClass:
       name: photos-nfs

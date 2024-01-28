@@ -6,15 +6,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
 spec:
-  tls:
-    - secretName: wildcard.home.adityathebe.com
-      hosts:
-        - prowlarr.home.adityathebe.com
-        - jellyfin.home.adityathebe.com
-        - jellyseerr.home.adityathebe.com
-        - radarr.home.adityathebe.com
-        - sonarr.home.adityathebe.com
-        - transmission.home.adityathebe.com
   rules:
     - host: transmission.home.adityathebe.com
       http:
