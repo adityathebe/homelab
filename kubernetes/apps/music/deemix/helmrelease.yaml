@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: registry.gitlab.com/bockiii/deemix-docker
-              tag: sha-37790a1
+              tag: 1b6e0e86
               pullPolicy: IfNotPresent
             env:
               TZ: 'Asia/Kathmandu'
