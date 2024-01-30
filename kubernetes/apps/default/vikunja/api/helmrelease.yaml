@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: docker.io/vikunja/api
-              tag: 0.22.0
+              tag: 0.22.1
             env:
               TZ: Asia/Kathmandu
               VIKUNJA_REDIS_ENABLED: '0'
