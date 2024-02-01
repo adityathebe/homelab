@@ -117,6 +117,12 @@ spec:
         serviceMonitorSelector: {}
         serviceMonitorNamespaceSelector: {}
 
+        retention: 60d
+        enableFeatures:
+          - auto-gomaxprocs
+          - memory-snapshot-on-shutdown
+          - new-service-discovery-manager
+
         storageSpec:
           volumeClaimTemplate:
             metadata:
