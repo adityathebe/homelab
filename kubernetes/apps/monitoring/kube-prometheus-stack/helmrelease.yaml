@@ -117,8 +117,16 @@ spec:
         serviceMonitorSelector: {}
         serviceMonitorNamespaceSelector: {}
 
-        nodeSelector:
-          kubernetes.io/hostname: saka
+        storageSpec:
+          volumeClaimTemplate:
+            metadata:
+              annotations:
+                nfs.io/storage-path: prometheus
+            spec:
+              storageClassName: kubedata
+              resources:
+                requests:
+                  storage: 20Gi
 
         resources:
           requests:
