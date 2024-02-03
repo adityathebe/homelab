@@ -7,7 +7,9 @@
     ":dependencyDashboard",
     ":timezone(Asia/Kathmandu)",
     "github>adityathebe/homelab//.github/renovate/grafanaDashboards.json",
-    "github>adityathebe/homelab//.github/renovate/groups.json"
+    "github>adityathebe/homelab//.github/renovate/groups.json",
+    "github>adityathebe/homelab//.github/renovate/commitMessage.json",
+    "github>adityathebe/homelab//.github/renovate/labels.json"
   ],
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
