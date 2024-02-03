@@ -113,6 +113,7 @@ spec:
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
 
         serviceMonitorSelector: {}
         serviceMonitorNamespaceSelector: {}

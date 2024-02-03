@@ -6,3 +6,4 @@ roles:
   - name: ansible-rclone
     src: https://github.com/stefangweichinger/ansible-rclone
     version: 41ca34ee375a311257b5ccadf2fba564d7a58182
+  - name: geerlingguy.node_exporter
