@@ -51,6 +51,7 @@ spec:
             key: PASSWORD
 
     image:
+      # renovate: datasource=github-releases depName=immich-app/immich
       tag: v1.93.0
 
     immich:
