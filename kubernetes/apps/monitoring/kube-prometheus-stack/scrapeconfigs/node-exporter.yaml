@@ -9,4 +9,6 @@ spec:
   staticConfigs:
     - targets:
         - nas.home.adityathebe.com:9100
+        - portainer.home.adityathebe.com:9100
+        - pve.home.adityathebe.com:9100
   metricsPath: /metrics

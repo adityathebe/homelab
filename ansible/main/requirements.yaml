@@ -1,4 +1,5 @@
 ---
 roles:
-  - name: geerlingguy.docker
   - name: artis3n.tailscale
+  - name: geerlingguy.docker
+  - name: geerlingguy.node_exporter

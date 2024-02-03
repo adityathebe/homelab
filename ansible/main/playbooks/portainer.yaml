@@ -28,6 +28,7 @@
   roles:
     - ubuntu
     - geerlingguy.docker
+    - geerlingguy.node_exporter
     - dockernonroot
     - name: 'Setup tailscale as a subnet advertiser'
       role: artis3n.tailscale
