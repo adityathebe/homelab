@@ -1,6 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":timezone(Asia/Kathmandu)",
+    "github>adityathebe/homelab//.github/renovate/grafanaDashboards.json",
+    "github>adityathebe/homelab//.github/renovate/groups.json"
+  ],
   "kubernetes": {
     "fileMatch": ["\\.yaml$"]
   },
