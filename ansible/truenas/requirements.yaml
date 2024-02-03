@@ -3,3 +3,6 @@ roles:
   - name: ansible-restic
     src: https://github.com/angristan/ansible-restic
     version: a152a0a8e264e8ac9272361330fe99b870ffbde9
+  - name: ansible-rclone
+    src: https://github.com/stefangweichinger/ansible-rclone
+    version: 41ca34ee375a311257b5ccadf2fba564d7a58182

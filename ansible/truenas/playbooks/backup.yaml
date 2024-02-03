@@ -11,7 +11,10 @@
 
     restic_user: root
     restic_folders:
-      - { path: '/mnt/mega/photos', exclude: '--exclude="/mnt/mega/photos/immich/thumbs" --exclude="/mnt/mega/photos/immich/encoded-video"'}
+      - {
+          path: '/mnt/mega/photos',
+          exclude: '--exclude="/mnt/mega/photos/immich/thumbs" --exclude="/mnt/mega/photos/immich/encoded-video"',
+        }
       - { path: '/mnt/mega/aditya' }
     restic_default_folders: [] # don't backup the default folders
     restic_ssh_enabled: false
@@ -39,3 +42,21 @@
 
   roles:
     - ansible-restic
+    - ansible-rclone
+
+  tasks:
+    - name: sync arch backups to b2 on Tuesday & Friday
+      ansible.builtin.cron:
+        name: 'sync arch backups to b2'
+        minute: '0'
+        hour: '1'
+        weekday: '2,5'
+        job: 'rclone sync /home/admin/backups/arch b2:{{b2_arch_backup}}'
+
+    - name: Sync nas backups to b2 on Wednesday & Saturday
+      ansible.builtin.cron:
+        name: 'sync nas backups to b2'
+        minute: '0'
+        hour: '1'
+        weekday: '3,6'
+        job: 'rclone sync /home/admin/seagate/backups b2:{{b2_nas_backup}}'
