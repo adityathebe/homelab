@@ -22,7 +22,41 @@ spec:
       enabled: true
 
     alertmanager:
-      enabled: false
+      enabled: true
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: nginx
+        hosts:
+          - alertmanager.home.adityathebe.com
+      alertmanagerSpec:
+        replicas: 1
+        storage:
+          volumeClaimTemplate:
+            metadata:
+              annotations:
+                nfs.io/storage-path: alertmanager
+            spec:
+              storageClassName: kubedata
+              resources:
+                requests:
+                  storage: 5Gi
+      config:
+        global:
+          resolve_timeout: 5m
+        route:
+          group_by: ['alertname', 'job']
+          group_wait: 45s
+          group_interval: 10m
+          repeat_interval: 12h
+          receiver: 'telegram'
+          routes:
+            - receiver: 'telegram'
+        receivers:
+          - name: 'telegram'
+            telegram_configs:
+              - bot_token: ${TELEGRAM_BOT_TOKEN}
+                chat_id: ${TELEGRAM_CHAT_ID}
 
     kubeApiServer:
       enabled: true

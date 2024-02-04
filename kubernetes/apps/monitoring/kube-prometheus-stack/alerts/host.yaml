@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: host
+spec:
+  groups:
+    - name: memory
+      rules:
+        - alert: HostOutOfMemory
+          expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 25) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host out of memory (instance {{ $labels.instance }})
+            description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
