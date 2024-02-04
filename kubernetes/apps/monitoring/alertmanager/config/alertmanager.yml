@@ -8,9 +8,13 @@ route:
   repeat_interval: 12h
   receiver: 'telegram'
   routes:
+    - receiver: 'null'
+      matchers:
+        - alertname = "Watchdog"
     - receiver: 'telegram'
 
 receivers:
+  - name: 'null'
   - name: 'telegram'
     telegram_configs:
       - bot_token: ${TELEGRAM_BOT_TOKEN}
