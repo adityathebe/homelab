@@ -22,7 +22,7 @@ spec:
       enabled: true
 
     alertmanager:
-      enabled: false      
+      enabled: false
 
     kubeApiServer:
       enabled: true
@@ -109,6 +109,12 @@ spec:
           - prometheus.home.adityathebe.com
 
       prometheusSpec:
+        alertingEndpoints:
+          - namespace: monitoring
+            name: alertmanager
+            port: 9093
+            apiVersion: v2
+
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
