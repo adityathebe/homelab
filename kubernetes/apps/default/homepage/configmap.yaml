@@ -55,6 +55,11 @@ data:
             widget:
               type: prometheus
               url: http://prometheus-operated.monitoring.svc:9090
+        
+        - Alert Manager:
+            icon: alertmanager.png
+            href: https://alertmanager.home.adityathebe.com
+            description: Alert Manager
 
         - Speed Tracker:
             icon: speedtest-tracker.png
