@@ -74,6 +74,13 @@ spec:
               mountPath: /movies
             - name: shows
               mountPath: /shows
+          resources:
+            requests:
+              cpu: 100m
+              memory: 250Mi
+            limits:
+              cpu: 1000m
+              memory: 500Mi
       volumes:
         # - name: config
         #   persistentVolumeClaim:

@@ -43,7 +43,9 @@ spec:
             resources:
               requests:
                 cpu: 50m
-                memory: 256Mi
+                memory: 200Mi
+              limit:
+                memory: 500Mi
     service:
       main:
         ports:

@@ -59,6 +59,13 @@ spec:
               mountPath: /downloads
             - name: movies
               mountPath: /movies
+          resources:
+            requests:
+              cpu: 100m
+              memory: 150Mi
+            limits:
+              cpu: 1000m
+              memory: 300Mi
       volumes:
         # - name: config
         #   persistentVolumeClaim:
