@@ -11,4 +11,5 @@ spec:
         - nas.home.adityathebe.com:9100
         - portainer.home.adityathebe.com:9100
         - pve.home.adityathebe.com:9100
+        - 192.168.1.52:9100 # my laptop
   metricsPath: /metrics
