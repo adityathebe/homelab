@@ -66,10 +66,10 @@ spec:
               mountPath: /app/data/
           resources:
             requests:
-              memory: 1000M
-              cpu: 1000m
+              memory: 150Mi
+              cpu: 500m
             limits:
-              memory: 1000M
+              memory: 300Mi
               cpu: 1000m
       volumes:
         - name: data

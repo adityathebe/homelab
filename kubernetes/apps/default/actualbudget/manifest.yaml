@@ -38,10 +38,10 @@ spec:
               mountPath: /data
           resources:
             requests:
-              memory: 500M
+              memory: 100M
               cpu: 500m
             limits:
-              memory: 1000M
+              memory: 250M
               cpu: 1000m
       volumes:
         - name: data
