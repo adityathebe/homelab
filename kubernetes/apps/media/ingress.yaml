@@ -16,16 +16,6 @@ spec:
                 name: transmission
                 port:
                   number: 9091
-    - host: jellyseerr.home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: jellyseerr
-                port:
-                  number: 5055
     - host: radarr.home.adityathebe.com
       http:
         paths:
