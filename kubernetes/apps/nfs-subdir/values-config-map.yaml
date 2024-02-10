@@ -29,8 +29,8 @@ metadata:
 data:
   values.yaml: |
     nfs:
-      server: nas.home.adityathebe.com
-      path: /mnt/mega/media
+      server: portainer.home.adityathebe.com
+      path: /mnt/hdd/media
       mountOptions: 
         - nfsvers=4.0
         - hard
