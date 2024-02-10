@@ -27,13 +27,11 @@ spec:
         containers:
           main:
             image:
-              repository: lscr.io/linuxserver/transmission
-              tag: '2021.11.18'
+              repository: ghcr.io/onedr0p/transmission
+              tag: '4.0.5'
             env:
               TZ: Asia/Kathmandu
-              TRANSMISSION__BLOCKLIST_URL: 'https://mirror.codebucket.de/transmission/blocklist.p2p.gz'
               TRANSMISSION__DOWNLOAD_DIR: '/downloads'
-              TRANSMISSION__INCOMPLETE_DIR_ENABLED: false
             resources:
               requests:
                 cpu: 50m
