@@ -31,7 +31,8 @@
     - geerlingguy.node_exporter
     - role: geerlingguy.nfs
       nfs_exports:
-        - /mnt/hdd/media *(rw,sync,no_subtree_check,fsid=1)
+        # Map all nfs access as user:group (player:player)
+        - /mnt/hdd/media *(sec=sys,all_squash,anonuid=1000,anongid=1000,rw,sync,no_subtree_check,fsid=1)
     - dockernonroot
     - name: 'Setup tailscale as a subnet advertiser'
       role: artis3n.tailscale
