@@ -10,7 +10,7 @@
 
   pre_tasks:
     - name: Replace DNS entry
-      replace:
+      replace: # point to the local adguard instance instead of the systemd-resolved ip
         path: /etc/resolv.conf
         regexp: '^nameserver 127.0.0.53$'
         replace: 'nameserver 127.0.0.1'
@@ -29,6 +29,9 @@
     - ubuntu
     - geerlingguy.docker
     - geerlingguy.node_exporter
+    - role: geerlingguy.nfs
+      nfs_exports:
+        - /mnt/hdd/media *(rw,sync,no_subtree_check,fsid=1)
     - dockernonroot
     - name: 'Setup tailscale as a subnet advertiser'
       role: artis3n.tailscale
