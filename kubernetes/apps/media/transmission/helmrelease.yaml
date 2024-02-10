@@ -28,7 +28,7 @@ spec:
           main:
             image:
               repository: lscr.io/linuxserver/transmission
-              tag: '4.0.5'
+              tag: '2021.11.18'
             env:
               TZ: Asia/Kathmandu
               TRANSMISSION__BLOCKLIST_URL: 'https://mirror.codebucket.de/transmission/blocklist.p2p.gz'
