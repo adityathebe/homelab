@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: media-ingress
   namespace: media
-  annotations:
-    kubernetes.io/ingress.class: nginx
 spec:
   ingressClassName: nginx
   rules:
@@ -18,16 +16,6 @@ spec:
                 name: transmission
                 port:
                   number: 9091
-    - host: jellyfin.home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: jellyfin
-                port:
-                  number: 8096
     - host: jellyseerr.home.adityathebe.com
       http:
         paths:

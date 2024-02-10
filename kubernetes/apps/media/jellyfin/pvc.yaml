@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-cache
+  namespace: media
+  annotations:
+    nfs.io/storage-path: jellyfin/cache
+spec:
+  storageClassName: kubedata
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
