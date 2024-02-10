@@ -32,6 +32,7 @@ spec:
           cpu: 48m
           memory: 150Mi
     dashboard:
+      replicaCount: 1
       resources:
         requests:
           cpu: 15m

@@ -78,6 +78,11 @@ data:
               url: http://uptime-kuma.monitoring.svc:3001
               slug: overview
 
+        - Goldilocks:
+            icon: https://artifacthub.io/image/7ded8503-62b0-4f01-8e5d-4b1231129691@1x
+            href: https://goldilocks.home.adityathebe.com
+            description: Manage kubernetes resources
+
     - Photos:
         - Immich:
             icon: immich.png
