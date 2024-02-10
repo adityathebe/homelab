@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app goldilocks
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: *app
+      version: 8.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: fairwinds-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    controller:
+      resources:
+        requests:
+          cpu: 25m
+          memory: 50Mi
+        limits:
+          cpu: 48m
+          memory: 150Mi
+    dashboard:
+      resources:
+        requests:
+          cpu: 15m
+          memory: 100Mi
+        limits:
+          memory: 150Mi
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: goldilocks.home.adityathebe.com
+            paths:
+              - path: /
+                type: Prefix
