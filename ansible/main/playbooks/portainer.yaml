@@ -7,12 +7,13 @@
   vars:
     data_path: /home/player/data
     user_home: /home/player
+    user_name: player
 
   pre_tasks:
     - name: Replace DNS entry
-      replace: # point to the local adguard instance instead of the systemd-resolved ip
+      ansible.builtin.replace: # point to the local adguard instance instead of the systemd-resolved ip
         path: /etc/resolv.conf
-        regexp: '^nameserver 127.0.0.53$'
+        regexp: '^nameserver 127.0.0.53'
         replace: 'nameserver 127.0.0.1'
 
     - name: Prepare data directory
@@ -21,35 +22,59 @@
         state: directory
         owner: player
         group: player
+        mode: '0755'
       loop:
         - '{{ data_path }}/adguard'
         - '{{ data_path }}/portainer'
 
+    - name: Add ssh private key
+      ansible.builtin.copy:
+        src: ../files/proxmox-player
+        dest: '{{ user_home }}/.ssh/proxmox-player'
+        owner: '{{ user_name }}'
+        group: '{{ user_name }}'
+        mode: '0600'
+
+    - name: Setup ssh config
+      ansible.builtin.copy:
+        content: "{{ lookup('template', '../template/ssh_config.jinja2') }}"
+        dest: '{{ user_home }}/.ssh/config'
+        owner: '{{ user_name }}'
+        group: '{{ user_name }}'
+        mode: '0600'
+      vars:
+        ssh_private_key_file: '{{ user_home }}/.ssh/proxmox-player'
+
   roles:
     - ubuntu
 
-    - name: install node exporter
+    - name: Install node exporter
       role: geerlingguy.node_exporter
 
-    - name: setup nfs server
+    - name: Setup nfs server
       role: geerlingguy.nfs
       vars:
         nfs_exports:
           # Map all nfs access as user:group (player:player)
           - /mnt/hdd/media *(sec=sys,all_squash,anonuid=1000,anongid=1000,rw,sync,no_subtree_check,fsid=1)
 
-    - name: install docker
+    - name: Install docker
       role: geerlingguy.docker
 
-    - name: allow non root docker access
+    - name: Allow non root docker access
       role: dockernonroot
 
-    - name: 'setup tailscale as a subnet advertiser'
+    - name: Setup tailscale as a subnet advertiser
       role: artis3n.tailscale
 
-    - name: install postgres cluster on docker
+    - name: Install postgres cluster on docker
       role: postgres
 
-  # tasks:
-  #   - name: Setup adguard home
-  #   - name: Setup Portainer
+  tasks:
+    - name: Schedule backup of songs to NAS
+      ansible.builtin.cron:
+        name: 'sync songs to NAS'
+        minute: '0'
+        hour: '1'
+        weekday: '*'
+        job: 'rsync -avhP /mnt/hdd/media/music truenas:/mnt/mega/aditya'
