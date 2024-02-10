@@ -6,6 +6,7 @@ metadata:
   name: node-exporter
   namespace: monitoring
 spec:
+  scrapeInterval: 10s
   staticConfigs:
     - targets:
         - nas.home.adityathebe.com:9100

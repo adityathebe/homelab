@@ -6,6 +6,7 @@ kubernetes/configs/
 ansible/main/roles/artis3n.tailscale
 ansible/main/roles/geerlingguy.docker
 ansible/main/roles/geerlingguy.node_exporter
+ansible/main/roles/geerlingguy.nfs
 
 ansible/truenas/roles/ansible-restic
 ansible/truenas/roles/ansible-rclone
