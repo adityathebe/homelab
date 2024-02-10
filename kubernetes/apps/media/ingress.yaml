@@ -6,16 +6,6 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: transmission.home.adityathebe.com
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: transmission
-                port:
-                  number: 9091
     - host: radarr.home.adityathebe.com
       http:
         paths:

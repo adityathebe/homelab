@@ -34,11 +34,11 @@ metadata:
   name: torrent-pvc
   namespace: media
   annotations:
-    nfs.io/storage-path: transmission/current_downloads
+    nfs.io/storage-path: transmission-downloads
 spec:
-  storageClassName: kubedata
+  storageClassName: media-nfs
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 25Gi
+      storage: 50Gi

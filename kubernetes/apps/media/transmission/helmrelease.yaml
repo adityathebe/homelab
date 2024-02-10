@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: transmission
+  namespace: media
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: lscr.io/linuxserver/transmission
+              tag: '4.0.5'
+            env:
+              TZ: Asia/Kathmandu
+              TRANSMISSION__BLOCKLIST_URL: 'https://mirror.codebucket.de/transmission/blocklist.p2p.gz'
+              TRANSMISSION__DOWNLOAD_DIR: '/downloads'
+              TRANSMISSION__INCOMPLETE_DIR_ENABLED: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 20Mi
+              limits:
+                cpu: 1000m
+                memory: 50Mi
+    service:
+      main:
+        ports:
+          http:
+            port: 9091
+
+    persistence:
+      downloads:
+        enabled: true
+        existingClaim: torrent-pvc
+        globalMounts:
+          - path: /downloads
+
+    ingress:
+      main:
+        className: nginx
+        enabled: true
+        hosts:
+          - host: transmission.home.adityathebe.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
