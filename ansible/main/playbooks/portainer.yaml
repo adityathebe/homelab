@@ -27,16 +27,27 @@
 
   roles:
     - ubuntu
-    - geerlingguy.docker
-    - geerlingguy.node_exporter
-    - role: geerlingguy.nfs
-      nfs_exports:
-        # Map all nfs access as user:group (player:player)
-        - /mnt/hdd/media *(sec=sys,all_squash,anonuid=1000,anongid=1000,rw,sync,no_subtree_check,fsid=1)
-    - dockernonroot
-    - name: 'Setup tailscale as a subnet advertiser'
+
+    - name: install node exporter
+      role: geerlingguy.node_exporter
+
+    - name: setup nfs server
+      role: geerlingguy.nfs
+      vars:
+        nfs_exports:
+          # Map all nfs access as user:group (player:player)
+          - /mnt/hdd/media *(sec=sys,all_squash,anonuid=1000,anongid=1000,rw,sync,no_subtree_check,fsid=1)
+
+    - name: install docker
+      role: geerlingguy.docker
+
+    - name: allow non root docker access
+      role: dockernonroot
+
+    - name: 'setup tailscale as a subnet advertiser'
       role: artis3n.tailscale
-    - name: Setup postgres cluster on docker & the necessary backup scripts
+
+    - name: install postgres cluster on docker
       role: postgres
 
   # tasks:

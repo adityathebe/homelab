@@ -9,19 +9,6 @@
     restic_version: 0.16.3
     restic_path: /usr/local/bin/restic
 
-    restic_user: root
-    restic_folders:
-      - {
-          path: '/mnt/mega/photos',
-          exclude: '--exclude="/mnt/mega/photos/immich/thumbs" --exclude="/mnt/mega/photos/immich/encoded-video"',
-        }
-      - { path: '/mnt/mega/aditya' }
-    restic_default_folders: [] # don't backup the default folders
-    restic_ssh_enabled: false
-    restic_repository: /home/admin/seagate/backups
-    restic_repository_name: /home/admin/seagate/backups
-    restic_systemd_timer_on_calender: '*-*-* 03:00:00'
-
   pre_tasks:
     - name: Download restic
       ansible.builtin.get_url:
@@ -41,8 +28,25 @@
         mode: 0755
 
   roles:
-    - ansible-restic
-    - ansible-rclone
+    - name: Installs restic & sets up scheduled backup to external HDD
+      role: ansible-restic
+      vars:
+        restic_user: root
+        restic_folders:
+          - { path: '/mnt/mega/aditya' }
+          - {
+              path: '/mnt/mega/photos',
+              exclude: '--exclude="/mnt/mega/photos/immich/thumbs" --exclude="/mnt/mega/photos/immich/encoded-video"',
+            }
+        restic_default_folders: [] # don't backup the default folders
+        restic_ssh_enabled: false
+        restic_repository: /home/admin/seagate/backups
+        restic_repository_name: /home/admin/seagate/backups
+        restic_systemd_timer_on_calender: '*-*-* 03:00:00'
+        restic_forget_keep_within: 90d
+
+    - name: Install and configure rclone
+      role: ansible-rclone
 
   tasks:
     - name: sync arch backups to b2 on Tuesday & Friday
@@ -53,7 +57,7 @@
         weekday: '2,5'
         job: 'rclone sync /home/admin/backups/arch b2:{{b2_arch_backup}}'
 
-    - name: Sync nas backups to b2 on Wednesday & Saturday
+    - name: Sync nas backups from external HDD to b2 on Wednesday & Saturday
       ansible.builtin.cron:
         name: 'sync nas backups to b2'
         minute: '0'
