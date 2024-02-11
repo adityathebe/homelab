@@ -4,4 +4,3 @@ metadata:
   name: media
   labels:
     kustomize.toolkit.fluxcd.io/prune: disabled
-    goldilocks.fairwinds.com/enabled: 'true'
