@@ -1,0 +1,100 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app bazarr
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/bazarr
+              tag: 1.4.1@sha256:4a9584435db5881306fa477115363db0ff79a3c70c7f67b5fe0c2e62978252a5
+            env:
+              TZ: Asia/Kathmandu
+            resources:
+              requests:
+                cpu: 23m
+                memory: 204M
+              limits:
+                memory: 1Gi
+          subcleaner:
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.2.1@sha256:004c213800fac0b71fa2f51979513f5fb383df713c4eaf514ddab65c9efa78b8
+              pullPolicy: IfNotPresent
+            args:
+              - --repo=https://github.com/KBlixt/subcleaner
+              - --branch=master
+              - --wait=86400 # 1 day
+              - --root=/add-ons
+    service:
+      main:
+        ports:
+          http:
+            port: 6767
+    ingress:
+      main:
+        enabled: true
+        className: 'nginx'
+        hosts:
+          - host: bazarr.home.adityathebe.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: *app
+        globalMounts:
+          - path: /config
+      
+      add-ons:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /add-ons
+      
+      movies:
+        enabled: true
+        existingClaim: movies-pvc
+        globalMounts:
+          - path: /movies
+      
+      scripts:
+        enabled: true
+        type: configMap
+        name: bazarr-scripts
+        defaultMode: 0775
+        readOnly: true
+        globalMounts:
+          - path: /scripts
