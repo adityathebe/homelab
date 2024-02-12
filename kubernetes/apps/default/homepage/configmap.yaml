@@ -118,6 +118,11 @@ data:
               url: https://mealie.home.adityathebe.com
               key: {{HOMEPAGE_VAR_MEALIE_KEY}}
 
+        - Silver Bullet:
+            icon: https://silverbullet.md/.client/logo.png
+            href: https://notes.home.adityathebe.com
+            description: Note taking app
+
     - Management:
         - Proxmox:
             icon: proxmox.png
