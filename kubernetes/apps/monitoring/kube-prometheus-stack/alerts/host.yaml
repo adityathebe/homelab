@@ -16,3 +16,15 @@ spec:
           annotations:
             summary: Host out of memory (instance {{ $labels.instance }})
             description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - name: node exporter
+      rules:
+        - alert: TargetDown
+          annotations:
+            description: 'One or more of the {{ $labels.job }}/{{ $labels.service }} targets in {{ $labels.namespace }} namespace are down.'
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/general/targetdown
+            summary: One or more targets are unreachable.
+          expr: up == 0 && instance != '192.168.1.52:9100'
+          for: 10m
+          labels:
+            severity: warning
+
