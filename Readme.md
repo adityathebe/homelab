@@ -57,12 +57,7 @@ _Proxmox & Truenas(bottom) servers_
 ```bash
 export SOPS_AGE_KEY_FILE='<path-to-key.txt>'
 
-kubect create ns flux-system
-
-cat $SOPS_AGE_KEY_FILE |
-kubectl create secret generic sops-age \
---namespace=flux-system \
---from-file=age.agekey=/dev/stdin
+make bootstrap0
 ```
 
 2. Flux installation
@@ -70,10 +65,7 @@ kubectl create secret generic sops-age \
 ```bash
 export GITHUB_TOKEN='ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 
-flux bootstrap github \
-  --repository=homelab \
-  --personal \
-  --path kubernetes/bootstrap
+make bootstrap
 ```
 
 ## Requirements

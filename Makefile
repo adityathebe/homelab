@@ -38,3 +38,19 @@ precommit:
 
 precommit-update:
 	pre-commit autoupdate
+
+bootstrap0:
+	kubect create ns flux-system
+
+	cat $$SOPS_AGE_KEY_FILE | kubectl create secret generic sops-age \
+		--namespace=flux-system \
+		--from-file=age.agekey=/dev/stdin
+
+bootstrap:
+	flux bootstrap github \
+		--private=false \
+  	--repository=homelab \
+  	--personal \
+		--owner=adityathebe \
+		--token-auth \
+  	--path kubernetes/bootstrap
