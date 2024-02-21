@@ -22,7 +22,7 @@ spec:
           main:
             image:
               repository: ghcr.io/alexjustesen/speedtest-tracker
-              tag: v0.16.4
+              tag: v0.16.5
             envFrom:
               - secretRef:
                   name: speedtest-tracker
