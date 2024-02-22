@@ -7,8 +7,8 @@ metadata:
 data:
   values.yaml: |
     nfs:
-      server: nas.home.adityathebe.com
-      path: /mnt/mega/kubernetes
+      server: portainer.home.adityathebe.com
+      path: /mnt/hdd/kubernetes
       mountOptions: 
         - nfsvers=4.0
         - hard
