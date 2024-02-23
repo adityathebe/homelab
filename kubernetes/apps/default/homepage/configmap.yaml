@@ -42,6 +42,11 @@ data:
             href: https://deemix.home.adityathebe.com
             description: Deezer music downlader
 
+        - AudioBookShelf:
+            icon: audiobookshelf.png
+            href: https://audiobookshelf.home.adityathebe.com
+            description: Audiobooks & Podcasts
+
     - Monitoring:
         - Grafana:
             icon: grafana.png

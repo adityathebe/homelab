@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/ishioni/CRDs-catalog/main/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: audiobookshelf
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 2.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  interval: 30m
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/advplyr/audiobookshelf
+              tag: 2.8.0
+
+            env:
+              TZ: Asia/Kathmandu
+              PORT: &port 8080
+              CONFIG_PATH: /config
+              METADATA_PATH: /config/metadata
+
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthcheck
+                    port: *port
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 200Mi
+              limits:
+                memory: 600Mi
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: audiobookshelf
+        globalMounts:
+          - path: /config
+
+      media:
+        enabled: true
+        existingClaim: audiobookshelf-media
+        globalMounts:
+          - path: /audiobooks
+            subPath: audiobooks
+          - path: /podcasts
+            subPath: podcasts
+
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      main:
+        enabled: true
+        className: nginx
+        hosts:
+          - host: audiobookshelf.home.adityathebe.com
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http

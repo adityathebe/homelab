@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf
+  namespace: music
+  annotations:
+    nfs.io/storage-path: audiobookshelf
+spec:
+  storageClassName: appdata
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-media
+  namespace: music
+  annotations:
+    nfs.io/storage-path: audiobookshelf
+spec:
+  storageClassName: media-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
