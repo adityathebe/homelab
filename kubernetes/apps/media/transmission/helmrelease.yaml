@@ -48,7 +48,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: transmission-config
+        existingClaim: transmission
 
       downloads:
         enabled: true

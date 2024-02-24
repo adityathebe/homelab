@@ -137,7 +137,7 @@ spec:
               annotations:
                 nfs.io/storage-path: prometheus
             spec:
-              storageClassName: kubedata
+              storageClassName: appdata
               resources:
                 requests:
                   storage: 20Gi
