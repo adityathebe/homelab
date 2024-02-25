@@ -6,11 +6,11 @@ metadata:
   name: &appname audiobookshelf
   namespace: flux-system
 spec:
-  targetNamespace: music
+  targetNamespace: media
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: kubernetes/apps/music/audiobookshelf
+  path: kubernetes/apps/media/audiobookshelf
   prune: true
   dependsOn:
     - name: 'nfs-subdir'

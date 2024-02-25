@@ -3,9 +3,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: readarr
-  namespace: music
   annotations:
-    nfs.io/storage-path: readarr
+    nfs.io/storage-path: readarr/config
 spec:
   storageClassName: appdata
   accessModes:
@@ -18,9 +17,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: readarr-media
-  namespace: music
   annotations:
-    nfs.io/storage-path: readarr
+    nfs.io/storage-path: readarr/media
 spec:
   storageClassName: media-nfs
   accessModes:

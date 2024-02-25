@@ -6,14 +6,15 @@ metadata:
   name: &appname readarr
   namespace: flux-system
 spec:
-  targetNamespace: music
+  targetNamespace: media
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: kubernetes/apps/music/readarr
+  path: kubernetes/apps/media/readarr
   prune: true
   dependsOn:
     - name: 'nfs-subdir'
+    - name: media-pvc
   sourceRef:
     kind: GitRepository
     name: flux-system
