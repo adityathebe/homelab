@@ -32,6 +32,10 @@ spec:
             env:
               TZ: Asia/Kathmandu
               TRANSMISSION__DOWNLOAD_DIR: '/downloads'
+              TRANSMISSION__IDLE_SEEDING_LIMIT: '10080' # idle for a week
+              TRANSMISSION__IDLE_SEEDING_LIMIT_ENABLED: 'true'
+              TRANSMISSION__RATIO_LIMIT: '2'
+              TRANSMISSION__RATIO_LIMIT_ENABLED: 'true'
             resources:
               requests:
                 cpu: 150m
