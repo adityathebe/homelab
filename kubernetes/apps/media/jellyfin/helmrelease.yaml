@@ -39,7 +39,7 @@ spec:
           main:
             image:
               repository: jellyfin/jellyfin
-              tag: 20240221.8-unstable
+              tag: 20240226.1-unstable
             env:
               TZ: Asia/Kathmandu
             probes:
