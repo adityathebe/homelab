@@ -7,6 +7,7 @@ metadata:
   namespace: immich
 spec:
   interval: 30m
+  timeout: 10m
   chart:
     spec:
       chart: immich
@@ -52,7 +53,7 @@ spec:
 
     image:
       # renovate: datasource=github-releases depName=immich-app/immich
-      tag: v1.94.1
+      tag: v1.95.0
 
     immich:
       persistence:
