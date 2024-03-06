@@ -43,7 +43,7 @@ spec:
               - secretRef:
                   name: movary
             env:
-              TZ: Asia/Kathmandu
+              TIMEZONE: Asia/Kathmandu
               DATABASE_MODE: sqlite
               TMDB_ENABLE_IMAGE_CACHING: '1' # Enable to prevent rate limit issues
               ENV: 'production'
