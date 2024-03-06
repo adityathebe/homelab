@@ -42,7 +42,7 @@ spec:
                 memory: 50Mi
               limits:
                 cpu: 1000m
-                memory: 100Mi
+                memory: 150Mi
     service:
       main:
         ports:
