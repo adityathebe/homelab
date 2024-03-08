@@ -47,9 +47,9 @@ spec:
               - name: TZ
                 value: Asia/Kathmandu
               - name: BACKUP_KEEP_DAYS
-                value: '7'
+                value: '60'
               - name: BACKUP_KEEP_WEEKS
-                value: '4'
+                value: '8'
               - name: BACKUP_KEEP_MONTHS
                 value: '6'
               - name: BACKUP_KEEP_MINS
