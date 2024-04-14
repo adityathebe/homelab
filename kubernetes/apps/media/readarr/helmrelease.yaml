@@ -30,7 +30,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/readarr-develop
-              tag: 0.3.21.2475@sha256:dfee716eb4a45a7ccdb245ecc8a1ef669769375354db15f35e2af699e741d101
+              tag: 0.3.22.2499@sha256:54883dc20b860ca5bc53f710745ec6dd31437de293d7f68284a0ea48cd494a38
             env:
               TZ: Asia/Kathmandu
             resources:
