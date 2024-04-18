@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: docker.io/fallenbagel/jellyseerr
-              tag: 1.8.0
+              tag: 1.8.1
             env:
               TZ: Asia/Kathmandu
               LOG_LEVEL: "info"
