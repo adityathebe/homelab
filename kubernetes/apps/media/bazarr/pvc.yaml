@@ -7,7 +7,7 @@ metadata:
   annotations:
     nfs.io/storage-path: bazarr
 spec:
-  storageClassName: kubedata
+  storageClassName: appdata
   accessModes:
     - ReadWriteMany
   resources:
