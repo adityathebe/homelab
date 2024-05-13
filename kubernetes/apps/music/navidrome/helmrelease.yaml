@@ -41,7 +41,7 @@ spec:
           main:
             image:
               repository: deluan/navidrome
-              tag: 0.52.0
+              tag: 0.52.5
             envFrom:
               - secretRef:
                   name: navidrome
