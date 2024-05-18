@@ -22,7 +22,7 @@ provider "cloudflare" {
 resource "cloudflare_record" "www" {
   zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name    = "npm.home"
-  value   = "192.168.1.5"
+  value   = "10.99.99.5"
   type    = "A"
   proxied = false
 }
@@ -30,7 +30,7 @@ resource "cloudflare_record" "www" {
 resource "cloudflare_record" "portainer" {
   zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name    = "portainer.home"
-  value   = "192.168.1.5"
+  value   = "10.99.99.5"
   type    = "A"
   proxied = false
 }
@@ -38,7 +38,7 @@ resource "cloudflare_record" "portainer" {
 resource "cloudflare_record" "adguard" {
   zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name    = "adguard.home"
-  value   = "192.168.1.5"
+  value   = "10.99.99.5"
   type    = "A"
   proxied = false
 }
@@ -47,7 +47,7 @@ resource "cloudflare_record" "proxmox" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "pve.home"
   allow_overwrite = true
-  value           = "192.168.1.4"
+  value           = "10.99.99.4"
   type            = "A"
   proxied         = false
 }
@@ -56,7 +56,7 @@ resource "cloudflare_record" "truenas" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "nas.home"
   allow_overwrite = true
-  value           = "192.168.1.51"
+  value           = "10.99.99.51"
   type            = "A"
   proxied         = false
 }
@@ -66,7 +66,7 @@ resource "cloudflare_record" "wildcard" {
   name            = "*.home"
   comment         = "For all apps hosted on kubernetes"
   allow_overwrite = true
-  value           = "192.168.1.3"
+  value           = "10.99.99.25"
   type            = "A"
   proxied         = false
 }
@@ -76,7 +76,7 @@ resource "cloudflare_record" "homepage" {
   name            = "home"
   comment         = "Dashboard"
   allow_overwrite = true
-  value           = "192.168.1.3"
+  value           = "10.99.99.25"
   type            = "A"
   proxied         = false
 }
