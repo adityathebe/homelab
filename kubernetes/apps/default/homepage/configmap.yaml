@@ -60,7 +60,7 @@ data:
             widget:
               type: prometheus
               url: http://prometheus-operated.monitoring.svc:9090
-        
+
         - Alert Manager:
             icon: alertmanager.png
             href: https://alertmanager.home.adityathebe.com
@@ -114,14 +114,14 @@ data:
             href: https://vikunja.home.adityathebe.com
             description: Todo app
 
-        - Mealia:
-            icon: mealie.png
-            href: https://mealie.home.adityathebe.com
-            description: Mealie
-            widget:
-              type: mealie
-              url: https://mealie.home.adityathebe.com
-              key: {{HOMEPAGE_VAR_MEALIE_KEY}}
+        # - Mealia:
+        #     icon: mealie.png
+        #     href: https://mealie.home.adityathebe.com
+        #     description: Mealie
+        #     widget:
+        #       type: mealie
+        #       url: https://mealie.home.adityathebe.com
+        #       key: {{HOMEPAGE_VAR_MEALIE_KEY}}
 
         - Silver Bullet:
             icon: https://silverbullet.md/.client/logo.png
