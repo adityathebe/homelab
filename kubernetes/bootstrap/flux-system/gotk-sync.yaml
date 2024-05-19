@@ -24,11 +24,4 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
+    name: flux-system
