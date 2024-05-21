@@ -42,10 +42,10 @@ data:
             href: https://deemix.home.adityathebe.com
             description: Deezer music downlader
 
-        - AudioBookShelf:
-            icon: audiobookshelf.png
-            href: https://audiobookshelf.home.adityathebe.com
-            description: Audiobooks & Podcasts
+        # - AudioBookShelf:
+        #     icon: audiobookshelf.png
+        #     href: https://audiobookshelf.home.adityathebe.com
+        #     description: Audiobooks & Podcasts
 
     - Monitoring:
         - Grafana:
@@ -256,10 +256,10 @@ data:
             href: https://movary.home.adityathebe.com
             description: Movies Watched Logs
 
-        - Invidious:
-            icon: invidious.png
-            href: https://youtube.home.adityathebe.com
-            description: Youtube frontend
+        # - Invidious:
+        #     icon: invidious.png
+        #     href: https://youtube.home.adityathebe.com
+        #     description: Youtube frontend
 
   settings.yaml: |
     ---
