@@ -3,19 +3,9 @@
   become: true
 
   vars:
-    adguard_ip: 192.168.1.5
+    adguard_ip: 10.99.99.5
 
-  roles:
-    - ubuntu
-
-  tasks:
-    - name: install qemu-guest-agent
-      apt:
-        name: qemu-guest-agent
-        update_cache: yes
-        state: present
-      become: true
-
+  pre_tasks:
     - name: Set DNS to adguard home instance
       systemd:
         name: systemd-resolved
@@ -28,6 +18,16 @@
       command: 'resolvectl dns {{ ansible_default_ipv4.interface }} {{adguard_ip}}'
       when: "ansible_hostname != 'portainer'"
       notify: 'Reload systemd-resolved'
+
+    - name: install qemu-guest-agent
+      apt:
+        name: qemu-guest-agent
+        update_cache: yes
+        state: present
+      become: true
+
+  roles:
+    - ubuntu
 
   handlers:
     - name: Reload systemd-resolved
