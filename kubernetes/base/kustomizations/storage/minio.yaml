@@ -9,6 +9,8 @@ spec:
   path: ./kubernetes/apps/storage/minio
   prune: true
   targetNamespace: storage
+  dependsOn:
+    - name: nfs-subdir
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname

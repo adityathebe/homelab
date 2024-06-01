@@ -9,6 +9,8 @@ spec:
   interval: 10m0s
   path: ./kubernetes/apps/immich
   prune: true
+  dependsOn:
+    - name: nfs-subdir
   sourceRef:
     kind: GitRepository
     name: flux-system

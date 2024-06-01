@@ -8,6 +8,8 @@ spec:
   path: ./kubernetes/apps/music/navidrome
   prune: true
   timeout: 2m
+  dependsOn:
+    - name: nfs-subdir
   sourceRef:
     kind: GitRepository
     name: flux-system
