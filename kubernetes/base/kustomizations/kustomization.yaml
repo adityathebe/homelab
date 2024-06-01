@@ -3,15 +3,16 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - apps.yaml
-  - ./cert-manager
-  - ./dbms
-  - ./default
-  - ./flux-system
-  - ./immich
-  - ./kube-system
-  - ./media
-  - ./monitoring
-  - ./music
-  - ./nfs-subdir
-  - ./nginx
-  - ./system
+  - cert-manager
+  - dbms
+  - default
+  - flux-system
+  - immich
+  - kube-system
+  - media
+  - monitoring
+  - music
+  - nfs-subdir
+  - nginx
+  - storage
+  - system
