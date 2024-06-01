@@ -49,9 +49,6 @@ bootstrap0:
 		--namespace=flux-system \
 		--from-file=age.agekey=/dev/stdin
 
-	# sops --decrypt kubernetes/bootstrap/vars/cluster-secrets.sops.yaml | \
-	# 	kubectl apply --server-side --filename -
-
 bootstrap:
 	flux bootstrap github \
 		--private=false \

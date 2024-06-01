@@ -3,7 +3,6 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - ./arr.yaml
-  - ./audiobookshelf.yaml
   - ./bazarr.yaml
   - ./invidious.yaml
   - ./jellyfin.yaml
