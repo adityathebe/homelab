@@ -5,6 +5,5 @@ resources:
   - alertmanager.yaml
   - grafana.yaml
   - kube-prometheus-stack.yaml
-  - loki.yaml
   - speedtest-tracker.yaml
   - uptime-kuma.yaml
