@@ -54,11 +54,14 @@ spec:
               - --branch=master
               - --wait=86400 # 1 day
               - --root=/add-ons
+
     service:
       main:
+        controller: main
         ports:
           http:
             port: 6767
+
     ingress:
       main:
         enabled: true
@@ -68,7 +71,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: main
                   port: http
 
     persistence:
@@ -77,24 +80,24 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /config
-      
+
       add-ons:
         enabled: true
         type: emptyDir
         globalMounts:
           - path: /add-ons
-      
+
       movies:
         enabled: true
         existingClaim: movies-pvc
         globalMounts:
           - path: /movies
-      
+
       scripts:
         enabled: true
         type: configMap
         name: bazarr-scripts
         defaultMode: 0775
-        readOnly: true
         globalMounts:
           - path: /scripts
+            readOnly: true

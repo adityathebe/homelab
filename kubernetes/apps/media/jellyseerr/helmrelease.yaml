@@ -38,16 +38,17 @@ spec:
               tag: 1.9.0
             env:
               TZ: Asia/Kathmandu
-              LOG_LEVEL: "info"
+              LOG_LEVEL: 'info'
             resources:
               requests:
                 cpu: 10m
                 memory: 200Mi
               limits:
                 memory: 500Mi
-    
+
     service:
       main:
+        controller: main
         ports:
           http:
             port: 5055
@@ -61,9 +62,9 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: main
                   port: http
-    
+
     persistence:
       config:
         enabled: true

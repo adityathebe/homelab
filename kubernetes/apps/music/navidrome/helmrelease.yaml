@@ -42,26 +42,37 @@ spec:
             image:
               repository: deluan/navidrome
               tag: 0.52.5
+
             envFrom:
               - secretRef:
                   name: navidrome
               - configMapRef:
                   name: navidrome
+
             env:
               TZ: Asia/Kathmandu
+
             resources:
               requests:
                 cpu: 50m
                 memory: 256Mi
-            livenessProbe:
-              httpGet:
-                path: /navidrome/app
-                port: 4533
-              initialDelaySeconds: 30
-              periodSeconds: 3
-              timeoutSeconds: 90
+              limits:
+                memory: 799M
+
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+
     service:
       main:
+        controller: main
         ports:
           http:
             port: 4533
@@ -75,7 +86,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: main
                   port: http
 
     persistence:

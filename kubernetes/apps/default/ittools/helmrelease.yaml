@@ -34,10 +34,11 @@ spec:
               requests:
                 cpu: 25m
                 memory: 10Mi
-              limit:
+              limits:
                 memory: 50Mi
     service:
       main:
+        controller: main
         ports:
           http:
             port: 80
@@ -51,5 +52,5 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: main
                   port: http

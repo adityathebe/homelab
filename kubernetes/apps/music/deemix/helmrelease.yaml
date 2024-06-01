@@ -43,6 +43,7 @@ spec:
 
     service:
       main:
+        controller: main
         ports:
           http:
             port: 6595
@@ -50,15 +51,15 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: 'nginx'
+        className: 'nginx'
         hosts:
           - host: deemix.home.adityathebe.com
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: main
                   port: http
-                  
+
     persistence:
       downloads:
         enabled: true
