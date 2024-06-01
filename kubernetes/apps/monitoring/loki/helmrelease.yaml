@@ -29,7 +29,7 @@ spec:
       remediateLastFailure: true
   uninstall:
     keepHistory: false
-    
+
   values:
     deploymentMode: SimpleScalable
 
@@ -87,16 +87,41 @@ spec:
               - path: /
                 pathType: Prefix
 
+    valuesFrom:
+      - targetPath: loki.storage.s3.endpoint
+        kind: Secret
+        name: loki-s3
+        valuesKey: endpoint
+      - targetPath: loki.storage.s3.accessKeyId
+        kind: Secret
+        name: loki-s3
+        valuesKey: minio_access_key
+      - targetPath: loki.storage.s3.secretAccessKey
+        kind: Secret
+        name: loki-s3
+        valuesKey: minio_secret_key
+
     loki:
       analytics:
         reporting_enabled: false
       auth_enabled: false
 
+      schemaConfig:
+        configs:
+          - from: '2024-04-01' # quote
+            store: tsdb
+            object_store: s3
+            schema: v13
+            index:
+              prefix: loki_index_
+              period: 24h
+
       storage:
-        type: filesystem
-        filesystem:
-          chunks_directory: /var/loki/chunks
-          rules_directory: /var/loki/rules
+        type: s3
+        bucketNames:
+          chunks: loki
+        s3:
+          s3ForcePathStyle: true
 
       ingester:
         chunk_encoding: snappy
@@ -107,7 +132,7 @@ spec:
         grpc_listen_port: 9095
         grpc_server_max_recv_msg_size: 8388608
         grpc_server_max_send_msg_size: 8388608
-      
+
       limits_config:
         split_queries_by_interval: 1h
         reject_old_samples: true
@@ -117,7 +142,7 @@ spec:
         retention_period: 14d
         shard_streams:
           enabled: true
-      
+
       ruler:
         storage:
           type: local
