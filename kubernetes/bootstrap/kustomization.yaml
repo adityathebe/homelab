@@ -3,4 +3,4 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - flux-system
-  - base.yaml
+  - homelab.yaml
