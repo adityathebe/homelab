@@ -43,14 +43,14 @@ precommit-update:
 	pre-commit autoupdate
 
 bootstrap0:
-	kubect create ns flux-system
+	kubectl create ns flux-system
 
 	cat $$SOPS_AGE_KEY_FILE | kubectl create secret generic sops-age \
 		--namespace=flux-system \
 		--from-file=age.agekey=/dev/stdin
 
-	sops --decrypt kubernetes/bootstrap/vars/cluster-secrets.sops.yaml | \
-		kubectl apply --server-side --filename -
+	# sops --decrypt kubernetes/bootstrap/vars/cluster-secrets.sops.yaml | \
+	# 	kubectl apply --server-side --filename -
 
 bootstrap:
 	flux bootstrap github \
