@@ -2,8 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
-  - ./alertmanager.yaml
-  - ./grafana.yaml
-  - ./kube-prometheus-stack.yaml
-  - ./speedtest-tracker.yaml
-  - ./uptime-kuma.yaml
+  - alertmanager.yaml
+  - grafana.yaml
+  - kube-prometheus-stack.yaml
+  - loki.yaml
+  - speedtest-tracker.yaml
+  - uptime-kuma.yaml
