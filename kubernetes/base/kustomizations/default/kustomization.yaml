@@ -3,6 +3,7 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - ./actual.yaml
+  - ./chatbot-ui.yaml
   - ./echo-server.yaml
   - ./homepage.yaml
   - ./ittools.yaml
