@@ -2,12 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
-  - ./actual.yaml
-  - ./chatbot-ui.yaml
-  - ./echo-server.yaml
-  - ./homepage.yaml
-  - ./ittools.yaml
-  - ./mealie.yaml
-  - ./pgadmin.yaml
-  - ./silverbullet.yaml
-  - ./vikunja.yaml
+  - actual.yaml
+  - chatbot-ui.yaml
+  - echo-server.yaml
+  - homepage.yaml
+  - ittools.yaml
+  - mealie.yaml
+  - paperlessngx.yaml
+  - pgadmin.yaml
+  - silverbullet.yaml
+  - vikunja.yaml
