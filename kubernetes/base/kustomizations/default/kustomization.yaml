@@ -8,7 +8,7 @@ resources:
   - homepage.yaml
   - ittools.yaml
   - mealie.yaml
-  - paperless.yaml
+  - paperlessngx.yaml
   - pgadmin.yaml
   - silverbullet.yaml
   - vikunja.yaml
