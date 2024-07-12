@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.10.2
+              tag: 2.11@sha256:da0476cea301df8bc8d20739f0e76de1e77d91ad2c9170b45c803468dde19208
             env:
               # Configure application
               PAPERLESS_SECRET_KEY:
@@ -108,7 +108,7 @@ spec:
                   port: http
     persistence:
       data:
-        existingClaim: paperless-data
+        existingClaim: paperless
         advancedMounts:
           paperless:
             app:
