@@ -114,6 +114,11 @@ data:
             href: https://vikunja.home.adityathebe.com
             description: Todo app
 
+        - Paperless:
+            icon: paperless.png
+            href: https://paperless.home.adityathebe.com
+            description: Documents management
+
         # - Mealia:
         #     icon: mealie.png
         #     href: https://mealie.home.adityathebe.com
