@@ -35,8 +35,6 @@ spec:
               PAPERLESS_URL: "https://paperless.${HOMELAB_DOMAIN}"
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: "${TZ}"
-              PAPERLESS_WEBSERVER_WORKERS: "2"
-              PAPERLESS_TASK_WORKERS: "2"
               # Configure folders
               PAPERLESS_CONSUMPTION_DIR: /data/local/consumption
               PAPERLESS_DATA_DIR: /data/local/data
@@ -52,12 +50,12 @@ spec:
               PAPERLESS_ADMIN_USER:
                 valueFrom:
                   secretKeyRef:
-                    name: paperless-secret
+                    name: paperless
                     key: PAPERLESS_ADMIN_USER
               PAPERLESS_ADMIN_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: paperless-secret
+                    name: paperless
                     key: PAPERLESS_ADMIN_PASSWORD
             probes:
               liveness:
