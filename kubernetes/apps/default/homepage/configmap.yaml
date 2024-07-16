@@ -119,6 +119,10 @@ data:
             href: https://paperless.home.adityathebe.com
             description: Documents management
 
+        - RSS:
+            icon: freshrss.png
+            href: https://rss.home.adityathebe.com
+
         # - Mealia:
         #     icon: mealie.png
         #     href: https://mealie.home.adityathebe.com
