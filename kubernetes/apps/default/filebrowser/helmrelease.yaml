@@ -36,7 +36,6 @@ spec:
             env:
               TZ: ${TZ}
               FB_DATABASE: /config/filebrowser.db
-              FB_ROOT: /fb_data
               FB_LOG: stdout
             probes:
               liveness: &probes
@@ -80,11 +79,7 @@ spec:
     persistence:
       config:
         existingClaim: filebrowser-config
-      data:
-        existingClaim: filebrowser-data
-        globalMounts:
-          - path: /fb_data
       movies:
         existingClaim: movies-pvc
         globalMounts:
-          - path: /movies
+          - path: /srv/movies
