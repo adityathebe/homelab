@@ -114,6 +114,11 @@ data:
             href: https://vikunja.home.adityathebe.com
             description: Todo app
 
+        - FileBrowser:
+            icon: filebrowser.png
+            href: https://files.home.adityathebe.com
+            description: File Browser
+
         - Paperless:
             icon: paperless.png
             href: https://paperless.home.adityathebe.com

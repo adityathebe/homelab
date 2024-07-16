@@ -5,6 +5,7 @@ resources:
   - actual.yaml
   # - chatbot-ui.yaml
   - echo-server.yaml
+  - filebrowser.yaml
   - fresh-rss.yaml
   - homepage.yaml
   - ittools.yaml
