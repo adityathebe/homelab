@@ -1,6 +1,10 @@
 ---
 roles:
   - name: artis3n.tailscale
+    version: v4.5.0
   - name: geerlingguy.docker
+    version: 7.3.0
   - name: geerlingguy.node_exporter
+    version: 2.1.0
   - name: geerlingguy.nfs
+    version: 2.0.0
