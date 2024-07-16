@@ -27,7 +27,7 @@ spec:
     controllers:
       filebrowser:
         annotations:
-          reloader.stakater.com/auto: "true"
+          reloader.stakater.com/auto: 'true'
         containers:
           app:
             image:
@@ -54,7 +54,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: { drop: ['ALL'] }
             resources:
               requests:
                 cpu: 100m
@@ -70,7 +70,7 @@ spec:
       app:
         className: nginx
         hosts:
-          - host: "files.${HOMELAB_DOMAIN}"
+          - host: 'files.${HOMELAB_DOMAIN}'
             paths:
               - path: /
                 service:
@@ -81,6 +81,9 @@ spec:
         existingClaim: filebrowser-config
       data:
         existingClaim: filebrowser-data
-        path: /fb_data
         globalMounts:
           - path: /fb_data
+      movies:
+        existingClaim: movies-pvc
+        globalMounts:
+          - path: /movies
