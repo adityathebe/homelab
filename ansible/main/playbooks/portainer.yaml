@@ -48,6 +48,9 @@
   roles:
     - ubuntu
 
+    - name: Install cloudflared on docker
+      role: cloudflared
+
     - name: Install node exporter
       role: geerlingguy.node_exporter
 

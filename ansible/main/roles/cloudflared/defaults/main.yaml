@@ -1,0 +1,3 @@
+---
+user_home: '/home/player'
+data_path: '{{user_home}}/data'

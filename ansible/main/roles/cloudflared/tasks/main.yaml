@@ -1,0 +1,22 @@
+---
+- name: Prepare data directory
+  ansible.builtin.file:
+    path: '{{ data_path }}/cloudflared'
+    state: directory
+    owner: player
+    group: player
+    mode: '0777'
+
+- name: Template and copy Docker Compose file
+  ansible.builtin.copy:
+    content: "{{ lookup('template', 'files/docker-compose.yaml.j2') }}"
+    dest: '{{user_home}}/docker-compose-cloudflared.yaml'
+    owner: player
+    group: player
+    mode: '0600'
+  vars:
+    pg_data_path: '{{ data_path }}/cloudflared'
+
+- name: Start cloudflared docker
+  ansible.builtin.shell:
+    cmd: docker compose -f '{{user_home}}/docker-compose-cloudflared.yaml' up -d
