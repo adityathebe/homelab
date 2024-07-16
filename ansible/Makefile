@@ -23,5 +23,5 @@ proxmox:
 	cd main && ansible-playbook playbooks/proxmox.yaml
 
 galaxy:
-	cd main && ansible-galaxy install -r requirements.yaml
-	cd truenas && ansible-galaxy install -r requirements.yaml
+	cd main && ansible-galaxy install -r requirements.yaml --force
+	cd truenas && ansible-galaxy install -r requirements.yaml --force
