@@ -22,3 +22,16 @@ spec:
     requests:
       storage: 500Gi
   storageClassName: media-nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: filebrowser-gopro
+  annotations:
+    nfs.io/storage-path: gopro
+spec:
+  accessModes: ['ReadOnlyMany']
+  resources:
+    requests:
+      storage: 500Gi
+  storageClassName: photos-nfs

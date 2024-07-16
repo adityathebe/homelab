@@ -83,3 +83,9 @@ spec:
         existingClaim: filebrowser-media
         globalMounts:
           - path: /srv/media
+            readOnly: true
+      gopro:
+        existingClaim: filebrowser-gopro
+        globalMounts:
+          - path: /srv/gopro
+            readOnly: true
