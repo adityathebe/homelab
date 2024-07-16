@@ -80,6 +80,6 @@ spec:
       config:
         existingClaim: filebrowser-config
       movies:
-        existingClaim: movies-pvc
+        existingClaim: filebrowser-media
         globalMounts:
-          - path: /srv/movies
+          - path: /srv/media
