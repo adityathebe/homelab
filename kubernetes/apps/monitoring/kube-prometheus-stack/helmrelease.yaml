@@ -125,7 +125,7 @@ spec:
         probeSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
 
-        retention: 60d
+        retention: 30d
         enableFeatures:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
