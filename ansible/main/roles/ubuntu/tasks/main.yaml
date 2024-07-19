@@ -5,6 +5,12 @@
     upgrade: yes
     cache_valid_time: 3600
 
+- name: Install iotop
+  apt:
+    name: iotop
+    state: present
+  become: yes
+
 - name: Download bottom .deb package
   get_url:
     url: https://github.com/ClementTsang/bottom/releases/download/0.9.6/bottom_0.9.6_amd64.deb
