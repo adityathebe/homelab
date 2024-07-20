@@ -127,6 +127,11 @@ data:
         - RSS:
             icon: freshrss.png
             href: https://rss.home.adityathebe.com
+            widget:
+              type: freshrss
+              url: https://rss.home.adityathebe.com
+              username: adityathebe
+              password: {{HOMEPAGE_VAR_FRESH_RSS_PASSWORD}}
 
         # - Mealia:
         #     icon: mealie.png
