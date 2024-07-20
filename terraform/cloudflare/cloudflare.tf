@@ -20,27 +20,30 @@ provider "cloudflare" {
 }
 
 resource "cloudflare_record" "www" {
-  zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name    = "npm.home"
-  value   = "10.99.99.5"
-  type    = "A"
-  proxied = false
+  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  name            = "npm.home"
+  allow_overwrite = true
+  value           = "10.99.99.5"
+  type            = "A"
+  proxied         = false
 }
 
 resource "cloudflare_record" "portainer" {
-  zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name    = "portainer.home"
-  value   = "10.99.99.5"
-  type    = "A"
-  proxied = false
+  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  name            = "portainer.home"
+  allow_overwrite = true
+  value           = "10.99.99.5"
+  type            = "A"
+  proxied         = false
 }
 
 resource "cloudflare_record" "adguard" {
-  zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name    = "adguard.home"
-  value   = "10.99.99.5"
-  type    = "A"
-  proxied = false
+  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  name            = "adguard.home"
+  allow_overwrite = true
+  value           = "10.99.99.5"
+  type            = "A"
+  proxied         = false
 }
 
 resource "cloudflare_record" "proxmox" {
@@ -81,29 +84,47 @@ resource "cloudflare_record" "homepage" {
   proxied         = false
 }
 
-resource "cloudflare_record" "mx_record" {
+resource "cloudflare_record" "mx_record_1" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "@"
   allow_overwrite = true
-  value           = "inbound-smtp.skiff.com"
+  value           = "in1-smtp.messagingengine.com"
   type            = "MX"
-  priority        = 0
+  priority        = 10
 }
 
-resource "cloudflare_record" "skiff_cname_1" {
+resource "cloudflare_record" "mx_record_2" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "skiff1._domainkey"
+  name            = "@"
   allow_overwrite = true
-  value           = "skiff1.cdlo67izhm20v6p.dkim.skiff.com"
+  value           = "in2-smtp.messagingengine.com"
+  type            = "MX"
+  priority        = 20
+}
+
+resource "cloudflare_record" "dkim_cname_1" {
+  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  name            = "fm1._domainkey"
+  allow_overwrite = true
+  value           = "fm1.adityathebe.com.dkim.fmhosted.com"
   type            = "CNAME"
   proxied         = false
 }
 
-resource "cloudflare_record" "skiff_cname_2" {
+resource "cloudflare_record" "dkim_cname_2" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "skiff2._domainkey"
+  name            = "fm2._domainkey"
   allow_overwrite = true
-  value           = "skiff2.cdlo67izhm20v6p.dkim.skiff.com"
+  value           = "fm2.adityathebe.com.dkim.fmhosted.com"
+  type            = "CNAME"
+  proxied         = false
+}
+
+resource "cloudflare_record" "dkim_cname_3" {
+  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  name            = "fm3._domainkey"
+  allow_overwrite = true
+  value           = "fm3.adityathebe.com.dkim.fmhosted.com"
   type            = "CNAME"
   proxied         = false
 }
@@ -112,16 +133,7 @@ resource "cloudflare_record" "spf" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "@"
   allow_overwrite = true
-  value           = "v=spf1 include:cdlo67izhm20v6p.spf.skiff.com -all"
-  type            = "TXT"
-  proxied         = false
-}
-
-resource "cloudflare_record" "dmarc" {
-  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "_dmarc"
-  allow_overwrite = true
-  value           = "v=DMARC1; p=reject; pct=100; adkim=s; aspf=s"
+  value           = "v=spf1 include:spf.messagingengine.com ?all"
   type            = "TXT"
   proxied         = false
 }
