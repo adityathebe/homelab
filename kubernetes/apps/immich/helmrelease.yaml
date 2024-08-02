@@ -70,7 +70,9 @@ spec:
       resources:
         requests:
           cpu: 1500m
-          memory: 2048M
+          memory: 700Mi
+        limits:
+          memory: 4000Mi
       ingress:
         main:
           enabled: true
