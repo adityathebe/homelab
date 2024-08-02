@@ -25,7 +25,7 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          transmission:
             image:
               repository: ghcr.io/onedr0p/transmission
               tag: '4.0.5'

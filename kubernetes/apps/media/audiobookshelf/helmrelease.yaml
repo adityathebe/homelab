@@ -18,7 +18,7 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          transmission:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               tag: 2.9.0

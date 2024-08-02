@@ -30,7 +30,7 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          invidious:
             image:
               repository: quay.io/invidious/invidious
               tag: latest

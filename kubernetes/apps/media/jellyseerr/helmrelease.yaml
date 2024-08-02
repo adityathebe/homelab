@@ -32,7 +32,7 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          jellyseerr:
             image:
               repository: docker.io/fallenbagel/jellyseerr
               tag: 1.9.2
