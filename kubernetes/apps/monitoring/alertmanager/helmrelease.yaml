@@ -24,12 +24,12 @@ spec:
 
         statefulset:
           volumeClaimTemplates:
-            - name: storage
+            - name: alertmanager-storage
               annotations:
                 nfs.io/storage-path: alertmanager
               accessMode: ReadWriteOnce
               size: 500Mi
-              storageClass: kubedata
+              storageClass: appdata
               globalMounts:
                 - path: /alertmanager
 
