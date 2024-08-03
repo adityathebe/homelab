@@ -2,14 +2,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: vikunja-pvc
-  namespace: default
+  name: vikunja-files
   annotations:
     nfs.io/storage-path: vikunja
 spec:
-  storageClassName: kubedata
+  storageClassName: appdata
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Mi
+      storage: 500Mi

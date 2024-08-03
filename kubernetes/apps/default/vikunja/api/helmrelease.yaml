@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: vikunja-api
-  namespace: default
 spec:
   interval: 30m
   chart:
@@ -39,8 +38,8 @@ spec:
               VIKUNJA_SERVICE_ENABLETASKATTACHMENTS: 1
               VIKUNJA_SERVICE_ENABLEREGISTRATION: 0
               VIKUNJA_SERVICE_ENABLEEMAILREMINDERS: 1
-              VIKUNJA_DEFAULTSETTINGS_DISCOVERABLE_BY_NAME: "true"
-              VIKUNJA_DEFAULTSETTINGS_OVERDUE_TASKS_REMINDERS_ENABLED: "false"
+              VIKUNJA_DEFAULTSETTINGS_DISCOVERABLE_BY_NAME: 'true'
+              VIKUNJA_DEFAULTSETTINGS_OVERDUE_TASKS_REMINDERS_ENABLED: 'false'
               VIKUNJA_DEFAULTSETTINGS_WEEK_START: 1
             envFrom:
               - secretRef:
@@ -71,6 +70,7 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: vikunja-pvc
+        existingClaim: vikunja-files
         globalMounts:
+          # all files uploaded and used through Vikunja are stored here
           - path: /app/vikunja/files

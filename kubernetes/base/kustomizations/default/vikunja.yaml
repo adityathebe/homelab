@@ -6,6 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
+  targetNamespace: default
   path: ./kubernetes/apps/default/vikunja/api
   prune: true
   sourceRef:
@@ -23,6 +24,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
+  targetNamespace: default
   path: ./kubernetes/apps/default/vikunja/web
   prune: true
   sourceRef:
