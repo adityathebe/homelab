@@ -93,7 +93,8 @@ spec:
           - path: /config
       cache:
         enabled: true
-        existingClaim: jellyfin-cache
+        type: hostPath
+        hostPath: /home/player/kube_data/jellyfin/cache
         globalMounts:
           - path: /cache
       movies:
