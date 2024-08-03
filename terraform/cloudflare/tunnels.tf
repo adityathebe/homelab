@@ -34,6 +34,14 @@ resource "cloudflare_tunnel_config" "homelab" {
       }
     }
     ingress_rule {
+      hostname = "vikunja.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+      path     = ""
+      service  = "http://10.99.99.25"
+      origin_request {
+        http_host_header = "vikunja.home.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+      }
+    }
+    ingress_rule {
       hostname = "*"
       service  = "http_status:503"
     }
@@ -61,6 +69,15 @@ resource "cloudflare_record" "homelab_fresh_rss" {
 resource "cloudflare_record" "homelab_navidrome" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "music"
+  allow_overwrite = true
+  value           = cloudflare_tunnel.homelab.cname
+  type            = "CNAME"
+  proxied         = true
+}
+
+resource "cloudflare_record" "homelab_vikunja" {
+  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  name            = "vikunja"
   allow_overwrite = true
   value           = cloudflare_tunnel.homelab.cname
   type            = "CNAME"
