@@ -35,7 +35,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
-          jellyfin-backup:
+          litestream:
             args: ['replicate']
             image:
               repository: litestream/litestream
@@ -48,9 +48,9 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 100Mi
+                memory: 150Mi
               limits:
-                memory: 500Mi
+                memory: 600Mi
 
     persistence:
       data:
