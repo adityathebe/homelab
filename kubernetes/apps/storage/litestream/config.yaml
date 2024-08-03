@@ -1,21 +1,31 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.26.1-standalone-strict/configmap-v1.json
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: litestream
 data:
   config.yaml: |
+    ---
     dbs: 
       - path: /data/jellyfin/config/data/jellyfin.db
         replicas:
           - type: s3
-            bucket: jellyfin
+            bucket: kubernetes-backup
             path: jellyfin
-            endpoint: minio.home.adityathebe.com
+            endpoint: https://s3.${HOMELAB_DOMAIN}
             force-path-style: true
       - path: /data/jellyfin/config/data/library.db
         replicas:
           - type: s3
-            bucket: jellyfin
-            path: library
-            endpoint: minio.home.adityathebe.com
+            bucket: kubernetes-backup
+            path: jellyfin-library
+            endpoint: https://s3.${HOMELAB_DOMAIN}
+            force-path-style: true
+      - path: /data/filebrowser/config/filebrowser.db
+        replicas:
+          - type: s3
+            bucket: kubernetes-backup
+            path: filebrowser
+            endpoint: https://s3.${HOMELAB_DOMAIN}
             force-path-style: true
