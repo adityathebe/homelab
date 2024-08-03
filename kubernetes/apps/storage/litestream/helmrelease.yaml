@@ -1,0 +1,68 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app litestream
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: saka
+    controllers:
+      main:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          jellyfin-backup:
+            image:
+              repository: litestream/litestream
+              tag: '0.3.13'
+            env:
+              TZ: ${TZ}
+            envFrom:
+              - secretRef:
+                  name: litestream
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+
+    persistence:
+      data:
+        enabled: true
+        type: hostPath
+        hostPath: /home/player/kube_data
+        globalMounts:
+          - path: /data
+
+      config:
+        enabled: true
+        type: configMap
+        name: litestream
+        globalMounts:
+          - subPath: config.yaml
+            path: /etc/litestream.yml

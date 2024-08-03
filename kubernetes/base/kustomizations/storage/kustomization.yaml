@@ -3,3 +3,4 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - minio.yaml
+  - litestream.yaml
