@@ -35,7 +35,7 @@ spec:
       main:
         strategy: Recreate
         containers:
-          main:
+          pgadmin:
             image:
               repository: docker.io/dpage/pgadmin4
               tag: '8.9'
@@ -76,5 +76,5 @@ spec:
         hostPath: /home/player/kube_data/pgadmin
         advancedMounts:
           main:
-            main:
+            pgadmin:
               - path: /var/lib/pgadmin

@@ -26,7 +26,7 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          it-tools:
             image:
               repository: corentinth/it-tools
               tag: latest

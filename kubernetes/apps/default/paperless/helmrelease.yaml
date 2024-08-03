@@ -21,7 +21,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          paperless:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
               tag: 2.11@sha256:da0476cea301df8bc8d20739f0e76de1e77d91ad2c9170b45c803468dde19208
@@ -111,5 +111,5 @@ spec:
         existingClaim: paperless
         advancedMounts:
           paperless:
-            app:
+            paperless:
               - path: /data/local

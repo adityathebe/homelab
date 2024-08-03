@@ -31,7 +31,7 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          vikunja-frontend:
             image:
               repository: docker.io/vikunja/frontend
               tag: 0.22.1

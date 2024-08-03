@@ -32,7 +32,7 @@ spec:
     controllers:
       freshrss:
         annotations:
-          reloader.stakater.com/auto: "true"
+          reloader.stakater.com/auto: 'true'
         initContainers:
           init-db:
             image:
@@ -42,18 +42,20 @@ spec:
               - secretRef:
                   name: fresh-rss
         containers:
-          app:
+          freshrss:
             image:
               repository: freshrss/freshrss
               tag: 1.24.1@sha256:0e8708498272dac567b9d1654822ccb22037cf4b1792ec75b9929e70e53ddd16
             env:
               TZ: ${TZ}
               CRON_MIN: 18,48
-              DOMAIN: "https://rss.${HOMELAB_DOMAIN}/"
+              DOMAIN: 'https://rss.${HOMELAB_DOMAIN}/'
             envFrom: *envFrom
             resources:
               requests:
                 cpu: 50m
+                memory: 200Mi
+              limits:
                 memory: 256Mi
     service:
       app:
@@ -66,7 +68,7 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: &host "rss.${HOMELAB_DOMAIN}"
+          - host: &host 'rss.${HOMELAB_DOMAIN}'
             paths:
               - path: /
                 service:

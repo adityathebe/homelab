@@ -30,7 +30,7 @@ spec:
           reloader.stakater.com/auto: 'true'
 
         containers:
-          app:
+          homepage:
             image:
               repository: ghcr.io/gethomepage/homepage
               tag: v0.9.5

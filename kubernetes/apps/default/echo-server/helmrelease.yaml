@@ -23,7 +23,7 @@ spec:
           reloader.stakater.com/auto: "true"
 
         containers:
-          main:
+          echo:
             image:
               repository: ghcr.io/mendhak/http-https-echo
               tag: 33

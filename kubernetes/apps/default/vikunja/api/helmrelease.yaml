@@ -28,7 +28,7 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          vikunja-api:
             image:
               repository: docker.io/vikunja/api
               tag: 0.22.1
