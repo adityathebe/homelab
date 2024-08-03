@@ -74,11 +74,19 @@
     - name: Install postgres cluster on docker
       role: postgres
 
-  tasks:
-    - name: Schedule backup of songs to NAS
-      ansible.builtin.cron:
-        name: 'sync songs to NAS'
-        minute: '0'
-        hour: '1'
-        weekday: '*'
-        job: 'rsync -avhP /mnt/hdd/media/music truenas:/mnt/mega/aditya'
+    - name: Schedule backup to nas
+      role: ansible-systemd-timers
+      vars:
+        timers:
+          songs-backup:
+            timer_command: rsync -avhP --no-times /mnt/hdd/media/music truenas:/mnt/mega/aditya
+            timer_OnCalendar: '*-*-* 02:00:00'
+            timer_user: '{{ user_name }}'
+          pg-backup:
+            timer_command: rsync -avhP --no-times /mnt/hdd/kubernetes/pg-backup truenas:/mnt/mega/kubernetes
+            timer_OnCalendar: '*-*-* 03:00:00'
+            timer_user: '{{ user_name }}'
+          minio-backup:
+            timer_command: rsync -avhP --no-times /mnt/hdd/kubernetes/minio truenas:/mnt/mega/kubernetes
+            timer_OnCalendar: '*-*-* 04:00:00'
+            timer_user: '{{ user_name }}'

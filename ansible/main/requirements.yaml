@@ -8,3 +8,6 @@ roles:
     version: 2.1.0
   - name: geerlingguy.nfs
     version: 2.0.0
+  - name: ansible-systemd-timers
+    src: https://github.com/vlcty/ansible-systemd-timers
+    version: 965dbcf35e596c0e8784ab8adf636ae3e3139da9
