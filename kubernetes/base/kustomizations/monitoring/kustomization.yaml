@@ -3,6 +3,7 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - alertmanager.yaml
+  - alloy.yaml
   - grafana.yaml
   - kube-prometheus-stack.yaml
   # - loki.yaml

@@ -1,0 +1,87 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: alloy
+spec:
+  interval: 5m
+  timeout: 15m
+  chart:
+    spec:
+      # renovate: registryUrl=https://grafana.github.io/helm-charts
+      chart: alloy
+      version: '0.5.1'
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  maxHistory: 5
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 4
+  upgrade:
+    crds: CreateReplace
+    timeout: 15m
+    remediation:
+      remediateLastFailure: true
+  uninstall:
+    keepHistory: false
+  values:
+    alloy:
+      extraEnv:
+        - name: CLUSTER_ID
+          value: homelab
+        - name: GRAFANA_CLOUD_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: grafana-cloud
+              key: API_KEY
+        - name: GRAFANA_CLOUD_HOSTED_LOGS_URL
+          value: https://logs-prod-028.grafana.net/loki/api/v1/push
+        - name: GRAFANA_CLOUD_HOSTED_LOGS_USER
+          value: '960448'
+      configMap:
+        content: |
+          discovery.kubernetes "pods" {
+            role = "pod"
+          }
+
+          discovery.relabel "add_metadata" {
+            targets    = discovery.kubernetes.pods.targets
+            rule {
+              source_labels = ["__meta_kubernetes_namespace"]
+              target_label = "namespace"
+            }
+            rule {
+              source_labels = ["__meta_kubernetes_pod_container_image"]
+              target_label = "image"
+            }
+            rule {
+              source_labels = ["__meta_kubernetes_pod_name"]
+              target_label = "pod"
+            }
+            rule {
+              source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+              target_label = "deployment"
+            }
+          }
+
+          loki.source.kubernetes "pods" {
+            targets    = discovery.relabel.add_metadata.output
+            forward_to = [loki.write.grafana_cloud.receiver]
+          }
+
+          loki.write "grafana_cloud" {
+            external_labels = {
+              "cluster" = env("CLUSTER_ID"),
+            }
+            endpoint {
+              url = env("GRAFANA_CLOUD_HOSTED_LOGS_URL")
+              basic_auth {
+                username = env("GRAFANA_CLOUD_HOSTED_LOGS_USER")
+                password = env("GRAFANA_CLOUD_API_KEY")
+              }
+            }
+          }
