@@ -7,7 +7,7 @@ metadata:
   annotations:
     nfs.io/storage-path: speedtest/web
 spec:
-  storageClassName: kubedata
+  storageClassName: appdata
   accessModes:
     - ReadWriteMany
   resources:
@@ -22,7 +22,7 @@ metadata:
   annotations:
     nfs.io/storage-path: speedtest
 spec:
-  storageClassName: kubedata
+  storageClassName: appdata
   accessModes:
     - ReadWriteMany
   resources:
