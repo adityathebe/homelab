@@ -24,28 +24,6 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nfs-subdir-kubedata-helm-chart-value-overrides
-  namespace: nfs-subdir
-data:
-  values.yaml: |
-    nfs:
-      server: nas.home.adityathebe.com
-      path: /mnt/mega/kubernetes
-      mountOptions: 
-        - nfsvers=4.0
-        - hard
-
-    storageClass:
-      name: kubedata
-      defaultClass: false
-      reclaimPolicy: Retain
-      archiveOnDelete: false
-      pathPattern: $${.PVC.annotations.nfs.io/storage-path}
-      accessModes: ReadWriteMany
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
   name: nfs-subdir-media-helm-chart-value-overrides
   namespace: nfs-subdir
 data:
