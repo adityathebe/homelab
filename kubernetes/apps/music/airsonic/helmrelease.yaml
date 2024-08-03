@@ -29,14 +29,20 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          airsonic:
             image:
               repository: tamland/airsonic-refix
               tag: sha-37790a1
               pullPolicy: IfNotPresent
             env:
-              TZ: 'Asia/Kathmandu'
+              TZ: ${TZ}
               SERVER_URL: https://navidrome.home.adityathebe.com/navidrome
+            resources:
+              requests:
+                cpu: 50m
+                memory: 80Mi
+              limits:
+                memory: 250Mi
 
     service:
       main:

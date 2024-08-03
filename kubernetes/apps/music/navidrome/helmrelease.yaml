@@ -38,7 +38,7 @@ spec:
           reloader.stakater.com/auto: 'true'
 
         containers:
-          main:
+          navidrome:
             image:
               repository: deluan/navidrome
               tag: 0.52.5
@@ -50,14 +50,14 @@ spec:
                   name: navidrome
 
             env:
-              TZ: Asia/Kathmandu
+              TZ: ${TZ}
 
             resources:
               requests:
                 cpu: 50m
                 memory: 256Mi
               limits:
-                memory: 799M
+                memory: 300Mi
 
             probes:
               liveness:
@@ -95,7 +95,7 @@ spec:
         existingClaim: music-nfs-pvc
         advancedMounts:
           main:
-            main:
+            navidrome:
               - path: /music
                 readOnly: true
 
@@ -105,5 +105,5 @@ spec:
         hostPath: /home/player/kube_data/navidrome
         advancedMounts:
           main:
-            main:
+            navidrome:
               - path: /data
