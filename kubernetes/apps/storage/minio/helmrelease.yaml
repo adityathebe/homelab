@@ -102,6 +102,8 @@ spec:
     ingress:
       app:
         className: 'nginx'
+        annotations:
+          nginx.ingress.kubernetes.io/client-body-buffer-size: "10m"
         hosts:
           - host: 'minio.${HOMELAB_DOMAIN}'
             paths:

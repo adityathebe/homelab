@@ -7,6 +7,8 @@ metadata:
 data:
   config.yaml: |
     ---
+    logging:
+      level: warn
     dbs: 
       - path: /data/jellyfin/config/data/jellyfin.db
         replicas:
