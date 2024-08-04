@@ -19,7 +19,7 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          speedtest-tracker:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
               tag: 0.20.8
