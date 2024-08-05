@@ -133,6 +133,11 @@ spec:
           gnetId: 15759
           revision: 29
           datasource: Prometheus
+        kubernetes-deployments:
+          # renovate: depName="Kubernetes Deployment metrics"
+          gnetId: 741
+          revision: 1
+          datasource: Prometheus
         kubernetes-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
         kubernetes-volumes:
