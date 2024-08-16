@@ -4,3 +4,4 @@ resources:
   - secret.sops.yaml
   - configmap.yaml
   - helmrelease.yaml
+  - rbac.yaml

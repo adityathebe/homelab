@@ -102,6 +102,9 @@ spec:
     ingress:
       app:
         className: 'nginx'
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
+          nginx.ingress.kubernetes.io/proxy-send-timeout: '600'
         hosts:
           - host: 'minio.${HOMELAB_DOMAIN}'
             paths:

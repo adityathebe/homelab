@@ -92,6 +92,8 @@ data:
             icon: immich.png
             href: https://photos.home.adityathebe.com
             description: Photo Management
+            namespace: immich
+            app: server
             widget:
               type: immich
               url: https://photos.home.adityathebe.com
@@ -211,6 +213,8 @@ data:
             icon: jellyfin.png
             href: https://jellyfin.home.adityathebe.com
             description: Media System
+            namespace: media
+            app: jellyfin
             widget:
               type: jellyfin
               url: http://jellyfin.media.svc:8096
@@ -220,6 +224,8 @@ data:
             icon: jellyseerr.png
             href: https://jellyseerr.home.adityathebe.com
             description: Request Managment
+            namespace: media
+            app: jellyseerr
             widget:
               type: jellyseerr
               url: http://jellyseerr.media.svc:5055
@@ -256,6 +262,8 @@ data:
             icon: bazarr.png
             href: https://bazarr.home.adityathebe.com
             description: Subtitles
+            namespace: media
+            app: bazarr
             widget:
               type: bazarr
               url: http://bazarr.media.svc:6767
@@ -265,6 +273,8 @@ data:
             icon: transmission.png
             href: https://transmission.home.adityathebe.com
             description: Torrent Client
+            namespace: media
+            app: transmission
             widget:
               type: transmission
               url: http://transmission.media.svc:9091
@@ -273,6 +283,8 @@ data:
             icon: https://raw.githubusercontent.com/leepeuker/movary/main/public/images/movary-logo-192x192.png
             href: https://movary.home.adityathebe.com
             description: Movies Watched Logs
+            namespace: media
+            app: movary
 
         # - Invidious:
         #     icon: invidious.png
@@ -289,6 +301,7 @@ data:
 
     color: slate
     theme: dark
+    headerStyle: clean
 
     layout:
       Media:
@@ -304,10 +317,18 @@ data:
 
   widgets.yaml: |
     ---
-    - resources:
-        cpu: true
-        memory: true
-        disk: /home
+    - kubernetes:
+        cluster:
+          cpu: true
+          label: cluster
+          memory: true
+          show: true
+          showLabel: true
+        nodes:
+          cpu: true
+          memory: true
+          show: false
+          showLabel: true
 
     - openweathermap:
         latitude: 27.6503542
