@@ -14,10 +14,9 @@ data:
     ---
   docker.yaml: |
     ---
-    local-docker:
-    socket: /var/run/docker.sock
   kubernetes.yaml: |
     ---
+    mode: cluster
   services.yaml: |
     ---
     - Music:
