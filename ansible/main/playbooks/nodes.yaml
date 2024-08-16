@@ -12,3 +12,21 @@
         update_cache: yes
         state: present
       when: "'saka' in inventory_hostname"
+
+    - name: 'increase inotify user watches'
+      sysctl:
+        name: fs.inotify.max_user_watches
+        value: 524288
+        state: present
+
+    - name: 'increase inotify user instances'
+      sysctl:
+        name: fs.inotify.max_user_instances
+        value: 524288
+        state: present
+
+    - name: 'increase inotify queued events'
+      sysctl:
+        name: fs.inotify.max_queued_events
+        value: 2099999999
+        state: present
