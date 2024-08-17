@@ -60,7 +60,7 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: alertmanager.home.adityathebe.com
+          - host: alertmanager.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

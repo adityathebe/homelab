@@ -76,7 +76,7 @@ spec:
         enabled: true
         className: 'nginx'
         hosts:
-          - host: jellyfin.home.adityathebe.com
+          - host: jellyfin.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

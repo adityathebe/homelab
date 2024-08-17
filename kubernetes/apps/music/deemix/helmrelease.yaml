@@ -59,7 +59,7 @@ spec:
         enabled: true
         className: 'nginx'
         hosts:
-          - host: deemix.home.adityathebe.com
+          - host: deemix.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

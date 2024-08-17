@@ -47,7 +47,7 @@ spec:
               DATABASE_MODE: sqlite
               TMDB_ENABLE_IMAGE_CACHING: '1' # Enable to prevent rate limit issues
               ENV: 'production'
-              APPLICATION_URL: https://movary.home.adityathebe.com
+              APPLICATION_URL: https://movary.${HOMELAB_DOMAIN}
             resources:
               requests:
                 cpu: 50m
@@ -67,7 +67,7 @@ spec:
         enabled: true
         className: 'nginx'
         hosts:
-          - host: movary.home.adityathebe.com
+          - host: movary.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

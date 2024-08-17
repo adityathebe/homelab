@@ -8,7 +8,7 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: 'home.adityathebe.com'
+  commonName: '${HOMELAB_DOMAIN}'
   dnsNames:
-    - 'home.adityathebe.com'
-    - '*.home.adityathebe.com'
+    - '${HOMELAB_DOMAIN}'
+    - '*.${HOMELAB_DOMAIN}'

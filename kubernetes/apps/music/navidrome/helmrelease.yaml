@@ -82,7 +82,7 @@ spec:
         enabled: true
         className: 'nginx'
         hosts:
-          - host: navidrome.home.adityathebe.com
+          - host: navidrome.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

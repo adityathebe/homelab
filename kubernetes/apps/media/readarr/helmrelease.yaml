@@ -51,7 +51,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: &host readarr.home.adityathebe.com
+          - host: &host readarr.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

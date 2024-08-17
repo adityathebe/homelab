@@ -168,7 +168,7 @@ spec:
       enabled: true
       ingressClassName: nginx
       hosts:
-        - grafana.home.adityathebe.com
+        - grafana.${HOMELAB_DOMAIN}
 
     persistence:
       enabled: false

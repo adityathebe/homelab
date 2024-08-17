@@ -85,7 +85,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - host: mealie.home.adityathebe.com
+    - host: mealie.${HOMELAB_DOMAIN}
       http:
         paths:
           - pathType: Prefix

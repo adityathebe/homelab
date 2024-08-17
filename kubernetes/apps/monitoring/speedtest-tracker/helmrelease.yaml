@@ -47,7 +47,7 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: speedtest.home.adityathebe.com
+          - host: speedtest.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

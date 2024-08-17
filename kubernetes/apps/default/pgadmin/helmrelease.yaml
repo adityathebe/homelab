@@ -61,7 +61,7 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: 'pgadmin.home.adityathebe.com'
+          - host: 'pgadmin.${HOMELAB_DOMAIN}'
             paths:
               - path: /
                 pathType: Prefix

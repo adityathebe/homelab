@@ -9,5 +9,5 @@ spec:
   scrapeInterval: 10s
   staticConfigs:
     - targets:
-        - portainer.home.adityathebe.com:60123
+        - portainer.${HOMELAB_DOMAIN}:60123
   metricsPath: /metrics

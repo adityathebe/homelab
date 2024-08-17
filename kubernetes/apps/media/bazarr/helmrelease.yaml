@@ -67,7 +67,7 @@ spec:
         enabled: true
         className: 'nginx'
         hosts:
-          - host: bazarr.home.adityathebe.com
+          - host: bazarr.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

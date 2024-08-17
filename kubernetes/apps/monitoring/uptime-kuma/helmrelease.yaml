@@ -60,7 +60,7 @@ spec:
         enabled: true
         className: 'nginx'
         hosts:
-          - host: uptime.home.adityathebe.com
+          - host: uptime.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

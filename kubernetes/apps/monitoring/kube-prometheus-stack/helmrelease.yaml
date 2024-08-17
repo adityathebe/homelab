@@ -115,7 +115,7 @@ spec:
         ingressClassName: nginx
         pathType: Prefix
         hosts:
-          - prometheus.home.adityathebe.com
+          - prometheus.${HOMELAB_DOMAIN}
 
       prometheusSpec:
         alertingEndpoints:

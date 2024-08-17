@@ -54,7 +54,7 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: vikunja.home.adityathebe.com
+          - host: vikunja.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

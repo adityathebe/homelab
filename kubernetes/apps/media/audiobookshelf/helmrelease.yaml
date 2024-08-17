@@ -78,7 +78,7 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: audiobookshelf.home.adityathebe.com
+          - host: audiobookshelf.${HOMELAB_DOMAIN}
             paths:
               - path: /
                 service:

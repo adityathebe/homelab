@@ -50,7 +50,7 @@ spec:
         enabled: true
         className: "nginx"
         hosts:
-          - host: &host "echo.home.adityathebe.com"
+          - host: &host "echo.${HOMELAB_DOMAIN}"
             paths:
               - path: /
                 service:
