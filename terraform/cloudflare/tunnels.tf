@@ -60,7 +60,7 @@ resource "cloudflare_record" "homelab_jellyfin" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "jellyfin"
   allow_overwrite = true
-  value           = cloudflare_tunnel.homelab.cname
+  content         = cloudflare_tunnel.homelab.cname
   type            = "CNAME"
   proxied         = true
 }
@@ -69,7 +69,7 @@ resource "cloudflare_record" "homelab_movary" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "movies"
   allow_overwrite = true
-  value           = cloudflare_tunnel.homelab.cname
+  content         = cloudflare_tunnel.homelab.cname
   type            = "CNAME"
   proxied         = true
 }
@@ -78,7 +78,7 @@ resource "cloudflare_record" "homelab_fresh_rss" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "freshrss"
   allow_overwrite = true
-  value           = cloudflare_tunnel.homelab.cname
+  content         = cloudflare_tunnel.homelab.cname
   type            = "CNAME"
   proxied         = true
 }
@@ -87,7 +87,7 @@ resource "cloudflare_record" "homelab_navidrome" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "music"
   allow_overwrite = true
-  value           = cloudflare_tunnel.homelab.cname
+  content         = cloudflare_tunnel.homelab.cname
   type            = "CNAME"
   proxied         = true
 }
@@ -96,7 +96,7 @@ resource "cloudflare_record" "homelab_vikunja" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "vikunja"
   allow_overwrite = true
-  value           = cloudflare_tunnel.homelab.cname
+  content         = cloudflare_tunnel.homelab.cname
   type            = "CNAME"
   proxied         = true
 }
