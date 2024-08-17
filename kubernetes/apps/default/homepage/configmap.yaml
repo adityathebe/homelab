@@ -141,25 +141,25 @@ data:
     - Management:
         - Proxmox:
             icon: proxmox.png
-            href: https://pve.${HOMELAB_DOMAIN}:8006
-            ping: https://pve.${HOMELAB_DOMAIN}:8006
+            href: https://pve.home.adityathebe.com:8006
+            ping: https://pve.home.adityathebe.com:8006
             description: Proxmox
             widget:
               username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
               password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
               type: proxmox
-              url: https://pve.${HOMELAB_DOMAIN}:8006
+              url: https://pve.home.adityathebe.com:8006
               node: pve
 
         - Truenas:
             icon: truenas.png
-            href: https://nas.${HOMELAB_DOMAIN}
-            ping: https://nas.${HOMELAB_DOMAIN}
+            href: https://nas.home.adityathebe.com
+            ping: https://nas.home.adityathebe.com
             description: TrueNAS Scale
             widget:
               type: truenas
               key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
-              url: https://nas.${HOMELAB_DOMAIN}
+              url: https://nas.home.adityathebe.com
 
         - Portainer:
             icon: portainer.png
