@@ -8,19 +8,19 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: contact@adityathebe.com
+    email: ${ADMIN_EMAIL}
     privateKeySecretRef:
       name: letsencrypt-production
     solvers:
       - dns01:
           cloudflare:
-            email: thebeaditya@gmail.com
+            email: ${ADMIN_EMAIL}
             apiTokenSecretRef:
               name: cloudflare-secret
               key: CLOUDFLARE_TOKEN
         selector:
           dnsZones:
-            - 'adityathebe.com'
+            - ${HOMELAB_DOMAIN}
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -29,17 +29,17 @@ metadata:
   namespace: cert-manager
 spec:
   acme:
-    email: contact@adityathebe.com
+    email: ${ADMIN_EMAIL}
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
       - dns01:
           cloudflare:
-            email: thebeaditya@gmail.com
+            email: ${ADMIN_EMAIL}
             apiTokenSecretRef:
               name: cloudflare-secret
               key: CLOUDFLARE_TOKEN
         selector:
           dnsZones:
-            - 'adityathebe.com'
+            - ${HOMELAB_DOMAIN}
