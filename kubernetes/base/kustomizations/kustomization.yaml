@@ -7,7 +7,6 @@ resources:
   - default
   - flux-system
   - immich
-  - kube-system
   - media
   - monitoring
   - music

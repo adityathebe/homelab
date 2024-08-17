@@ -6,7 +6,6 @@ resources:
   - cert-manager.yaml
   - dbms.yaml
   - immich.yaml
-  - kube-system.yaml
   - media.yaml
   - monitoring.yaml
   - music.yaml
