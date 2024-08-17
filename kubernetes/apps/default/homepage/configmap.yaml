@@ -22,12 +22,12 @@ data:
     - Music:
         - Airsonic:
             icon: airsonic.png
-            href: https://airsonic.home.adityathebe.com
+            href: https://airsonic.${HOMELAB_DOMAIN}
             description: Music Player
 
         - Navidrome:
             icon: navidrome.png
-            href: https://navidrome.home.adityathebe.com
+            href: https://navidrome.${HOMELAB_DOMAIN}
             description: Music Player
             widget:
               type: navidrome
@@ -38,23 +38,18 @@ data:
 
         - Deemix:
             icon: deemix.png
-            href: https://deemix.home.adityathebe.com
+            href: https://deemix.${HOMELAB_DOMAIN}
             description: Deezer music downlader
-
-        # - AudioBookShelf:
-        #     icon: audiobookshelf.png
-        #     href: https://audiobookshelf.home.adityathebe.com
-        #     description: Audiobooks & Podcasts
 
     - Monitoring:
         - Grafana:
             icon: grafana.png
-            href: https://grafana.home.adityathebe.com
+            href: https://grafana.${HOMELAB_DOMAIN}
             description: Dashboard
 
         - Prometheus:
             icon: prometheus.png
-            href: https://prometheus.home.adityathebe.com
+            href: https://prometheus.${HOMELAB_DOMAIN}
             description: Prometheus
             widget:
               type: prometheus
@@ -62,12 +57,12 @@ data:
 
         - Alert Manager:
             icon: alertmanager.png
-            href: https://alertmanager.home.adityathebe.com
+            href: https://alertmanager.${HOMELAB_DOMAIN}
             description: Alert Manager
 
         - Speed Tracker:
             icon: speedtest-tracker.png
-            href: https://speedtest.home.adityathebe.com
+            href: https://speedtest.${HOMELAB_DOMAIN}
             description: Speedtest
             widget:
               type: speedtest
@@ -75,7 +70,7 @@ data:
 
         # - Uptime Kuma:
         #     icon: uptime-kuma.png
-        #     href: https://uptime.home.adityathebe.com/status/overview
+        #     href: https://uptime.${HOMELAB_DOMAIN}/status/overview
         #     description: Uptime tracker
         #     widget:
         #       type: uptimekuma
@@ -85,128 +80,128 @@ data:
     - Photos:
         - Immich:
             icon: immich.png
-            href: https://photos.home.adityathebe.com
+            href: https://photos.${HOMELAB_DOMAIN}
             description: Photo Management
             namespace: immich
             app: server
             widget:
               type: immich
-              url: https://photos.home.adityathebe.com
+              url: https://photos.${HOMELAB_DOMAIN}
               key: {{HOMEPAGE_VAR_IMMICH_KEY}}
 
     - Applications:
         - Actual:
             icon: actual.png
-            href: https://actual.home.adityathebe.com
+            href: https://actual.${HOMELAB_DOMAIN}
             description: Budget
 
         - IT Tools:
             icon: it-tools.png
-            href: https://ittools.home.adityathebe.com
+            href: https://ittools.${HOMELAB_DOMAIN}
             description: Swiss army knife for IT
 
         - Vikunja:
             icon: vikunja.png
-            href: https://vikunja.home.adityathebe.com
+            href: https://vikunja.${HOMELAB_DOMAIN}
             description: Todo app
 
         - FileBrowser:
             icon: filebrowser.png
-            href: https://files.home.adityathebe.com
+            href: https://files.${HOMELAB_DOMAIN}
             description: File Browser
 
         - Paperless:
             icon: paperless.png
-            href: https://paperless.home.adityathebe.com
+            href: https://paperless.${HOMELAB_DOMAIN}
             description: Documents management
 
         - RSS:
             icon: freshrss.png
-            href: https://rss.home.adityathebe.com
+            href: https://rss.${HOMELAB_DOMAIN}
             widget:
               type: freshrss
-              url: https://rss.home.adityathebe.com
+              url: https://rss.${HOMELAB_DOMAIN}
               username: adityathebe
               password: {{HOMEPAGE_VAR_FRESH_RSS_PASSWORD}}
 
         # - Mealia:
         #     icon: mealie.png
-        #     href: https://mealie.home.adityathebe.com
+        #     href: https://mealie.${HOMELAB_DOMAIN}
         #     description: Mealie
         #     widget:
         #       type: mealie
-        #       url: https://mealie.home.adityathebe.com
+        #       url: https://mealie.${HOMELAB_DOMAIN}
         #       key: {{HOMEPAGE_VAR_MEALIE_KEY}}
 
         - Silver Bullet:
             icon: https://silverbullet.md/.client/logo.png
-            href: https://notes.home.adityathebe.com
+            href: https://notes.${HOMELAB_DOMAIN}
             description: Note taking app
 
     - Management:
         - Proxmox:
             icon: proxmox.png
-            href: https://pve.home.adityathebe.com:8006
-            ping: https://pve.home.adityathebe.com:8006
+            href: https://pve.${HOMELAB_DOMAIN}:8006
+            ping: https://pve.${HOMELAB_DOMAIN}:8006
             description: Proxmox
             widget:
               username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
               password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
               type: proxmox
-              url: https://pve.home.adityathebe.com:8006
+              url: https://pve.${HOMELAB_DOMAIN}:8006
               node: pve
 
         - Truenas:
             icon: truenas.png
-            href: https://nas.home.adityathebe.com
-            ping: https://nas.home.adityathebe.com
+            href: https://nas.${HOMELAB_DOMAIN}
+            ping: https://nas.${HOMELAB_DOMAIN}
             description: TrueNAS Scale
             widget:
               type: truenas
               key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
-              url: https://nas.home.adityathebe.com
+              url: https://nas.${HOMELAB_DOMAIN}
 
         - Portainer:
             icon: portainer.png
-            href: https://portainer.home.adityathebe.com/
-            ping: https://portainer.home.adityathebe.com/
+            href: https://portainer.${HOMELAB_DOMAIN}/
+            ping: https://portainer.${HOMELAB_DOMAIN}/
             description: Portainer
             widget:
               type: portainer
-              url: https://portainer.home.adityathebe.com
+              url: https://portainer.${HOMELAB_DOMAIN}
               env: 2
               key: {{HOMEPAGE_VAR_PORTAINER_KEY}}
 
         - Adguard:
             icon: adguard-home.png
-            href: https://adguard.home.adityathebe.com/
-            ping: https://adguard.home.adityathebe.com/
+            href: https://adguard.${HOMELAB_DOMAIN}/
+            ping: https://adguard.${HOMELAB_DOMAIN}/
             description: DNS
             widget:
               type: adguard
-              url: https://adguard.home.adityathebe.com
+              url: https://adguard.${HOMELAB_DOMAIN}
               username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
               password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
 
         - PGAdmin:
             icon: pgadmin.png
-            href: https://pgadmin.home.adityathebe.com
+            href: https://pgadmin.${HOMELAB_DOMAIN}
             description: Postgres management
 
         - NPM:
             icon: nginx-proxy-manager.png
-            href: https://npm.home.adityathebe.com
+            href: https://npm.${HOMELAB_DOMAIN}
             description: NGINX Proxy Manager
             widget:
               type: npm
-              url: https://npm.home.adityathebe.com
+              url: https://npm.${HOMELAB_DOMAIN}
               username: {{HOMEPAGE_VAR_NPM_USERNAME}}
               password: {{HOMEPAGE_VAR_NPM_PASSWORD}}
 
     - Media:
         - Jellyfin:
             icon: jellyfin.png
-            href: https://jellyfin.home.adityathebe.com
+            href: https://jellyfin.${HOMELAB_DOMAIN}
             description: Media System
             namespace: media
             app: jellyfin
@@ -217,7 +212,7 @@ data:
 
         - Jellyseerr:
             icon: jellyseerr.png
-            href: https://jellyseerr.home.adityathebe.com
+            href: https://jellyseerr.${HOMELAB_DOMAIN}
             description: Request Managment
             namespace: media
             app: jellyseerr
@@ -228,7 +223,7 @@ data:
 
         - Sonarr:
             icon: sonarr.png
-            href: https://sonarr.home.adityathebe.com
+            href: https://sonarr.${HOMELAB_DOMAIN}
             description: TV Show
             widget:
               type: sonarr
@@ -237,7 +232,7 @@ data:
 
         - Radarr:
             icon: radarr.png
-            href: https://radarr.home.adityathebe.com
+            href: https://radarr.${HOMELAB_DOMAIN}
             description: Movies
             widget:
               type: radarr
@@ -246,7 +241,7 @@ data:
 
         - Prowlarr:
             icon: prowlarr.png
-            href: https://prowlarr.home.adityathebe.com
+            href: https://prowlarr.${HOMELAB_DOMAIN}
             description: Torrent indexer
             widget:
               type: prowlarr
@@ -255,7 +250,7 @@ data:
 
         - Bazarr:
             icon: bazarr.png
-            href: https://bazarr.home.adityathebe.com
+            href: https://bazarr.${HOMELAB_DOMAIN}
             description: Subtitles
             namespace: media
             app: bazarr
@@ -266,7 +261,7 @@ data:
 
         - Transmission:
             icon: transmission.png
-            href: https://transmission.home.adityathebe.com
+            href: https://transmission.${HOMELAB_DOMAIN}
             description: Torrent Client
             namespace: media
             app: transmission
@@ -276,14 +271,14 @@ data:
 
         - Movary:
             icon: https://raw.githubusercontent.com/leepeuker/movary/main/public/images/movary-logo-192x192.png
-            href: https://movary.home.adityathebe.com
+            href: https://movary.${HOMELAB_DOMAIN}
             description: Movies Watched Logs
             namespace: media
             app: movary
 
         # - Invidious:
         #     icon: invidious.png
-        #     href: https://youtube.home.adityathebe.com
+        #     href: https://youtube.${HOMELAB_DOMAIN}
         #     description: Youtube frontend
 
   settings.yaml: |
