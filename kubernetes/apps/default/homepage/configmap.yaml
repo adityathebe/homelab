@@ -73,19 +73,14 @@ data:
               type: speedtest
               url: http://speedtest-tracker.monitoring.svc
 
-        - Uptime Kuma:
-            icon: uptime-kuma.png
-            href: https://uptime.home.adityathebe.com/status/overview
-            description: Uptime tracker
-            widget:
-              type: uptimekuma
-              url: http://uptime-kuma.monitoring.svc:3001
-              slug: overview
-
-        # - Goldilocks:
-        #     icon: https://artifacthub.io/image/7ded8503-62b0-4f01-8e5d-4b1231129691@1x
-        #     href: https://goldilocks.home.adityathebe.com
-        #     description: Manage kubernetes resources
+        # - Uptime Kuma:
+        #     icon: uptime-kuma.png
+        #     href: https://uptime.home.adityathebe.com/status/overview
+        #     description: Uptime tracker
+        #     widget:
+        #       type: uptimekuma
+        #       url: http://uptime-kuma.monitoring.svc:3001
+        #       slug: overview
 
     - Photos:
         - Immich:
