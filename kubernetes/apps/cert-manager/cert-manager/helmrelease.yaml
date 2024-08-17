@@ -32,15 +32,15 @@ spec:
       enabled: true
 
     extraArgs:
-      - --dns01-recursive-nameservers=202.94.66.2:53,202.94.66.3:53
-      - --dns01-recursive-nameservers-only
+      # - --dns01-recursive-nameservers=202.94.66.2:53,202.94.66.3:53
+      # - --dns01-recursive-nameservers-only
       - --enable-certificate-owner-ref
 
-    podDnsPolicy: 'None'
-    podDnsConfig:
-      nameservers:
-        - '202.94.66.2' # Classictech DNS 01
-        - '202.94.66.3'
+    # podDnsPolicy: 'None'
+    # podDnsConfig:
+    #   nameservers:
+    #     - '202.94.66.2' # Classictech DNS 01
+    #     - '202.94.66.3'
 
     prometheus:
       enabled: true
