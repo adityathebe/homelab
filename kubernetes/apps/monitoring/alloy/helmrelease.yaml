@@ -42,6 +42,8 @@ spec:
           value: https://logs-prod-028.grafana.net/loki/api/v1/push
         - name: GRAFANA_CLOUD_HOSTED_LOGS_USER
           value: '960448'
+        - name: LOCAL_LOKI_URL
+          value: https://loki.${HOMELAB_DOMAIN}/loki/api/v1/push
       configMap:
         content: |
           discovery.kubernetes "pods" {
@@ -71,6 +73,15 @@ spec:
           loki.source.kubernetes "pods" {
             targets    = discovery.relabel.add_metadata.output
             forward_to = [loki.write.grafana_cloud.receiver]
+          }
+
+          loki.write "local_loki" {
+            external_labels = {
+              "cluster" = env("CLUSTER_ID"),
+            }
+            endpoint {
+              url = env("LOCAL_LOKI_URL")
+            }
           }
 
           loki.write "grafana_cloud" {
