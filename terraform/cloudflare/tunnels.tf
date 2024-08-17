@@ -10,11 +10,19 @@ resource "cloudflare_tunnel_config" "homelab" {
 
   config {
     ingress_rule {
-      hostname = "jellyfin.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+      hostname = "movies.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       path     = ""
       service  = "http://10.99.99.25"
       origin_request {
-        http_host_header = "jellyfin.home.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+        http_host_header = "jellyfin.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
+      }
+    }
+    ingress_rule {
+      hostname = "movie-request.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
+      path     = ""
+      service  = "http://10.99.99.25"
+      origin_request {
+        http_host_header = "jellyseerr.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       }
     }
     ingress_rule {
@@ -22,15 +30,15 @@ resource "cloudflare_tunnel_config" "homelab" {
       path     = ""
       service  = "http://10.99.99.25"
       origin_request {
-        http_host_header = "movary.home.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+        http_host_header = "movary.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       }
     }
     ingress_rule {
-      hostname = "freshrss.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+      hostname = "rss.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       path     = ""
       service  = "http://10.99.99.25"
       origin_request {
-        http_host_header = "rss.home.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+        http_host_header = "rss.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       }
     }
     ingress_rule {
@@ -38,15 +46,15 @@ resource "cloudflare_tunnel_config" "homelab" {
       path     = ""
       service  = "http://10.99.99.25"
       origin_request {
-        http_host_header = "navidrome.home.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+        http_host_header = "navidrome.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       }
     }
     ingress_rule {
-      hostname = "vikunja.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+      hostname = "vikunja.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       path     = ""
       service  = "http://10.99.99.25"
       origin_request {
-        http_host_header = "vikunja.home.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+        http_host_header = "vikunja.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       }
     }
     ingress_rule {
@@ -56,47 +64,50 @@ resource "cloudflare_tunnel_config" "homelab" {
   }
 }
 
-resource "cloudflare_record" "homelab_jellyfin" {
-  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "jellyfin"
-  allow_overwrite = true
-  content         = cloudflare_tunnel.homelab.cname
-  type            = "CNAME"
-  proxied         = true
+resource "cloudflare_record" "homelab_movies" {
+  zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
+  name    = "movies"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
+}
+
+resource "cloudflare_record" "homelab_jellyseerr" {
+  zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
+  name    = "movie-request"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
 }
 
 resource "cloudflare_record" "homelab_movary" {
-  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "movies"
-  allow_overwrite = true
-  content         = cloudflare_tunnel.homelab.cname
-  type            = "CNAME"
-  proxied         = true
+  zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  name    = "movies"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
 }
 
 resource "cloudflare_record" "homelab_fresh_rss" {
-  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "freshrss"
-  allow_overwrite = true
-  content         = cloudflare_tunnel.homelab.cname
-  type            = "CNAME"
-  proxied         = true
+  zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
+  name    = "rss"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
 }
 
 resource "cloudflare_record" "homelab_navidrome" {
-  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "music"
-  allow_overwrite = true
-  content         = cloudflare_tunnel.homelab.cname
-  type            = "CNAME"
-  proxied         = true
+  zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  name    = "music"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
 }
 
 resource "cloudflare_record" "homelab_vikunja" {
-  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "vikunja"
-  allow_overwrite = true
-  content         = cloudflare_tunnel.homelab.cname
-  type            = "CNAME"
-  proxied         = true
+  zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
+  name    = "vikunja"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
 }
