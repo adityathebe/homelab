@@ -13,5 +13,4 @@ resources:
   - pgadmin.yaml
   - silverbullet.yaml
   - vikunja.yaml
-  # - chatbot-ui.yaml
   # - mealie.yaml

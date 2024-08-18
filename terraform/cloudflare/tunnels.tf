@@ -10,6 +10,14 @@ resource "cloudflare_tunnel_config" "homelab" {
 
   config {
     ingress_rule {
+      hostname = "${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
+      path     = ""
+      service  = "http://10.99.99.25"
+      origin_request {
+        http_host_header = "${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
+      }
+    }
+    ingress_rule {
       hostname = "movies.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       path     = ""
       service  = "http://10.99.99.25"
@@ -70,6 +78,14 @@ resource "cloudflare_tunnel_config" "homelab" {
       service  = "http_status:503"
     }
   }
+}
+
+resource "cloudflare_record" "homelab_root" {
+  zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
+  name    = "@"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
 }
 
 resource "cloudflare_record" "homelab_movies" {
