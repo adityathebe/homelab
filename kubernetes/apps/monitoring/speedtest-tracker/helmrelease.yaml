@@ -28,7 +28,13 @@ spec:
                   name: speedtest-tracker
             env:
               - name: DISPLAY_TIMEZONE
-                value: "${TZ}"
+                value: '${TZ}'
+              - name: SPEEDTEST_SCHEDULE
+                value: '0/2 * * * *'
+              - name: PRUNE_RESULTS_OLDER_THAN
+                value: '90'
+              - name: PUBLIC_DASHBOARD
+                value: 'true'
             resources:
               requests:
                 cpu: 50m
