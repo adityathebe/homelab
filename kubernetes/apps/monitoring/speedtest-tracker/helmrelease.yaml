@@ -30,7 +30,7 @@ spec:
               - name: DISPLAY_TIMEZONE
                 value: '${TZ}'
               - name: SPEEDTEST_SCHEDULE
-                value: '0/2 * * * *'
+                value: '0 */4 * * *'
               - name: PRUNE_RESULTS_OLDER_THAN
                 value: '90'
               - name: PUBLIC_DASHBOARD
@@ -59,18 +59,3 @@ spec:
                 service:
                   identifier: main
                   port: http
-
-    persistence:
-      config:
-        enabled: true
-        type: persistentVolumeClaim
-        existingClaim: speedtest-pvc
-        globalMounts:
-          - path: /config
-
-      web:
-        enabled: true
-        type: persistentVolumeClaim
-        existingClaim: speedtest-web-pvc
-        globalMounts:
-          - path: /etc/ssl/web
