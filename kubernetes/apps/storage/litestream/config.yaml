@@ -9,7 +9,14 @@ data:
     ---
     logging:
       level: warn
-    dbs: 
+    dbs:
+      - path: /data/navidrome/navidrome.db
+        replicas:
+          - type: s3
+            bucket: backups
+            path: navidrome
+            endpoint: https://s3.${HOMELAB_DOMAIN}
+            force-path-style: true
       - path: /data/jellyfin/config/data/jellyfin.db
         replicas:
           - type: s3
@@ -43,13 +50,6 @@ data:
           - type: s3
             bucket: backups
             path: uptimekuma
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
-      - path: /data/silverbullet/silverbullet.db
-        replicas:
-          - type: s3
-            bucket: backups
-            path: silverbullet
             endpoint: https://s3.${HOMELAB_DOMAIN}
             force-path-style: true
       - path: /data/sonarr/sonarr.db
