@@ -8,3 +8,6 @@ creation_rules:
 
   - path_regex: restic/.*\.sops\.ya?ml
     unencrypted_regex: '^(kind)$'
+
+  - path_regex: ansible/.*\.sops\.ya?ml
+    unencrypted_regex: '^(kind)$'
