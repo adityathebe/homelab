@@ -1,15 +1,3 @@
 {
-  "ansible.python.interpreterPath": "/usr/bin/python3",
-  "cSpell.words": [
-    "adityathebe",
-    "appdata",
-    "appname",
-    "audiobookshelf",
-    "fluxcd",
-    "kustomization",
-    "kustomize",
-    "onedr",
-    "readarr",
-    "subdir"
-  ]
+  "ansible.python.interpreterPath": "/usr/bin/python3"
 }

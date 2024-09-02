@@ -8,6 +8,5 @@ resources:
   - ./jellyfin.yaml
   - ./jellyseerr.yaml
   - ./movary.yaml
-  # - ./readarr.yaml
   - ./transmission.yaml
   - ./volumes.yaml
