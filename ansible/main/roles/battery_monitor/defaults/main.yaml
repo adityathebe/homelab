@@ -1,0 +1,4 @@
+---
+script_path: /root/battery_monitor.sh
+cron_schedule: "*/5 * * * *"
+battery_threshold: 10

@@ -1,0 +1,18 @@
+---
+- name: Ensure acpi is installed
+  apt:
+    name: acpi
+    state: present
+    update_cache: yes
+
+- name: Create battery monitor script
+  template:
+    src: battery_monitor.sh.j2
+    dest: "{{ script_path }}"
+    mode: '0755'
+
+- name: Set up cron job for battery monitoring
+  cron:
+    name: "Check battery level"
+    job: "{{ script_path }}"
+    minute: "*/5"
