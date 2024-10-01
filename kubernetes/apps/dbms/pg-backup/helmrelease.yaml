@@ -39,7 +39,7 @@ spec:
           main:
             image:
               repository: docker.io/prodrigestivill/postgres-backup-local
-              tag: 16@sha256:f873bbfb406db633ab879628b11ef8092279639c467a2ea5f5bfa08b776252fb
+              tag: 17@sha256:8d74e85ac86825950bd9fa0f84ea8f5db55ba94c3dd238e9045e2d9a922bcfcc
             command: ['/backup.sh']
             envFrom:
               - secretRef:
