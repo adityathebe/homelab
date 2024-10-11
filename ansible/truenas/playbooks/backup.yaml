@@ -8,6 +8,7 @@
   vars:
     restic_version: 0.16.3
     restic_path: /usr/local/bin/restic
+    rclone_version: "1.67.0"
 
   pre_tasks:
     - name: Download restic
@@ -33,10 +34,13 @@
       vars:
         restic_user: root
         restic_folders:
-          - { path: '/mnt/mega/aditya' }
+          - {
+              path: '/mnt/mega/aditya',
+              exclude: '--exclude-file=/mnt/mega/aditya/.resticignore'
+            }
           - {
               path: '/mnt/mega/photos',
-              exclude: '--exclude="/mnt/mega/photos/immich/thumbs" --exclude="/mnt/mega/photos/immich/encoded-video"',
+              exclude: '--exclude-file=/mnt/mega/photos/.resticignore'
             }
         restic_default_folders: [] # don't backup the default folders
         restic_ssh_enabled: false
