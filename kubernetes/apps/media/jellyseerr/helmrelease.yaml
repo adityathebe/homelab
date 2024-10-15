@@ -35,7 +35,7 @@ spec:
           jellyseerr:
             image:
               repository: docker.io/fallenbagel/jellyseerr
-              tag: 1.9.2
+              tag: 2.0.0
             env:
               TZ: Asia/Kathmandu
               LOG_LEVEL: 'info'
