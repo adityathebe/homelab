@@ -8,7 +8,7 @@
   vars:
     restic_version: 0.16.3
     restic_path: /usr/local/bin/restic
-    rclone_version: "1.67.0"
+    rclone_version: '1.67.0'
 
   pre_tasks:
     - name: Download restic
@@ -36,12 +36,13 @@
         restic_folders:
           - {
               path: '/mnt/mega/aditya',
-              exclude: '--exclude-file=/mnt/mega/aditya/.resticignore'
+              exclude: '--exclude-file=/mnt/mega/aditya/.resticignore',
             }
           - {
               path: '/mnt/mega/photos',
-              exclude: '--exclude-file=/mnt/mega/photos/.resticignore'
+              exclude: '--exclude-file=/mnt/mega/photos/.resticignore',
             }
+          - { path: '/mnt/mega/kubernetes/pg-backup' }
         restic_default_folders: [] # don't backup the default folders
         restic_ssh_enabled: false
         restic_repository: /home/admin/seagate/backups
