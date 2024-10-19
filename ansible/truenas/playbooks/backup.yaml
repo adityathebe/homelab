@@ -53,23 +53,22 @@
     - name: Install and configure rclone
       role: ansible-rclone
 
+    - name: Setup systemd timers for rclone backup to Backblaze
+      role: ansible-systemd-timers
+      vars:
+        timers:
+          rclone-arch-backup:
+            timer_command: rclone sync /home/admin/backups/arch b2:{{ b2_arch_backup }} -v --progress
+            timer_OnCalendar: 'OnCalendar=*-*-1/2 04:00:00'
+            timer_user: 'root'
+          rclone-nas-backup:
+            timer_command: rclone sync /home/admin/seagate/backups b2:{{ b2_nas_backup }} -v --progress
+            timer_OnCalendar: 'OnCalendar=*-*-1/2 04:30:00'
+            timer_user: 'root'
+
   tasks:
     - name: Setup NAS ssh
       ansible.posix.authorized_key:
         user: admin
         state: present
         key: '../files/proxmox-player.pub'
-    - name: Sync arch backups to b2 on Tuesday & Friday
-      ansible.builtin.cron:
-        name: 'sync arch backups to b2'
-        minute: '0'
-        hour: '1'
-        weekday: '2,5'
-        job: 'rclone sync /home/admin/backups/arch b2:{{ b2_arch_backup }}'
-    - name: Sync nas backups from external HDD to b2 on Wednesday & Saturday
-      ansible.builtin.cron:
-        name: 'sync nas backups to b2'
-        minute: '0'
-        hour: '1'
-        weekday: '3,6'
-        job: 'rclone sync /home/admin/seagate/backups b2:{{ b2_nas_backup }}'

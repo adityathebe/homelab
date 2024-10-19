@@ -12,6 +12,7 @@ ansible/main/roles/ansible-systemd-timers
 ansible/truenas/roles/ansible-restic
 ansible/truenas/roles/ansible-rclone
 ansible/truenas/roles/geerlingguy.node_exporter
+ansible/truenas/roles/ansible-systemd-timers
 
 # Terraform
 .terraform
