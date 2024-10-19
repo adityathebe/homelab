@@ -93,6 +93,12 @@ spec:
         globalMounts:
           - path: /movies
 
+      shows:
+        enabled: true
+        existingClaim: shows-pvc
+        globalMounts:
+          - path: /shows
+
       scripts:
         enabled: true
         type: configMap
