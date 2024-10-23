@@ -6,3 +6,5 @@ resources:
   - namespaces
   - helmrepositories
   - kustomizations
+  - mission-control-helm-repo.yaml
+  - mission-control-helm-release.yaml
