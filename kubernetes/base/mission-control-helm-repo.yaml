@@ -1,0 +1,7 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: flanksource
+  namespace: music
+spec:
+  url: https://flanksource.github.io/charts

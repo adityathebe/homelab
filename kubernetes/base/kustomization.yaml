@@ -6,3 +6,5 @@ resources:
   - namespaces
   - helmrepositories
   - kustomizations
+  - kubernetes/base/mission-control-helm-repo.yaml
+  - kubernetes/base/mission-control-helm-release.yaml
