@@ -13,4 +13,4 @@ resources:
   - pgadmin.yaml
   - silverbullet.yaml
   - vikunja.yaml
-  # - mealie.yaml
+  - radicale.yaml

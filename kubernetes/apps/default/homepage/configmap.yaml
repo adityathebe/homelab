@@ -134,6 +134,10 @@ data:
         #       url: https://mealie.${HOMELAB_DOMAIN}
         #       key: {{HOMEPAGE_VAR_MEALIE_KEY}}
 
+        - Radicale:
+            icon: radicale.png
+            href: https://radicale.${HOMELAB_DOMAIN}
+
         - Silver Bullet:
             icon: https://silverbullet.md/.client/logo.png
             href: https://notes.${HOMELAB_DOMAIN}
