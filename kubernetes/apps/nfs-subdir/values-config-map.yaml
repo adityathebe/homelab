@@ -7,9 +7,9 @@ metadata:
 data:
   values.yaml: |
     nfs:
-      server: portainer.${HOMELAB_DOMAIN}
+      server: portainer.home.adityathebe.com
       path: /mnt/hdd/kubernetes
-      mountOptions: 
+      mountOptions:
         - nfsvers=4.0
         - hard
 
@@ -29,9 +29,9 @@ metadata:
 data:
   values.yaml: |
     nfs:
-      server: portainer.${HOMELAB_DOMAIN}
+      server: portainer.home.adityathebe.com
       path: /mnt/hdd/media
-      mountOptions: 
+      mountOptions:
         - nfsvers=4.0
         - hard
 
@@ -51,9 +51,9 @@ metadata:
 data:
   values.yaml: |
     nfs:
-      server: nas.${HOMELAB_DOMAIN}
+      server: nas.home.adityathebe.com
       path: /mnt/mega/photos
-      mountOptions: 
+      mountOptions:
         - nfsvers=4.0
         - hard
 
