@@ -15,103 +15,110 @@ data:
           - type: s3
             bucket: backups
             path: navidrome
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/jellyfin/config/data/jellyfin.db
         replicas:
           - type: s3
             bucket: backups
             path: jellyfin
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/jellyfin/config/data/library.db
         replicas:
           - type: s3
             bucket: backups
             path: jellyfin-library
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/jellyseerr/db/db.sqlite3
         replicas:
           - type: s3
             bucket: backups
             path: jellyseerr
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/movary/movary.sqlite
         replicas:
           - type: s3
             bucket: backups
             path: movary
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
-      - path: /data/uptimekuma/kuma.db
-        replicas:
-          - type: s3
-            bucket: backups
-            path: uptimekuma
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/sonarr/sonarr.db
         replicas:
           - type: s3
             bucket: backups
             path: sonarr
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/sonarr/logs.db
         replicas:
           - type: s3
             bucket: backups
             path: sonarr-logs
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/prowlarr/prowlarr.db
         replicas:
           - type: s3
             bucket: backups
             path: prowlarr
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/radarr/radarr.db
         replicas:
           - type: s3
             bucket: backups
             path: radarr
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/radarr/logs.db
         replicas:
           - type: s3
             bucket: backups
             path: radarr-logs
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/actual/user-files/group-0bc2a5f2-171d-416f-bdf3-01da9e067b01.sqlite
         replicas:
           - type: s3
             bucket: backups
             path: actual/user-files/group-0bc2a5f2-171d-416f-bdf3-01da9e067b01.sqlite
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/actual/user-files/group-c8837bf4-1671-4456-b561-c6111bf59866.sqlite
         replicas:
           - type: s3
             bucket: backups
             path: actual/user-files/group-c8837bf4-1671-4456-b561-c6111bf59866.sqlite
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/actual/user-files/group-d295aa05-c899-4cda-96a6-be877cfb00df.sqlite
         replicas:
           - type: s3
             bucket: backups
             path: actual/user-files/group-d295aa05-c899-4cda-96a6-be877cfb00df.sqlite
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}
       - path: /data/actual/server-files/account.sqlite
         replicas:
           - type: s3
             bucket: backups
             path: actual/account.sqlite
-            endpoint: https://s3.${HOMELAB_DOMAIN}
-            force-path-style: true
+            endpoint: ${R2_BACKUP_ENDPOINT}
+            access-key-id: ${R2_ACCESS_KEY_ID}
+            secret-access-key: ${R2_SECRET_ACCESS_KEY}

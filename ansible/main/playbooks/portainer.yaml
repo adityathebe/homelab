@@ -86,7 +86,3 @@
             timer_command: rsync -avhP --no-times /mnt/hdd/kubernetes/pg-backup truenas:/mnt/mega/kubernetes
             timer_OnCalendar: '*-*-* 03:00:00'
             timer_user: '{{ user_name }}'
-          minio-backup:
-            timer_command: rsync -avhP --no-times /mnt/hdd/kubernetes/minio truenas:/mnt/mega/kubernetes
-            timer_OnCalendar: '*-*-* 04:00:00'
-            timer_user: '{{ user_name }}'
