@@ -7,4 +7,3 @@ resources:
   - grafana.yaml
   - kube-prometheus-stack.yaml
   - speedtest-tracker.yaml
-  # - uptime-kuma.yaml

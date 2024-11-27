@@ -68,15 +68,6 @@ data:
               type: speedtest
               url: http://speedtest-tracker.monitoring.svc
 
-        # - Uptime Kuma:
-        #     icon: uptime-kuma.png
-        #     href: https://uptime.${HOMELAB_DOMAIN}/status/overview
-        #     description: Uptime tracker
-        #     widget:
-        #       type: uptimekuma
-        #       url: http://uptime-kuma.monitoring.svc:3001
-        #       slug: overview
-
     - Photos:
         - Immich:
             icon: immich.png
