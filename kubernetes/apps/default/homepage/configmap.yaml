@@ -92,6 +92,11 @@ data:
             href: https://ittools.${HOMELAB_DOMAIN}
             description: Swiss army knife for IT
 
+        - LubeLogger:
+            icon: lubelogger.png
+            href: https://vehicle.${HOMELAB_DOMAIN}
+            description: Vehicle maintenance log
+
         - Vikunja:
             icon: vikunja.png
             href: https://vikunja.${HOMELAB_DOMAIN}
