@@ -9,8 +9,9 @@ resources:
   - fresh-rss.yaml
   - homepage.yaml
   - ittools.yaml
+  - lubelogger.yaml
   - paperless.yaml
   - pgadmin.yaml
+  - radicale.yaml
   - silverbullet.yaml
   - vikunja.yaml
-  - radicale.yaml
