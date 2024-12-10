@@ -74,6 +74,14 @@ resource "cloudflare_tunnel_config" "homelab" {
       }
     }
     ingress_rule {
+      hostname = "vehicle.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
+      path     = ""
+      service  = "http://10.99.99.25"
+      origin_request {
+        http_host_header = "vehicle.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
+      }
+    }
+    ingress_rule {
       hostname = "*"
       service  = "http_status:503"
     }
@@ -139,6 +147,14 @@ resource "cloudflare_record" "homelab_navidrome" {
 resource "cloudflare_record" "homelab_vikunja" {
   zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
   name    = "vikunja"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
+}
+
+resource "cloudflare_record" "homelab_vehicle" {
+  zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
+  name    = "vehicle"
   content = cloudflare_tunnel.homelab.cname
   type    = "CNAME"
   proxied = true
