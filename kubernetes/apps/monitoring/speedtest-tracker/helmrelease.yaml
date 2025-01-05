@@ -22,7 +22,7 @@ spec:
           speedtest-tracker:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
-              tag: 0.22.0
+              tag: 1.0.3
             envFrom:
               - secretRef:
                   name: speedtest-tracker
