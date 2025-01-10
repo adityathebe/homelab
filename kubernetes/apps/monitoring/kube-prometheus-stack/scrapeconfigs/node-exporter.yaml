@@ -9,7 +9,6 @@ spec:
   scrapeInterval: 10s
   staticConfigs:
     - targets:
-        - nas.${HOMELAB_DOMAIN}:9100
         - portainer.${HOMELAB_DOMAIN}:9100
         - pve.${HOMELAB_DOMAIN}:9100
   metricsPath: /metrics
