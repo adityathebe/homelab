@@ -83,7 +83,7 @@ data:
 
     - Applications:
         - Actual:
-            icon: actual.png
+            icon: actual-budget.png
             href: https://actual.${HOMELAB_DOMAIN}
             description: Budget
 
