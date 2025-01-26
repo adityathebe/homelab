@@ -68,19 +68,6 @@ data:
               type: speedtest
               url: http://speedtest-tracker.monitoring.svc
 
-    - Photos:
-        - Immich:
-            icon: immich.png
-            href: https://photos.${HOMELAB_DOMAIN}
-            description: Photo Management
-            namespace: immich
-            app: server
-            widget:
-              type: immich
-              url: https://photos.${HOMELAB_DOMAIN}
-              key: {{HOMEPAGE_VAR_IMMICH_KEY}}
-              version: 2
-
     - Applications:
         - Actual:
             icon: actual-budget.png
@@ -121,15 +108,6 @@ data:
               username: adityathebe
               password: {{HOMEPAGE_VAR_FRESH_RSS_PASSWORD}}
 
-        # - Mealia:
-        #     icon: mealie.png
-        #     href: https://mealie.${HOMELAB_DOMAIN}
-        #     description: Mealie
-        #     widget:
-        #       type: mealie
-        #       url: https://mealie.${HOMELAB_DOMAIN}
-        #       key: {{HOMEPAGE_VAR_MEALIE_KEY}}
-
         - Radicale:
             icon: radicale.png
             href: https://radicale.${HOMELAB_DOMAIN}
@@ -138,6 +116,18 @@ data:
             icon: https://silverbullet.md/.client/logo.png
             href: https://notes.${HOMELAB_DOMAIN}
             description: Note taking app
+
+        - Immich:
+            icon: immich.png
+            href: https://photos.${HOMELAB_DOMAIN}
+            description: Photo Management
+            namespace: immich
+            app: server
+            widget:
+              type: immich
+              url: https://photos.${HOMELAB_DOMAIN}
+              key: {{HOMEPAGE_VAR_IMMICH_KEY}}
+              version: 2
 
     - Management:
         - Proxmox:
@@ -272,11 +262,6 @@ data:
             namespace: media
             app: movary
 
-        # - Invidious:
-        #     icon: invidious.png
-        #     href: https://youtube.${HOMELAB_DOMAIN}
-        #     description: Youtube frontend
-
   settings.yaml: |
     ---
     # For configuration options and examples, please see:
@@ -292,14 +277,19 @@ data:
     layout:
       Media:
         style: row
+        columns: 4
+      Music:
+        style: row
         columns: 3
-      Music: {}
-      Photos: {}
-      Applications: {}
-      Monitoring: {}
+      Applications:
+        style: row
+        columns: 5
+      Monitoring:
+        style: row
+        columns: 4
       Management:
         style: row
-        columns: 6
+        columns: 5
 
   widgets.yaml: |
     ---
