@@ -184,11 +184,6 @@ data:
               username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
               password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
 
-        - PGAdmin:
-            icon: pgadmin.png
-            href: https://pgadmin.${HOMELAB_DOMAIN}
-            description: Postgres management
-
         - NPM:
             icon: nginx-proxy-manager.png
             href: https://npm.${HOMELAB_DOMAIN}

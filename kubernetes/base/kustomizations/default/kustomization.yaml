@@ -11,7 +11,6 @@ resources:
   - ittools.yaml
   - lubelogger.yaml
   - paperless.yaml
-  - pgadmin.yaml
   - radicale.yaml
   - silverbullet.yaml
   - vikunja.yaml
