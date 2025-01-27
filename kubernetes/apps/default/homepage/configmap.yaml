@@ -277,16 +277,16 @@ data:
     layout:
       Media:
         style: row
-        columns: 4
+        columns: 5
       Music:
         style: row
-        columns: 3
+        columns: 5
       Applications:
         style: row
         columns: 5
       Monitoring:
         style: row
-        columns: 4
+        columns: 5
       Management:
         style: row
         columns: 5
