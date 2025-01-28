@@ -24,7 +24,7 @@ spec:
           paperless:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.14@sha256:81a73a8d7c4bc014811d452febec81c06e22c55307a9718a0f595bdd043105fc
+              tag: 2.14@sha256:471a276d09a13b6933f4435fa7e57d9236eb255246d9cdd8e81da0d5a873a18a
             env:
               # Configure application
               PAPERLESS_SECRET_KEY:
