@@ -42,7 +42,6 @@
               path: '/mnt/mega/photos',
               exclude: '--exclude-file=/mnt/mega/photos/.resticignore',
             }
-          - { path: '/mnt/mega/kubernetes/pg-backup' }
         restic_default_folders: [] # don't backup the default folders
         restic_ssh_enabled: false
         restic_repository: /home/admin/seagate/backups
