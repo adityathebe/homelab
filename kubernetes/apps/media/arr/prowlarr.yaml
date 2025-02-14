@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: prowlarr
-          image: hotio/prowlarr:release
+          image: hotio/prowlarr:release-1.30.2.4939
           ports:
             - containerPort: 9696
           env:
@@ -50,4 +50,3 @@ spec:
             type: Directory
       nodeSelector:
         kubernetes.io/hostname: saka
-
