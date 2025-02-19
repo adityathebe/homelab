@@ -8,5 +8,6 @@ resources:
   - ./jellyfin.yaml
   - ./jellyseerr.yaml
   - ./movary.yaml
+  - ./qbittorrent.yaml
   - ./transmission.yaml
   - ./volumes.yaml

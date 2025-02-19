@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qbittorrent
+  namespace: media
+  annotations:
+    nfs.io/storage-path: qbittorrent
+spec:
+  storageClassName: appdata
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Mi
