@@ -255,6 +255,13 @@ data:
               type: transmission
               url: http://transmission.media.svc:9091
 
+        - Qbittorrent:
+            icon: qbittorrent.png
+            href: https://qbittorrent.${HOMELAB_DOMAIN}
+            description: Torrent Client
+            namespace: media
+            app: qbittorrent
+
         - Movary:
             icon: https://raw.githubusercontent.com/leepeuker/movary/main/public/images/movary-logo-192x192.png
             href: https://movary.${HOMELAB_DOMAIN}
