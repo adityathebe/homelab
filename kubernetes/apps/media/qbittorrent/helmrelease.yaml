@@ -83,7 +83,6 @@ spec:
         enabled: true
         existingClaim: torrent-pvc
         globalMounts:
-          - path: /media/Downloads/qbittorrent
-            subPath: Downloads/qbittorrent
+          - path: /config/Downloads
       tmp:
         type: emptyDir
