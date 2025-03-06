@@ -9,5 +9,5 @@ resources:
   - ./jellyseerr.yaml
   - ./movary.yaml
   - ./qbittorrent.yaml
-  - ./transmission.yaml
+  # - ./transmission.yaml
   - ./volumes.yaml

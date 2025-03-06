@@ -245,16 +245,6 @@ data:
               url: http://bazarr.media.svc:6767
               key: {{HOMEPAGE_VAR_BAZARR_KEY}}
 
-        - Transmission:
-            icon: transmission.png
-            href: https://transmission.${HOMELAB_DOMAIN}
-            description: Torrent Client
-            namespace: media
-            app: transmission
-            widget:
-              type: transmission
-              url: http://transmission.media.svc:9091
-
         - Qbittorrent:
             icon: qbittorrent.png
             href: https://qbittorrent.${HOMELAB_DOMAIN}
