@@ -25,9 +25,9 @@ bootstrap0:
 # Installs flux
 bootstrap:
 	flux bootstrap github \
-		--private=false \
-  	--repository=homelab \
-  	--personal \
-		--owner=adityathebe \
-		--token-auth \
-  	--path kubernetes/bootstrap
+    --private=false \
+    --repository=homelab \
+    --personal \
+    --owner=adityathebe \
+    --token-auth \
+    --path kubernetes/bootstrap
