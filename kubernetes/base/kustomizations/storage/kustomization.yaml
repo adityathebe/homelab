@@ -4,3 +4,4 @@ buildMetadata: [originAnnotations]
 resources:
   - minio.yaml
   - litestream.yaml
+  - democratic-csi.yaml

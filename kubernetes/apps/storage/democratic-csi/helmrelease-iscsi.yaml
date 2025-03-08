@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &name democratic-csi-iscsi
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: democratic-csi
+      version: 0.14.7
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controller:
+      fullnameOverride: *name
+      enabled: true
+      strategy: node
+    csiDriver:
+      name: org.democratic-csi.iscsi
+      attachRequired: false
+      storageCapacity: true
+      fsGroupPolicy: File
+    storageClasses:
+      - name: iscsi
+        defaultClass: true
+        reclaimPolicy: Delete
+        volumeBindingMode: WaitForFirstConsumer
+        allowVolumeExpansion: true
+        parameters:
+          fsType: ext4
+    driver:
+      config:
+        driver: iscsi
+        instance_id: iscsi-cluster-1
+        iscsi:
+          targetPortal: "10.99.99.5:3260"  # Replace with your iSCSI target IP:port
+          targetIqn: "iqn.2025-03.com.charali"
+          chapUser: ""  # Add if using CHAP authentication
+          chapSecret: "" # Add if using CHAP authentication
+    node:
+      driver:
+        image: democraticcsi/democratic-csi:v1.9.3
+        extraVolumeMounts: []
+      extraVolumes: []
+      # You may need to install open-iscsi on the nodes
+      # Add this section if you need to modify node configurations
+      # initContainers:
+      #   - name: install-iscsi
+      #     image: alpine:3.15
+      #     command: ["/bin/sh", "-c"]
+      #     args:
+      #       - |
+      #         apk add --no-cache open-iscsi
+      #         exit 0
+      #     securityContext:
+      #       privileged: true
+    csiProxy:
+      image: ghcr.io/democratic-csi/csi-grpc-proxy:v0.5.6

@@ -4,6 +4,7 @@ buildMetadata: [originAnnotations]
 resources:
   - ./bjw-s.yaml
   - ./cert-manager.yaml
+  - ./democratic-csi.yaml
   - ./fairwinds.yaml
   - ./grafana.yaml
   - ./immich.yaml
