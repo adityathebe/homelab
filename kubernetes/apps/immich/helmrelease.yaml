@@ -65,6 +65,8 @@ spec:
 
     redis:
       enabled: true
+      global:
+        storageClass: local-hostpath
 
     server:
       resources:

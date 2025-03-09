@@ -142,14 +142,11 @@ spec:
 
         storageSpec:
           volumeClaimTemplate:
-            metadata:
-              annotations:
-                nfs.io/storage-path: prometheus
             spec:
-              storageClassName: appdata
+              storageClassName: local-hostpath
               resources:
                 requests:
-                  storage: 20Gi
+                  storage: 12Gi
 
         resources:
           requests:
