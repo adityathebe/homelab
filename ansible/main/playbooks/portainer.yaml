@@ -83,6 +83,6 @@
             timer_OnCalendar: '*-*-* 02:00:00'
             timer_user: '{{ user_name }}'
           pg-backup:
-            timer_command: rsync -avhP --no-times /mnt/hdd/kubernetes/pg-backup truenas:/mnt/mega/kubernetes
+            timer_command: rsync -avhP --no-times /mnt/hdd/kubernetes/pg-backup truenas:/mnt/mega/aditya
             timer_OnCalendar: '*-*-* 03:00:00'
             timer_user: '{{ user_name }}'
