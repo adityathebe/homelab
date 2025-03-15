@@ -44,12 +44,10 @@ spec:
               - secretRef:
                   name: homepage-secret
             env:
-              - name: NODE_VERSION
-                value: '18.14.2'
-              - name: YARN_VERSION
-                value: '1.22.19'
               - name: NODE_ENV
                 value: 'production'
+              - name: HOMEPAGE_ALLOWED_HOSTS
+                value: home.${HOMELAB_DOMAIN}
               - name: PORT
                 value: '3000'
     service:
