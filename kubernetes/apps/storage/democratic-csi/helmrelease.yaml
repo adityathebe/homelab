@@ -59,14 +59,18 @@ spec:
         reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
         allowVolumeExpansion: false
-        parameters:
-          volumeNameTemplate: "${pvc.namespace}-${pvc.name}"      
+      - name: local
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: WaitForFirstConsumer
+        allowVolumeExpansion: false   
     driver:
       config:
         driver: local-hostpath
         local-hostpath:
           shareBasePath: &storagePath /var/lib/csi-local-hostpath
           controllerBasePath: *storagePath
+          volumeNameTemplate: "pvc-{pvc.metadata.namespace}-{pvc.metadata.name}"  # Template
           dirPermissionsMode: '0770'
           dirPermissionsUser: 0
           dirPermissionsGroup: 0
