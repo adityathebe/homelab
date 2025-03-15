@@ -47,7 +47,7 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: actualbudget
+            claimName: actualbudgetdata
       nodeSelector:
         kubernetes.io/hostname: saka
 ---
@@ -74,12 +74,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: actualbudget
+  name: actualbudgetdata
   namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-hostpath
+  storageClassName: local
   resources:
     requests:
       storage: 5Gi
