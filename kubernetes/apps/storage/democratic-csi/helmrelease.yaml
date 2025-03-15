@@ -59,6 +59,8 @@ spec:
         reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
         allowVolumeExpansion: false
+        parameters:
+          volumeNameTemplate: "${pvc.namespace}-${pvc.name}"      
     driver:
       config:
         driver: local-hostpath
