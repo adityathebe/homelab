@@ -26,15 +26,35 @@ spec:
       fullnameOverride: *name
       enabled: true
       strategy: node
+      externalAttacher:
+        enabled: true
+        image: registry.k8s.io/sig-storage/csi-attacher:v4.4.0
+        extraArgs:
+          - --timeout=180s
+      externalProvisioner:
+        enabled: true
+        image: registry.k8s.io/sig-storage/csi-provisioner:v3.6.0
+        extraArgs:
+          - --timeout=180s
+      externalResizer:
+        enabled: true
+        image: registry.k8s.io/sig-storage/csi-resizer:v1.9.0
+        extraArgs:
+          - --timeout=180s
+      externalSnapshotter:
+        enabled: true
+        image: registry.k8s.io/sig-storage/csi-snapshotter:v6.3.0
+        extraArgs:
+          - --timeout=180s
     csiDriver:
       name: org.democratic-csi.iscsi
-      attachRequired: false
+      attachRequired: true
       storageCapacity: true
       fsGroupPolicy: File
     storageClasses:
       - name: iscsi
-        defaultClass: true
-        reclaimPolicy: Delete
+        defaultClass: false
+        reclaimPolicy: Retain
         volumeBindingMode: WaitForFirstConsumer
         allowVolumeExpansion: true
         parameters:
@@ -44,26 +64,46 @@ spec:
         driver: iscsi
         instance_id: iscsi-cluster-1
         iscsi:
-          targetPortal: "10.99.99.5:3260"  # Replace with your iSCSI target IP:port
+          targetPortal: "10.99.99.5:3260"
+          targetPortals: ["10.99.99.5:3260"]
           targetIqn: "iqn.2025-03.com.charali"
-          chapUser: ""  # Add if using CHAP authentication
-          chapSecret: "" # Add if using CHAP authentication
+          chapUser: ""
+          chapSecret: ""
+          dataIqn: ""  # Only needed if different from targetIqn
+          lunId: 0
+          interface: default
+          discoverySecrets:
+            chapUser: ""
+            chapSecret: ""
+          # Additional iscsi parameters if needed
+          sessionParameters:
+            Replacement_timeout: "120"
+            Conn_timeout: "180"
+          # If the driver needs to be slowed down
+          delayAfterAttach: 5
     node:
       driver:
         image: democraticcsi/democratic-csi:v1.9.3
-        extraVolumeMounts: []
-      extraVolumes: []
-      # You may need to install open-iscsi on the nodes
-      # Add this section if you need to modify node configurations
-      # initContainers:
-      #   - name: install-iscsi
-      #     image: alpine:3.15
-      #     command: ["/bin/sh", "-c"]
-      #     args:
-      #       - |
-      #         apk add --no-cache open-iscsi
-      #         exit 0
-      #     securityContext:
-      #       privileged: true
+        securityContext:
+          privileged: true
+        extraVolumeMounts:
+          - name: iscsiadm
+            mountPath: /sbin/iscsiadm
+      extraVolumes:
+        - name: iscsiadm
+          hostPath:
+            path: /sbin/iscsiadm
+            type: File
+      initContainers:
+        - name: iscsi-support
+          image: alpine:3.18
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              apk add --no-cache open-iscsi util-linux
+              modprobe iscsi_tcp || true
+              exit 0
+          securityContext:
+            privileged: true
     csiProxy:
       image: ghcr.io/democratic-csi/csi-grpc-proxy:v0.5.6
