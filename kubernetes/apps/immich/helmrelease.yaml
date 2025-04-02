@@ -27,67 +27,59 @@ spec:
     keepHistory: false
   values:
     env:
-      TZ: ${TZ}
-      DB_HOSTNAME:
-        valueFrom:
-          secretKeyRef:
-            name: immich-postgres
-            key: HOST
       DB_DATABASE_NAME:
         valueFrom:
           secretKeyRef:
-            name: immich-postgres
             key: DATABASE
-      DB_USERNAME:
+            name: immich-postgres
+      DB_HOSTNAME:
         valueFrom:
           secretKeyRef:
+            key: HOST
             name: immich-postgres
-            key: USER
       DB_PASSWORD:
         valueFrom:
           secretKeyRef:
-            name: immich-postgres
             key: PASSWORD
-
+            name: immich-postgres
+      DB_USERNAME:
+        valueFrom:
+          secretKeyRef:
+            key: USER
+            name: immich-postgres
+      TZ: Asia/Kathmandu
     image:
-      # renovate: datasource=github-releases depName=immich-app/immich
-      tag: v1.130.2
-
+      tag: v1.131.3
     immich:
       metrics:
         enabled: true
       persistence:
         library:
           existingClaim: immich-pvc
-
+    machine-learning:
+      enabled: false
     postgresql:
       enabled: false
-
     redis:
       enabled: true
       global:
         storageClass: local-hostpath
-
     server:
+      ingress:
+        main:
+          annotations:
+            kubernetes.io/ingress.class: nginx
+            nginx.ingress.kubernetes.io/proxy-body-size: 50000M
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+          enabled: true
+          hosts:
+            - host: photos.charali.com
+              paths:
+                - path: /
       resources:
+        limits:
+          memory: 4000Mi
         requests:
           cpu: 1500m
           memory: 700Mi
-        limits:
-          memory: 4000Mi
-      ingress:
-        main:
-          enabled: true
-          annotations:
-            # proxy-body-size is set to 0 to remove the body limit on file uploads
-            nginx.ingress.kubernetes.io/proxy-body-size: '50000M'
-            nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
-            nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
-            kubernetes.io/ingress.class: nginx
-          hosts:
-            - host: photos.${HOMELAB_DOMAIN}
-              paths:
-                - path: '/'
-
-    machine-learning:
-      enabled: false
