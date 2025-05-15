@@ -106,3 +106,8 @@ spec:
         existingClaim: shows-pvc
         globalMounts:
           - path: /shows
+      music:
+        enabled: true
+        existingClaim: music-pvc
+        globalMounts:
+          - path: /music
