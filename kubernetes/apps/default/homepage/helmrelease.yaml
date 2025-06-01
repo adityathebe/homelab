@@ -25,10 +25,11 @@ spec:
   values:
     controllers:
       homepage:
+        serviceAccount:
+          identifier: homepage
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: 'true'
-
         containers:
           homepage:
             image:
@@ -57,7 +58,8 @@ spec:
           http:
             port: 3000
     serviceAccount:
-      homepage: {}
+      homepage:
+        enabled: true
     ingress:
       app:
         enabled: true
