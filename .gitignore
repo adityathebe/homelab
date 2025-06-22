@@ -22,3 +22,5 @@ terraform.tfstate*
 # Sops
 .decrypted~*
 *.agekey
+
+terraform/mcp/

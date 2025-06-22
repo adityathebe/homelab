@@ -31,3 +31,7 @@ bootstrap:
     --owner=adityathebe \
     --token-auth \
     --path kubernetes/bootstrap
+
+# Install the mcp server for terraform
+mcp-tf: bin/terraform-mcp-server
+	GOBIN=$(realpath bin/) go install github.com/hashicorp/terraform-mcp-server/cmd/terraform-mcp-server@main

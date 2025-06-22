@@ -1,0 +1,15 @@
+{
+  "enabledMcpjsonServers": ["terraform"],
+  "permissions": {
+    "allow": [
+      "Bash(terraform version)",
+      "Bash(terraform plan)",
+      "Bash(terraform state list)",
+      "Bash(terraform state show)",
+      "mcp__terraform__resolveProviderDocID",
+      "mcp__terraform__getProviderDocs",
+      "WebFetch(domain:registry.terraform.io)"
+    ],
+    "deny": []
+  }
+}
