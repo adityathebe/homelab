@@ -38,7 +38,7 @@ spec:
           movary:
             image:
               repository: leepeuker/movary
-              tag: 0.66.1
+              tag: 0.66.2
             envFrom:
               - secretRef:
                   name: movary
