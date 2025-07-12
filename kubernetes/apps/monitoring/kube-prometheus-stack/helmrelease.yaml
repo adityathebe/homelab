@@ -134,7 +134,7 @@ spec:
         scrapeConfigSelectorNilUsesHelmValues: false
         externalLabels:
           cluster: homelab
-        retention: 30d
+        retention: 7d
         enableFeatures:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
