@@ -89,11 +89,6 @@ data:
             href: https://vikunja.${HOMELAB_DOMAIN}
             description: Todo app
 
-        - FileBrowser:
-            icon: filebrowser.png
-            href: https://files.${HOMELAB_DOMAIN}
-            description: File Browser
-
         - Paperless:
             icon: paperless.png
             href: https://paperless.${HOMELAB_DOMAIN}
