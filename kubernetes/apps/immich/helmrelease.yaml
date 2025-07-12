@@ -75,6 +75,17 @@ spec:
           memory: 700Mi
         limits:
           memory: 4000Mi
+      persistence:
+        gopro:
+          enabled: true
+          existingClaim: immich-gopro-pvc
+          mountPath: /mnt/external/gopro
+          readOnly: true
+        libraries:
+          enabled: true
+          existingClaim: immich-libraries-pvc
+          mountPath: /mnt/external/libraries
+          readOnly: true
       ingress:
         main:
           enabled: true

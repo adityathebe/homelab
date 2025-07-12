@@ -3,5 +3,7 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - pvc.yaml
+  - gopro-pvc.yaml
+  - libraries-pvc.yaml
   - secret.sops.yaml
   - helmrelease.yaml
