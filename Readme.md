@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://k3s.io/">
-    <img alt="k3s" src="https://img.shields.io/badge/k3s-v1.26.9-orange?logo=kubernetes&logoColor=white&style=flat-square">
+    <img alt="k3s" src="https://img.shields.io/badge/k3s-v1.30.2-orange?logo=kubernetes&logoColor=white&style=flat-square">
   </a>
   <a href="https://github.com/adityathebe/homelab/commits/master">
     <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/adityathebe/homelab?logo=git&logoColor=white&color=purple&style=flat-square">
@@ -32,7 +32,7 @@ I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) 
 | Description | Spec              |
 | ----------- | ----------------- |
 | Server      | Acer Nitro 5      |
-| RAM         | 16GB              |
+| RAM         | 32GB              |
 | CPU         | Intel i7 11th gen |
 | HDD         | 1TB               |
 | SSD         | 256GB             |
