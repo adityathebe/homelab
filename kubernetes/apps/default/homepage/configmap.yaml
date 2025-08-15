@@ -149,12 +149,12 @@ data:
 
         - Adguard:
             icon: adguard-home.png
-            href: https://adguard.${HOMELAB_DOMAIN}/
-            ping: https://adguard.${HOMELAB_DOMAIN}/
+            href: http://10.99.99.102:3000/
+            ping: http://10.99.99.102:3000/
             description: DNS
             widget:
               type: adguard
-              url: https://adguard.${HOMELAB_DOMAIN}
+              url: http://10.99.99.102:3000
               username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
               password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
 

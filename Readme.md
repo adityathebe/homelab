@@ -68,6 +68,57 @@ export GITHUB_TOKEN='ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 make bootstrap
 ```
 
+# Backup Strategy
+
+This homelab implements a comprehensive three-tier backup strategy covering databases, application data, and file systems.
+
+## Database Backups
+
+### PostgreSQL (Daily Dumps)
+
+- **Tool**: `prodrigestivill/postgres-backup-local:17` via Kubernetes CronJob
+- **Schedule**: Daily at midnight
+- **Retention**: 60 days daily, 8 weeks weekly, 6 months monthly
+- **Storage**: 50GB NFS persistent volume
+- **Covers**: Immich, Movary, Fresh RSS, Vikunja, Mealie, Speedtest Tracker
+
+### SQLite (Real-time Replication)
+
+- **Tool**: Litestream → Cloudflare R2
+- **Schedule**: Real-time continuous replication
+- **Covers**: Navidrome, Jellyfin, Jellyseerr, Sonarr, Radarr, Prowlarr, Actual Budget
+
+## File System Backups
+
+### Local & External Storage
+
+- **Tool**: Restic
+- **Schedule**: Daily at 03:00 AM
+- **Retention**: 90 days local
+- **Storage**: External HDD (`/home/admin/seagate/backups`)
+
+### Cloud Sync
+
+- **Tool**: Rclone → Backblaze B2
+- **Schedule**: Every 2 days at 04:30 AM
+- **Sources**: Personal files (`/mnt/mega/aditya`), Photos (`/mnt/mega/photos`)
+
+## Backup Locations
+
+| Type        | Primary      | Secondary    | Cloud         |
+| ----------- | ------------ | ------------ | ------------- |
+| PostgreSQL  | NFS Storage  | -            | -             |
+| SQLite      | Local SQLite | -            | Cloudflare R2 |
+| File System | TrueNAS      | External HDD | Backblaze B2  |
+
+## Recovery
+
+All backup credentials are encrypted with SOPS/Age and managed through GitOps. Recovery procedures involve:
+
+1. Database restores from daily dumps or real-time replicas
+2. File system restores using `restic restore` from local or cloud repositories
+3. Application data persistence through NFS storage class
+
 ## Requirements
 
 - sops (secrets management)
