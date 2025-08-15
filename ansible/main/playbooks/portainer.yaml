@@ -10,12 +10,6 @@
     user_name: player
 
   pre_tasks:
-    - name: Replace DNS entry
-      ansible.builtin.replace: # point to the local adguard instance instead of the systemd-resolved ip
-        path: /etc/resolv.conf
-        regexp: '^nameserver 127.0.0.53'
-        replace: 'nameserver 127.0.0.1'
-
     - name: Prepare data directory
       ansible.builtin.file:
         path: '{{ item }}'
@@ -24,7 +18,6 @@
         group: player
         mode: '0755'
       loop:
-        - '{{ data_path }}/adguard'
         - '{{ data_path }}/portainer'
 
     - name: Add ssh private key
