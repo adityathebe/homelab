@@ -147,17 +147,6 @@ data:
               key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
               url: https://nas.home.adityathebe.com
 
-        - Portainer:
-            icon: portainer.png
-            href: https://portainer.${HOMELAB_DOMAIN}/
-            ping: https://portainer.${HOMELAB_DOMAIN}/
-            description: Portainer
-            widget:
-              type: portainer
-              url: https://portainer.${HOMELAB_DOMAIN}
-              env: 2
-              key: {{HOMEPAGE_VAR_PORTAINER_KEY}}
-
         - Adguard:
             icon: adguard-home.png
             href: https://adguard.${HOMELAB_DOMAIN}/
