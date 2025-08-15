@@ -65,9 +65,6 @@
     - name: Allow non root docker access
       role: dockernonroot
 
-    - name: Setup tailscale as a subnet advertiser
-      role: artis3n.tailscale
-
     - name: Install postgres cluster on docker
       role: postgres
 
