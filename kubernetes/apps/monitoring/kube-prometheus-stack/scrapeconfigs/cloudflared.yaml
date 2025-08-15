@@ -9,5 +9,5 @@ spec:
   scrapeInterval: 10s
   staticConfigs:
     - targets:
-        - portainer.${HOMELAB_DOMAIN}:60123
+        - 10.99.99.107:60123
   metricsPath: /metrics
