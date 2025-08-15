@@ -4,7 +4,6 @@
 
   roles:
     - geerlingguy.node_exporter
-    - battery_monitor
 
   tasks:
     - name: Ensure apt cache is updated

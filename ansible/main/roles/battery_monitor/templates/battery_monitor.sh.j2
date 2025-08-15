@@ -1,7 +1,0 @@
-#!/bin/bash
-
-BATTERY_LEVEL=$(acpi -b | grep -P -o '[0-9]+(?=%)')
-
-if [ "$BATTERY_LEVEL" -le {{ battery_threshold }} ]; then
-    /sbin/shutdown -h now
-fi
