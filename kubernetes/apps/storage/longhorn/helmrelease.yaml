@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: longhorn
+      version: 1.9.1
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    persistence:
+      defaultClass: false
+      defaultDataLocality: best-effort
+    defaultSettings:
+      defaultReplicaCount: 1
+      defaultLonghornStaticStorageClass: longhorn
+      replicaSoftAntiAffinity: false
+    ingress:
+      enabled: true
+      host: longhorn.${HOMELAB_DOMAIN}
+    metrics:
+      serviceMonitor:
+        enabled: true

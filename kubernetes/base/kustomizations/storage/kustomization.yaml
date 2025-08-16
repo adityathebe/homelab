@@ -5,3 +5,4 @@ resources:
   # - minio.yaml
   - litestream.yaml
   - democratic-csi.yaml
+  # - longhorn.yaml  # Requires open-iscsi on nodes

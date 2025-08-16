@@ -8,6 +8,7 @@ resources:
   - ./fairwinds.yaml
   - ./grafana.yaml
   - ./immich.yaml
+  - ./longhorn.yaml
   - ./nfs-subdir.yaml
   - ./nginx-ingress.yaml
   - ./prometheus-community.yaml
