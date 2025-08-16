@@ -1,9 +1,11 @@
 [masters]
 arsene
+arteta
 
 [nodes]
 saka
 esr
+saliba
 
 [container]
 portainer

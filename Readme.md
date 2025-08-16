@@ -124,3 +124,9 @@ All backup credentials are encrypted with SOPS/Age and managed through GitOps. R
 - sops (secrets management)
 - age (encryption)
 - precommit
+
+---
+
+## Resources
+
+- Proxmox Cloud init Template - https://technotim.live/posts/cloud-init-cloud-image/
