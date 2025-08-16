@@ -151,22 +151,23 @@ data:
             icon: adguard-home.png
             href: http://10.99.99.2:3000/
             ping: http://10.99.99.2:3000/
-            description: DNS
+            description: Primary DNS
             widget:
               type: adguard
               url: http://10.99.99.2:3000
               username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
               password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
-
-        - NPM:
-            icon: nginx-proxy-manager.png
-            href: https://npm.${HOMELAB_DOMAIN}
-            description: NGINX Proxy Manager
+        
+        - Adguard II:
+            icon: adguard-home.png
+            href: http://10.99.99.5:3000/
+            ping: http://10.99.99.5:3000/
+            description: Secondary DNS
             widget:
-              type: npm
-              url: https://npm.${HOMELAB_DOMAIN}
-              username: {{HOMEPAGE_VAR_NPM_USERNAME}}
-              password: {{HOMEPAGE_VAR_NPM_PASSWORD}}
+              type: adguard
+              url: http://10.99.99.5:3000
+              username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
+              password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
 
     - Media:
         - Jellyfin:
