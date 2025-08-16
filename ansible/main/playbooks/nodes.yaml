@@ -13,6 +13,18 @@
         state: present
       when: "'saka' in inventory_hostname"
 
+    - name: install open-iscsi for longhorn
+      apt:
+        name: open-iscsi
+        update_cache: yes
+        state: present
+
+    - name: enable and start iscsid service
+      systemd:
+        name: iscsid
+        enabled: yes
+        state: started
+
     - name: 'increase inotify user watches'
       sysctl:
         name: fs.inotify.max_user_watches
