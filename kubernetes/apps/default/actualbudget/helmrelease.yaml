@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actualbudget
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    controllers:
+      actualbudget:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+
+        pod:
+          securityContext:
+            runAsUser: 1337
+            runAsGroup: 1337
+            fsGroup: 1337
+            fsGroupChangePolicy: 'OnRootMismatch'
+
+        containers:
+          app:
+            image:
+              repository: actualbudget/actual-server
+              tag: 25.8.0
+            env:
+              PGID: '1337'
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 5006
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 500m
+                memory: 100M
+              limits:
+                cpu: 1000m
+                memory: 250M
+
+    service:
+      app:
+        controller: actualbudget
+        ports:
+          http:
+            port: 5006
+
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: actual.${HOMELAB_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+
+    persistence:
+      data:
+        existingClaim: actualbudgetdata
+        advancedMounts:
+          actualbudget:
+            app:
+              - path: /data
