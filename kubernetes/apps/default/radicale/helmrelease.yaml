@@ -78,7 +78,7 @@ spec:
             readOnly: true
 
       data:
-        existingClaim: radicale
+        existingClaim: radicale-data
         advancedMounts:
           radicale:
             app:

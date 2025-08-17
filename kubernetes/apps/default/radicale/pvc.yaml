@@ -2,13 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: radicale
-  annotations:
-    nfs.io/storage-path: radicale
+  name: radicale-data
 spec:
-  storageClassName: appdata
+  storageClassName: longhorn
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 5Gi
+      storage: 512Mi
