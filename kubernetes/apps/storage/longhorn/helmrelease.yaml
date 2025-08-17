@@ -23,19 +23,31 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    csi:
+      attacherReplicaCount: 1
+      provisionerReplicaCount: 1
+      resizerReplicaCount: 1
+      snapshotterReplicaCount: 1
     persistence:
       defaultClass: false
       defaultDataLocality: best-effort
     defaultSettings:
       defaultReplicaCount: 1
       defaultLonghornStaticStorageClass: longhorn
-      replicaSoftAntiAffinity: false
+      autoCleanupSystemGeneratedSnapshot: true
+      snapshotDataIntegrity: enabled
+      snapshotDataIntegrityImmediateCheckAfterSnapshotCreation: false
+      snapshotDataIntegrityCronjob: '0 4 * * *'
+      allowCollectingLonghornUsageMetrics: false
+      v1DataEngine: true
+      v2DataEngine: false
     defaultBackupStore:
-      backupTarget: s3://5bdd9766a7ad14ae145db477f519d019.r2.cloudflarestorage.com/longhorn
-      backupTargetCredentialSecret: longhorn-bucket-credential
+      backupTarget: nfs://10.99.99.51:/mnt/mega/kubernetes
     ingress:
       enabled: true
       host: longhorn.${HOMELAB_DOMAIN}
+    longhornUI:
+      replicas: 1
     metrics:
       serviceMonitor:
         enabled: true
