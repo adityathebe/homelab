@@ -26,12 +26,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      nodeSelector:
-        kubernetes.io/hostname: saka
     controllers:
       main:
-        replicas: 0
         containers:
           jellyseerr:
             image:
@@ -69,7 +65,6 @@ spec:
     persistence:
       config:
         enabled: true
-        type: hostPath
-        hostPath: /home/player/kube_data/jellyseerr
+        existingClaim: jellyseerr-config
         globalMounts:
           - path: /app/config

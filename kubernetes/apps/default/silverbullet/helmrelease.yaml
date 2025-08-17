@@ -27,13 +27,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      nodeSelector:
-        kubernetes.io/hostname: saka
-
     controllers:
       main:
-        replicas: 0
         strategy: Recreate
         containers:
           silverbullet:
@@ -74,7 +69,6 @@ spec:
     persistence:
       space:
         enabled: true
-        type: hostPath
-        hostPath: /home/player/kube_data/silverbullet
+        existingClaim: silverbullet-space
         globalMounts:
           - path: /space

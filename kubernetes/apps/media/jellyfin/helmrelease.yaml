@@ -27,12 +27,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      nodeSelector:
-        kubernetes.io/hostname: saka
     controllers:
       main:
-        replicas: 0
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: 'true'
@@ -87,14 +83,12 @@ spec:
     persistence:
       config:
         enabled: true
-        type: hostPath
-        hostPath: /home/player/kube_data/jellyfin/config
+        existingClaim: jellyfin-config
         globalMounts:
           - path: /config
       cache:
         enabled: true
-        type: hostPath
-        hostPath: /home/player/kube_data/jellyfin/cache
+        existingClaim: jellyfin-cache
         globalMounts:
           - path: /cache
       movies:
