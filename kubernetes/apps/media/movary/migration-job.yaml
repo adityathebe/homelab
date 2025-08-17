@@ -2,8 +2,8 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: navidrome-data-migration
-  namespace: music
+  name: movary-data-migration
+  namespace: media
 spec:
   template:
     spec:
@@ -48,8 +48,8 @@ spec:
       volumes:
         - name: source-data
           hostPath:
-            path: /home/player/kube_data/navidrome
+            path: /home/player/kube_data/movary
             type: Directory
         - name: destination-data
           persistentVolumeClaim:
-            claimName: navidrome-data
+            claimName: movary-data

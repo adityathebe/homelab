@@ -34,6 +34,7 @@ spec:
 
     controllers:
       main:
+        replicas: 0
         containers:
           movary:
             image:
@@ -77,8 +78,7 @@ spec:
     persistence:
       config:
         enabled: true
-        type: hostPath
-        hostPath: /home/player/kube_data/movary
+        existingClaim: movary-data
         advancedMounts:
           main:
             movary:
