@@ -168,7 +168,12 @@ data:
               url: http://10.99.99.5:3000
               username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
               password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
-
+        
+        - Longhorn:
+            icon: longhorn.png
+            href: https://longhorn.${HOMELAB_DOMAIN}
+            description: Longhorn
+            
     - Media:
         - Jellyfin:
             icon: jellyfin.png
