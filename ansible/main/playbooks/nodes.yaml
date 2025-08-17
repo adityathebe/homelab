@@ -6,12 +6,11 @@
     - kubernetes
 
   tasks:
-    - name: install sqlite3
+    - name: install nfs-common for longhorn nfs backup # https://longhorn.io/docs/1.9.1/deploy/install/#installing-nfsv4-client
       apt:
-        name: sqlite3
+        name: nfs-common
         update_cache: yes
         state: present
-      when: "'saka' in inventory_hostname"
 
     - name: install open-iscsi for longhorn
       apt:
