@@ -103,7 +103,7 @@ spec:
             type: Directory
         - name: destination-data
           persistentVolumeClaim:
-            claimName: app-data-longhorn
+            claimName: app-data
 ```
 
 ### Step 4: Add Migration Job to Kustomization
@@ -143,13 +143,14 @@ persistence:
      nodeSelector:
        kubernetes.io/hostname: target-node
    ```
-3. Apply the configuration:
-   ```bash
-   kubectl apply -k path/to/app/
-   ```
-4. Verify the application works correctly with Longhorn storage
 
 ### Step 6: Clean Up Migration Resources
 
 1. Remove `migration-job.yaml` from kustomization.yaml
 2. Delete the migration job file
+
+---
+
+## Notes
+
+- don't suffix the pvc with -longhorn
