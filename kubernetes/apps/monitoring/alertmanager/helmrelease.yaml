@@ -24,12 +24,10 @@ spec:
 
         statefulset:
           volumeClaimTemplates:
-            - name: alertmanager-storage
-              annotations:
-                nfs.io/storage-path: alertmanager
+            - name: alertmanager
               accessMode: ReadWriteOnce
-              size: 500Mi
-              storageClass: appdata
+              size: 256Mi
+              storageClass: longhorn
               globalMounts:
                 - path: /alertmanager
 
