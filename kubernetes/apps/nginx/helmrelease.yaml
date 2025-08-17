@@ -34,7 +34,7 @@ spec:
       ingressClassResource:
         default: true
 
-      replicaCount: 1
+      replicaCount: 3
 
       metrics:
         enabled: true
