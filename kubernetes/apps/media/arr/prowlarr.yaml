@@ -16,7 +16,7 @@ metadata:
   name: prowlarr
   namespace: media
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       name: prowlarr
@@ -45,8 +45,5 @@ spec:
               memory: 300Mi
       volumes:
         - name: config
-          hostPath:
-            path: /home/player/kube_data/prowlarr
-            type: Directory
-      nodeSelector:
-        kubernetes.io/hostname: saka
+          persistentVolumeClaim:
+            claimName: prowlarr-config

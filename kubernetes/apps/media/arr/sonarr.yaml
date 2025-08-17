@@ -16,7 +16,7 @@ metadata:
   name: sonarr
   namespace: media
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       name: sonarr
@@ -59,8 +59,5 @@ spec:
           persistentVolumeClaim:
             claimName: shows-pvc
         - name: config
-          hostPath:
-            path: /home/player/kube_data/sonarr
-            type: Directory
-      nodeSelector:
-        kubernetes.io/hostname: saka
+          persistentVolumeClaim:
+            claimName: sonarr-config

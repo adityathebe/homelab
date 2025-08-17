@@ -16,7 +16,7 @@ metadata:
   name: radarr
   namespace: media
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       name: radarr
@@ -53,14 +53,11 @@ spec:
               memory: 300Mi
       volumes:
         - name: config
-          hostPath:
-            path: /home/player/kube_data/radarr
-            type: Directory
+          persistentVolumeClaim:
+            claimName: radarr-config
         - name: torrent-downloads
           persistentVolumeClaim:
             claimName: torrent-pvc
         - name: movies
           persistentVolumeClaim:
             claimName: movies-pvc
-      nodeSelector:
-        kubernetes.io/hostname: saka

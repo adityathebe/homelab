@@ -6,8 +6,5 @@ resources:
   - sonarr.yaml
   - ingress.yaml
   - sonarr-migration-pvc.yaml
-  - sonarr-migration-job.yaml
   - radarr-migration-pvc.yaml
-  - radarr-migration-job.yaml
   - prowlarr-migration-pvc.yaml
-  - prowlarr-migration-job.yaml
