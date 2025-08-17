@@ -30,6 +30,9 @@ spec:
       defaultReplicaCount: 1
       defaultLonghornStaticStorageClass: longhorn
       replicaSoftAntiAffinity: false
+    defaultBackupStore:
+      backupTarget: s3://5bdd9766a7ad14ae145db477f519d019.r2.cloudflarestorage.com/longhorn
+      backupTargetCredentialSecret: longhorn-bucket-credential
     ingress:
       enabled: true
       host: longhorn.${HOMELAB_DOMAIN}
