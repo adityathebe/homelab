@@ -76,18 +76,15 @@ spec:
               echo "Destination (Longhorn): $(ls -la /destination/)"
 
               # Sync all data from hostPath to Longhorn PVC with progress
-              rsync -azvPh --progress /source/ /destination/
-
-              # Verify the sync
-              echo "Migration completed. Verifying..."
-              echo "Source size: $(du -sh /source)"
-              echo "Destination size: $(du -sh /destination)"
+              rsync -azvPh --progress --delete /source/ /destination/
 
               # List contents for verification
               echo "Source contents:"
-              find /source -type f | head -20
+              cd /source
+              du -hs *
               echo "Destination contents:"
-              find /destination -type f | head -20
+              cd /destination
+              du -hs *
 
               echo "Migration job completed successfully!"
           volumeMounts:
@@ -99,7 +96,7 @@ spec:
       volumes:
         - name: source-data
           hostPath:
-            path: /path/to/hostpath/data # Original hostPath
+            path: /home/player/kube_data/app-data # Original hostPath
             type: Directory
         - name: destination-data
           persistentVolumeClaim:
