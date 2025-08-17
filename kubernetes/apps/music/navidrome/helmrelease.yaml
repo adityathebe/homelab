@@ -28,10 +28,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      nodeSelector:
-        kubernetes.io/hostname: saka
-
     controllers:
       main:
         annotations:
@@ -101,8 +97,7 @@ spec:
 
       data:
         enabled: true
-        type: hostPath
-        hostPath: /home/player/kube_data/navidrome
+        existingClaim: navidrome-data
         advancedMounts:
           main:
             navidrome:

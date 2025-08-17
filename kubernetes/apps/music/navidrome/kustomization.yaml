@@ -5,3 +5,4 @@ resources:
   - configmap.yaml
   - pvc.yaml
   - helmrelease.yaml
+  - migration-job.yaml
