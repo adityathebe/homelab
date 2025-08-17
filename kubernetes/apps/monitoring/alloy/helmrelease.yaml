@@ -44,6 +44,12 @@ spec:
           value: '960448'
         - name: LOCAL_LOKI_URL
           value: https://loki.${HOMELAB_DOMAIN}/loki/api/v1/push
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          memory: 512Mi
       configMap:
         content: |
           discovery.kubernetes "pods" {

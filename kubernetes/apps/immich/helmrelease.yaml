@@ -67,6 +67,13 @@ spec:
       enabled: true
       global:
         storageClass: local-path
+      master:
+        resources:
+          requests:
+            cpu: 20m
+            memory: 64Mi
+          limits:
+            memory: 256Mi
 
     server:
       resources:

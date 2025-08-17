@@ -54,6 +54,12 @@ spec:
               - --branch=master
               - --wait=86400 # 1 day
               - --root=/add-ons
+            resources:
+              requests:
+                cpu: 5m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
 
     service:
       bazarr:

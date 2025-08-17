@@ -36,6 +36,13 @@ spec:
 
       replicaCount: 3
 
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 512Mi
+
       metrics:
         enabled: true
         serviceMonitor:
