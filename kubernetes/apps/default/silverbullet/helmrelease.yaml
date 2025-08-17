@@ -33,6 +33,7 @@ spec:
 
     controllers:
       main:
+        replicas: 0
         strategy: Recreate
         containers:
           silverbullet:
