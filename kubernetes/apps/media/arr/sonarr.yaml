@@ -16,7 +16,7 @@ metadata:
   name: sonarr
   namespace: media
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       name: sonarr
