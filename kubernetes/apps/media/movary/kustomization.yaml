@@ -4,4 +4,3 @@ resources:
   - secret.sops.yaml
   - pvc.yaml
   - helmrelease.yaml
-  - migration-job.yaml

@@ -28,13 +28,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      nodeSelector:
-        kubernetes.io/hostname: saka
-
     controllers:
       main:
-        replicas: 0
         containers:
           movary:
             image:
