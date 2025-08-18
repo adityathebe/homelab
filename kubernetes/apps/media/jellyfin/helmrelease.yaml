@@ -32,6 +32,17 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: 'true'
+        pod:
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - saliba
         containers:
           jellyfin:
             image:
