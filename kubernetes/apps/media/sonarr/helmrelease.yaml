@@ -1,0 +1,109 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app sonarr
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          sonarr:
+            image:
+              repository: lscr.io/linuxserver/sonarr
+              tag: 4.0.15
+            env:
+              PGUID: '1000'
+              PGID: '1000'
+              TZ: Asia/Kathmandu
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &port 8989
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 100m
+                memory: 150Mi
+              limits:
+                cpu: 1000m
+                memory: 300Mi
+
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 8989
+
+    ingress:
+      main:
+        enabled: true
+        className: 'nginx'
+        hosts:
+          - host: sonarr.${HOMELAB_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: main
+                  port: http
+
+    persistence:
+      config:
+        existingClaim: sonarr-config
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+      torrent-downloads:
+        enabled: true
+        existingClaim: torrent-pvc
+        globalMounts:
+          - path: /downloads
+      shows:
+        enabled: true
+        existingClaim: shows-pvc
+        globalMounts:
+          - path: /shows

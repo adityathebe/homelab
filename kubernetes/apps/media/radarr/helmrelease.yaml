@@ -1,0 +1,107 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app radarr
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        strategy: RollingUpdate
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          radarr:
+            image:
+              repository: lscr.io/linuxserver/radarr
+              tag: 'latest'
+            env:
+              PGUID: '1000'
+              PGID: '1000'
+              TZ: Asia/Kathmandu
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &port 7878
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 100m
+                memory: 150Mi
+              limits:
+                cpu: 1000m
+                memory: 300Mi
+
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 7878
+
+    ingress:
+      main:
+        enabled: true
+        className: 'nginx'
+        hosts:
+          - host: radarr.${HOMELAB_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: main
+                  port: http
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: radarr-config
+        globalMounts:
+          - path: /config
+      torrent-downloads:
+        enabled: true
+        existingClaim: torrent-pvc
+        globalMounts:
+          - path: /downloads
+      movies:
+        enabled: true
+        existingClaim: movies-pvc
+        globalMounts:
+          - path: /movies
