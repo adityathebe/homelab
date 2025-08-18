@@ -83,7 +83,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: *app
+        existingClaim: bazarr-data
         globalMounts:
           - path: /config
 
