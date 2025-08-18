@@ -79,7 +79,7 @@ spec:
                   port: http
     persistence:
       config:
-        existingClaim: qbittorrent
+        existingClaim: qbittorrent-data
       media:
         enabled: true
         existingClaim: torrent-pvc
