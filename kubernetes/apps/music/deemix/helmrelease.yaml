@@ -75,6 +75,6 @@ spec:
 
       config:
         enabled: true
-        existingClaim: deemix-config-pvc
+        existingClaim: deemix
         globalMounts:
           - path: /config

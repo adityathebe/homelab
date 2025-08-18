@@ -6,6 +6,7 @@ metadata:
 spec:
   interval: 15m
   path: ./kubernetes/apps/music/deemix
+  targetNamespace: music
   prune: true
   timeout: 2m
   dependsOn:
