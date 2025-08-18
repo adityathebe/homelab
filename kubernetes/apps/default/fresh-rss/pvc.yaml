@@ -2,13 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: freshrss-data
-  annotations:
-    nfs.io/storage-path: freshrss/data
+  name: freshrss
 spec:
-  storageClassName: appdata
+  storageClassName: longhorn
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 512Mi

@@ -80,6 +80,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: freshrss-data
+        existingClaim: freshrss
         globalMounts:
           - path: /var/www/FreshRSS/data
