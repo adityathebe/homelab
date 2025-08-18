@@ -2,12 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
-  - ./arr.yaml
   - ./bazarr.yaml
   - ./invidious.yaml
   - ./jellyfin.yaml
   - ./jellyseerr.yaml
   - ./movary.yaml
+  - ./prowlarr.yaml
   - ./qbittorrent.yaml
-  # - ./transmission.yaml
+  - ./radarr.yaml
+  - ./sonarr.yaml
   - ./volumes.yaml
