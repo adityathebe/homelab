@@ -29,7 +29,7 @@ spec:
   values:
     controllers:
       main:
-        strategy: RollingUpdate
+        strategy: Recreate
         pod:
           securityContext:
             runAsUser: 1000

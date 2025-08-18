@@ -34,7 +34,6 @@ spec:
           ttlSecondsAfterFinished: 43200
         pod:
           enableServiceLinks: false
-        strategy: RollingUpdate
         containers:
           main:
             image:
