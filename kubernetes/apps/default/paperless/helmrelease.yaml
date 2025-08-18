@@ -108,7 +108,7 @@ spec:
                   port: http
     persistence:
       data:
-        existingClaim: paperless
+        existingClaim: paperless-data
         advancedMounts:
           paperless:
             paperless:

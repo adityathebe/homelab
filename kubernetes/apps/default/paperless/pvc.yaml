@@ -2,13 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: paperless
-  annotations:
-    nfs.io/storage-path: paperless
+  name: paperless-data
 spec:
-  storageClassName: appdata
+  storageClassName: longhorn
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 15Gi
+      storage: 2Gi
