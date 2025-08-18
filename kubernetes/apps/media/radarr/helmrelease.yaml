@@ -30,6 +30,12 @@ spec:
     controllers:
       main:
         strategy: RollingUpdate
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
@@ -39,7 +45,7 @@ spec:
               tag: 'latest'
             env:
               PGUID: '1000'
-              PGID: '1337'
+              PGID: '1000'
               TZ: Asia/Kathmandu
             probes:
               liveness: &probes

@@ -32,14 +32,20 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: 'true'
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           sonarr:
             image:
               repository: lscr.io/linuxserver/sonarr
-              tag: 'latest'
+              tag: 4.0.15
             env:
               PGUID: '1000'
-              PGID: '1337'
+              PGID: '1000'
               TZ: Asia/Kathmandu
             probes:
               liveness: &probes
@@ -85,10 +91,12 @@ spec:
 
     persistence:
       config:
-        enabled: true
         existingClaim: sonarr-config
+      tmpfs:
+        type: emptyDir
         globalMounts:
-          - path: /config
+          - path: /tmp
+            subPath: tmp
       torrent-downloads:
         enabled: true
         existingClaim: torrent-pvc

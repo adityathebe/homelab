@@ -32,13 +32,21 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: 'true'
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           prowlarr:
             image:
-              repository: ghcr.io/home-operations/prowlarr
-              tag: '1.37.0'
+              repository: lscr.io/linuxserver/prowlarr
+              tag: '2.0.5-nightly'
             env:
               TZ: Asia/Kathmandu
+              PGID: '1000'
+              PUID: '1000'
             probes:
               liveness: &probes
                 enabled: true
