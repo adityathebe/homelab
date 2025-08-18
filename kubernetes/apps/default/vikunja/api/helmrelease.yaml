@@ -70,7 +70,7 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: vikunja-files
+        existingClaim: vikunja
         globalMounts:
           # all files uploaded and used through Vikunja are stored here
           - path: /app/vikunja/files
