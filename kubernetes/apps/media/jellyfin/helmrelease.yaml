@@ -15,11 +15,9 @@ spec:
         kind: HelmRepository
         name: bjw-s-helm-charts
         namespace: flux-system
-  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
@@ -29,7 +27,6 @@ spec:
   values:
     controllers:
       main:
-        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: 'true'
         pod:
@@ -65,12 +62,23 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ['ALL'] }
             resources:
               requests:
                 cpu: 100m
                 memory: 500Mi
               limits:
-                memory: 2500Mi
+                memory: 4Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
 
     service:
       main:
@@ -97,23 +105,32 @@ spec:
         existingClaim: jellyfin-config
         globalMounts:
           - path: /config
-      cache:
-        enabled: true
-        existingClaim: jellyfin-cache
-        globalMounts:
-          - path: /cache
       movies:
         enabled: true
         existingClaim: movies-pvc
         globalMounts:
           - path: /movies
+            readOnly: true
       shows:
         enabled: true
         existingClaim: shows-pvc
         globalMounts:
           - path: /shows
+            readOnly: true
       music:
         enabled: true
         existingClaim: music-pvc
         globalMounts:
           - path: /music
+            readOnly: true
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          main:
+            jellyfin:
+              - path: /cache
+                subPath: cache
+              - path: /config/log
+                subPath: log
+              - path: /tmp
+                subPath: tmp
