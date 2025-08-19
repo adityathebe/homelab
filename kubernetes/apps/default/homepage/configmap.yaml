@@ -68,6 +68,10 @@ data:
               type: speedtest
               url: http://speedtest-tracker.monitoring.svc
 
+        - Canary Checker:
+            icon: https://raw.githubusercontent.com/flanksource/flanksource-icons/refs/heads/main/svg/flanksource-icon.svg
+            href: https://canary-checker.${HOMELAB_DOMAIN}
+
     - Applications:
         - Actual:
             icon: actual-budget.png

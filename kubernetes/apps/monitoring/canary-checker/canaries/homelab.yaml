@@ -1,0 +1,17 @@
+---
+apiVersion: canaries.flanksource.com/v1
+kind: Canary
+metadata:
+  name: homelab
+spec:
+  schedule: '@every 30s'
+  http:
+    - name: jellyfin
+      endpoint: https://jellyfin.media.svc
+      responseCodes: [200]
+    - name: navidrome
+      endpoint: https://navidrome.music.svc
+      responseCodes: [200]
+    - name: immich
+      endpoint: https://immich-server.immich.svc
+      responseCodes: [200]
