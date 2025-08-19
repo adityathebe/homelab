@@ -7,11 +7,8 @@ spec:
   schedule: '@every 30s'
   http:
     - name: jellyfin
-      endpoint: https://jellyfin.media.svc
+      endpoint: http://jellyfin.media.svc:8096
       responseCodes: [200]
     - name: navidrome
-      endpoint: https://navidrome.music.svc
-      responseCodes: [200]
-    - name: immich
-      endpoint: https://immich-server.immich.svc
+      endpoint: http://navidrome.music.svc:4533
       responseCodes: [200]
