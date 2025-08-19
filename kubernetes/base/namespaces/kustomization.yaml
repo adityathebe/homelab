@@ -9,6 +9,7 @@ resources:
   - media.yaml
   - monitoring.yaml
   - music.yaml
+  - network.yaml
   - nfs-subdir.yaml
   - nginx-ingress.yaml
   - system.yaml
