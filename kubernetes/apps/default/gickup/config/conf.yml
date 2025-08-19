@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/cooperspencer/gickup/refs/heads/main/gickup_spec.json
+source:
+  github:
+    - user: adityathebe
+
+destination:
+  local:
+    - path: '/data/github-backups'
+      structured: true
+      bare: false
+      mirror: true
+      lfs: true
+
+metrics:
+  prometheus:
+    endpoint: /metrics
+    listen_addr: ':6178'

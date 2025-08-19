@@ -6,6 +6,7 @@ resources:
   - charali.yaml
   - echo-server.yaml
   - fresh-rss.yaml
+  - gickup.yaml
   - homepage.yaml
   - ittools.yaml
   - lubelogger.yaml
