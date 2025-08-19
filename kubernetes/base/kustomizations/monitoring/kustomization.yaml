@@ -4,6 +4,7 @@ buildMetadata: [originAnnotations]
 resources:
   - alertmanager.yaml
   - alloy.yaml
+  - canary-checker.yaml
   - grafana.yaml
   - kube-prometheus-stack.yaml
   - speedtest-tracker.yaml

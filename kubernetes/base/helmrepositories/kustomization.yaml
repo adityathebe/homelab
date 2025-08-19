@@ -5,6 +5,7 @@ resources:
   - ./bjw-s.yaml
   - ./cert-manager.yaml
   - ./fairwinds.yaml
+  - ./flanksource.yaml
   - ./grafana.yaml
   - ./immich.yaml
   - ./longhorn.yaml
