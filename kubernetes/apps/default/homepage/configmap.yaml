@@ -141,6 +141,11 @@ data:
             ping: https://10.99.99.12:8006
             description: Proxmox
 
+        - Longhorn:
+            icon: longhorn.png
+            href: https://longhorn.${HOMELAB_DOMAIN}
+            description: Longhorn
+
         - Truenas:
             icon: truenas.png
             href: https://nas.home.adityathebe.com
@@ -172,11 +177,6 @@ data:
               url: http://10.99.99.5:3000
               username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
               password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
-        
-        - Longhorn:
-            icon: longhorn.png
-            href: https://longhorn.${HOMELAB_DOMAIN}
-            description: Longhorn
             
     - Media:
         - Jellyfin:
@@ -280,7 +280,7 @@ data:
         columns: 5
       Management:
         style: row
-        columns: 5
+        columns: 6
 
   widgets.yaml: |
     ---
