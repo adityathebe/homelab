@@ -1,15 +1,35 @@
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: immich-gopro-pvc
-  namespace: immich
-  annotations:
-    nfs.io/storage-path: gopro
+  name: immich-gopro-nfs
 spec:
-  storageClassName: photos-nfs
+  storageClassName: immich-gopro-nfs
+  capacity:
+    storage: 50Gi
   accessModes:
     - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.99.99.51
+    path: /mnt/mega/photos/gopro
+  mountOptions:
+    - nfsvers=4.2
+    - nconnect=8
+    - nolock
+    - hard
+    - noatime
+    - nodiratime
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-gopro
+  namespace: immich
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: immich-gopro-nfs
   resources:
     requests:
       storage: 50Gi

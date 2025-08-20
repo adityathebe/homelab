@@ -58,7 +58,7 @@ spec:
         enabled: true
       persistence:
         library:
-          existingClaim: immich-pvc
+          existingClaim: immich
 
     postgresql:
       enabled: false
@@ -85,12 +85,12 @@ spec:
       persistence:
         gopro:
           enabled: true
-          existingClaim: immich-gopro-pvc
+          existingClaim: immich-gopro
           mountPath: /mnt/external/gopro
           readOnly: true
         libraries:
           enabled: true
-          existingClaim: immich-libraries-pvc
+          existingClaim: immich-libraries
           mountPath: /mnt/external/libraries
           readOnly: true
       ingress:

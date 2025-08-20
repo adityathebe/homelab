@@ -1,15 +1,34 @@
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: immich-pvc
-  namespace: immich
-  annotations:
-    nfs.io/storage-path: immich
+  name: immich-nfs
 spec:
-  storageClassName: photos-nfs
+  storageClassName: immich-nfs
+  capacity:
+    storage: 100Gi
   accessModes:
     - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.99.99.51
+    path: /mnt/mega/photos/immich
+  mountOptions:
+    - nfsvers=4.2
+    - nconnect=8
+    - hard
+    - noatime
+    - nodiratime
+    - nolock
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: immich-nfs
   resources:
     requests:
       storage: 100Gi
