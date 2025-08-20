@@ -119,7 +119,9 @@ spec:
             readOnly: true
       music:
         enabled: true
-        existingClaim: music-pvc
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/music
         globalMounts:
           - path: /music
             readOnly: true
