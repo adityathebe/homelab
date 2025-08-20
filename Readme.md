@@ -80,7 +80,7 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 - **Schedule**: Daily at midnight
 - **Retention**: 60 days daily, 8 weeks weekly, 6 months monthly
 - **Storage**: 50GB NFS persistent volume
-- **Covers**: Immich, Movary, Fresh RSS, Vikunja, Mealie, Speedtest Tracker
+- **Covers**: Immich, Movary, Fresh RSS, Vikunja, Speedtest Tracker
 
 ### SQLite (Real-time Replication)
 

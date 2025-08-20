@@ -3,7 +3,6 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - ./bazarr.yaml
-  - ./invidious.yaml
   - ./jellyfin.yaml
   - ./jellyseerr.yaml
   - ./movary.yaml
