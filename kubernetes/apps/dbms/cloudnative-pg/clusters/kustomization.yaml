@@ -4,3 +4,4 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - arr.yaml
+  - secret.sops.yaml
