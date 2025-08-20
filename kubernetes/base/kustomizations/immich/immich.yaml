@@ -10,8 +10,6 @@ spec:
   targetNamespace: immich
   path: ./kubernetes/apps/immich
   prune: true
-  dependsOn:
-    - name: nfs-subdir
   sourceRef:
     kind: GitRepository
     name: flux-system
