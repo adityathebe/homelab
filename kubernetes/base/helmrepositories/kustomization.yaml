@@ -9,7 +9,6 @@ resources:
   - ./grafana.yaml
   - ./immich.yaml
   - ./longhorn.yaml
-  - ./nfs-subdir.yaml
   - ./nginx-ingress.yaml
   - ./prometheus-community.yaml
   - ./stakater.yaml

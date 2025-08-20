@@ -2,13 +2,24 @@
   "enabledMcpjsonServers": ["terraform"],
   "permissions": {
     "allow": [
-      "Bash(terraform version)",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(mkdir:*)",
       "Bash(terraform plan)",
       "Bash(terraform state list)",
       "Bash(terraform state show)",
-      "mcp__terraform__resolveProviderDocID",
+      "Bash(terraform version)",
       "mcp__terraform__getProviderDocs",
-      "WebFetch(domain:registry.terraform.io)"
+      "mcp__terraform__resolveProviderDocID",
+      "WebFetch(domain:cooperspencer.github.io)",
+      "WebFetch(domain:docs.flanksource.com)",
+      "WebFetch(domain:flanksource.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:immich.app)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:registry.terraform.io)",
+      "WebSearch"
     ],
     "deny": []
   }
