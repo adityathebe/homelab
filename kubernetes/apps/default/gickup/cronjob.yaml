@@ -37,6 +37,7 @@ spec:
               configMap:
                 name: gickup-config
             - name: data
-              persistentVolumeClaim:
-                claimName: gickup-storage
+              nfs:
+                server: 10.99.99.5
+                path: /mnt/hdd/kubernetes/gickup
           restartPolicy: OnFailure

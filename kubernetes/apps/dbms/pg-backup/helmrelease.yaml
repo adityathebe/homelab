@@ -67,6 +67,8 @@ spec:
     persistence:
       backups:
         enabled: true
-        existingClaim: pg-backup
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/kubernetes/pg-backup
         globalMounts:
           - path: /backups
