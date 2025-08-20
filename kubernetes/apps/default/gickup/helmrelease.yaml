@@ -1,0 +1,75 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gickup
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        type: cronjob
+        cronjob:
+          schedule: '0 2 * * *'
+          ttlSecondsAfterFinished: 43200
+        pod:
+          enableServiceLinks: false
+        containers:
+          main:
+            image:
+              repository: ghcr.io/cooperspencer/gickup
+              tag: sha-f916b6f
+            args: ['/config/conf.yml']
+            env:
+              - name: GITHUB_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: gickup-github-token
+                    key: token
+            resources:
+              requests:
+                memory: '256Mi'
+                cpu: '100m'
+              limits:
+                memory: '1Gi'
+                cpu: '500m'
+
+    service:
+      main:
+        controller: main
+        enabled: false
+
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: gickup-config
+        globalMounts:
+          - path: /config
+      data:
+        enabled: true
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/kubernetes/gickup
+        globalMounts:
+          - path: /data
