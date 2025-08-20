@@ -88,12 +88,12 @@ spec:
     persistence:
       music:
         enabled: true
-        existingClaim: music-nfs-pvc
-        advancedMounts:
-          main:
-            navidrome:
-              - path: /music
-                readOnly: true
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/music
+        globalMounts:
+          - path: /music
+            readOnly: true
 
       data:
         enabled: true
