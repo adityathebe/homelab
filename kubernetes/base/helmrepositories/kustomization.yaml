@@ -2,13 +2,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
-  - ./bjw-s.yaml
-  - ./cert-manager.yaml
-  - ./fairwinds.yaml
-  - ./flanksource.yaml
-  - ./grafana.yaml
-  - ./immich.yaml
-  - ./longhorn.yaml
-  - ./nginx-ingress.yaml
-  - ./prometheus-community.yaml
-  - ./stakater.yaml
+  - bjw-s.yaml
+  - cert-manager.yaml
+  - cloudnative-pg.yaml
+  - fairwinds.yaml
+  - flanksource.yaml
+  - grafana.yaml
+  - immich.yaml
+  - longhorn.yaml
+  - nginx-ingress.yaml
+  - prometheus-community.yaml
+  - stakater.yaml
