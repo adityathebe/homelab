@@ -98,11 +98,15 @@ spec:
         globalMounts:
           - path: /config/logs
       torrent-downloads:
-        existingClaim: torrent-pvc
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/transmission-downloads
         globalMounts:
           - path: /downloads
       movies:
-        existingClaim: movies-pvc
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/movies
         globalMounts:
           - path: /movies
       tmp:

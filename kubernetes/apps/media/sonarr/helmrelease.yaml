@@ -99,11 +99,15 @@ spec:
             subPath: tmp
       torrent-downloads:
         enabled: true
-        existingClaim: torrent-pvc
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/transmission-downloads
         globalMounts:
           - path: /downloads
       shows:
         enabled: true
-        existingClaim: shows-pvc
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/shows
         globalMounts:
           - path: /shows

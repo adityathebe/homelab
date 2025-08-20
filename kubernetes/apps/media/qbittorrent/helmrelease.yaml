@@ -88,7 +88,9 @@ spec:
         existingClaim: qbittorrent
       media:
         enabled: true
-        existingClaim: torrent-pvc
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/transmission-downloads
         globalMounts:
           - path: /config/Downloads
       tmp:

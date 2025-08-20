@@ -11,4 +11,3 @@ resources:
   - ./qbittorrent.yaml
   - ./radarr.yaml
   - ./sonarr.yaml
-  - ./volumes.yaml

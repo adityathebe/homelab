@@ -95,13 +95,17 @@ spec:
 
       movies:
         enabled: true
-        existingClaim: movies-pvc
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/movies
         globalMounts:
           - path: /movies
 
       shows:
         enabled: true
-        existingClaim: shows-pvc
+        type: nfs
+        server: 10.99.99.5
+        path: /mnt/hdd/media/shows
         globalMounts:
           - path: /shows
 
