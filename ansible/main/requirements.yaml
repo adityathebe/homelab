@@ -3,7 +3,7 @@ roles:
   - name: geerlingguy.docker
     version: 7.4.5
   - name: geerlingguy.node_exporter
-    version: 2.1.0
+    version: 2.1.2
   - name: geerlingguy.nfs
     version: 2.1.0
   - name: ansible-systemd-timers
