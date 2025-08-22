@@ -64,6 +64,8 @@ spec:
       app:
         enabled: true
         className: nginx
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: home.${HOMELAB_DOMAIN}
         hosts:
           - host: home.${HOMELAB_DOMAIN}
             paths:
