@@ -8,27 +8,26 @@ spec:
   imageName: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.2.0
   primaryUpdateStrategy: unsupervised
 
-  mode: recovery
-  recovery:
-    method: pg_basebackup
-    database: immich
-    owner: immich
-    pgBaseBackup:
+  bootstrap:
+    pg_basebackup:
       database: immich
-      source:
+      source: immich-portainer
+      secret:
+        name: 'immich-database-password'
+
+  externalClusters:
+    - name: immich-portainer
+      password:
+        key: 'password'
+        name: 'immich-database-password'
+      connectionParameters:
         host: '10.99.99.5'
-        port: 5432
-        username: 'immich'
-        database: 'immich'
-        sslMode: 'disable'
-        passwordSecret:
-          name: 'immich-database-password'
+        port: '5432'
+        user: 'gunners'
+        sslmode: 'disable'
+
   storage:
     size: 5Gi
-    storageClass: local-path
-  walStorage:
-    enabled: true
-    size: 1Gi
     storageClass: local-path
   logLevel: debug
 
