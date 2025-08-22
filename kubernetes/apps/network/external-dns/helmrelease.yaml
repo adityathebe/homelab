@@ -29,7 +29,7 @@ spec:
       webhook:
         image:
           repository: ghcr.io/muhlba91/external-dns-provider-adguard
-          tag: v3.0.0
+          tag: v3.1.0
         envFrom:
           - secretRef:
               name: external-dns-adguard
