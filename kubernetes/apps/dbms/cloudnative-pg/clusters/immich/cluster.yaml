@@ -1,0 +1,83 @@
+---
+# https://github.com/mchestr/home-cluster/blob/main/kubernetes/apps/database/cloudnative-pg/cluster/immich.yaml
+
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich
+spec:
+  instances: 3
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16-0.4.3
+  primaryUpdateStrategy: unsupervised
+
+  bootstrap:
+    initdb:
+      database: immich
+      owner: immich
+      secret:
+        name: immich-app
+      postInitApplicationSQL:
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+      import:
+        source:
+          externalCluster: 'portainer'
+        type: microservice
+        databases:
+          - immich
+
+  storage:
+    size: 2Gi
+    storageClass: longhorn-local
+
+  # -- When this option is enabled, the operator will use the SuperuserSecret to update the postgres user password.
+  # If the secret is not present, the operator will automatically create one.
+  # When this option is disabled, the operator will ignore the SuperuserSecret content, delete it when automatically created,
+  # and then blank the password of the postgres user by setting it to NULL.
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-superuser
+
+  postgresql:
+    shared_preload_libraries:
+      - vchord.so
+
+  monitoring:
+    enablePodMonitor: true
+  # https://github.com/cloudnative-pg/cloudnative-pg/issues/2570
+  enablePDB: false
+  resources:
+    requests:
+      memory: '512Mi'
+    limits:
+      memory: '2Gi'
+
+  externalClusters:
+    - name: portainer
+      password:
+        key: 'password'
+        name: 'immich-app'
+      connectionParameters:
+        host: '10.99.99.5'
+        user: 'immich'
+        dbname: 'immich'
+        sslmode: 'disable'
+
+  backup:
+    barmanObjectStore:
+      destinationPath: 's3://immich-backups/'
+      endpointURL: https://${CF_ACCOUNT_ID}.r2.cloudflarestorage.com
+      # Note: serverName version needs to be incremented
+      # when recovering from an existing cnpg cluster
+      serverName: immich-v1
+      data:
+        compression: bzip2
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      s3Credentials:
+        accessKeyId:
+          name: immich-backup-store
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: immich-backup-store
+          key: ACCESS_SECRET_KEY

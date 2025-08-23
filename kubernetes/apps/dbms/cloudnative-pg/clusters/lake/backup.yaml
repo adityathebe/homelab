@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: lake-backup
+spec:
+  schedule: '0 0 2 * * *' # Every day at 2:00 AM
+  immediate: true
+  cluster:
+    name: lake
+  method: barmanObjectStore
