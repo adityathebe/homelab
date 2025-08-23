@@ -12,7 +12,7 @@ spec:
     initdb:
       import:
         source:
-          externalCluster: 'portainer'
+          externalCluster: portainer
         type: monolith
         roles:
           - freshrss
@@ -24,7 +24,7 @@ spec:
           - vikunja
 
   storage:
-    size: 2Gi
+    size: 1Gi
     storageClass: longhorn-local
 
   # -- When this option is enabled, the operator will use the SuperuserSecret to update the postgres user password.
@@ -41,9 +41,11 @@ spec:
   enablePDB: false
   resources:
     requests:
-      memory: '512Mi'
+      memory: 512Mi
+      cpu: 500m
     limits:
-      memory: '2Gi'
+      memory: 2Gi
+      cpu: 2
 
   externalClusters:
     - name: portainer
