@@ -6,3 +6,4 @@ namespace: storage
 resources:
   - helmrelease.yaml
   - secret.sops.yaml
+  - storage-class.yaml

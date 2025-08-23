@@ -1,14 +1,13 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: no-replicas
+  name: longhorn-local
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 parameters:
   numberOfReplicas: '1'
-  staleReplicaTimeout: '2880' # 48 hours in minutes
-  fromBackup: ''
-  fsType: 'ext4'
-  dataLocality: 'best-effort'
+  staleReplicaTimeout: '30'
+  fsType: ext4
+  dataLocality: strict-local
