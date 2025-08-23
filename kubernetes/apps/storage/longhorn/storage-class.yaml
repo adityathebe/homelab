@@ -7,7 +7,12 @@ allowVolumeExpansion: true
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 parameters:
+  backupTargetName: default
+  dataEngine: v1
+  dataLocality: best-effort
+  disableRevisionCounter: 'true'
+  fromBackup: ''
+  fsType: ext4
   numberOfReplicas: '1'
   staleReplicaTimeout: '30'
-  fsType: ext4
-  dataLocality: strict-local
+  unmapMarkSnapChainRemoved: ignored
