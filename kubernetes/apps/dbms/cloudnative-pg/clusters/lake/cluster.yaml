@@ -1,6 +1,4 @@
 ---
-# https://github.com/mchestr/home-cluster/blob/main/kubernetes/apps/database/cloudnative-pg/cluster/immich.yaml
-
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -27,7 +25,7 @@ spec:
 
   storage:
     size: 2Gi
-    storageClass: local-path
+    storageClass: longhorn-local
 
   # -- When this option is enabled, the operator will use the SuperuserSecret to update the postgres user password.
   # If the secret is not present, the operator will automatically create one.

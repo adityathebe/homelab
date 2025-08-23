@@ -3,7 +3,7 @@ kind: ScheduledBackup
 metadata:
   name: lake-backup
 spec:
-  schedule: '0 0 0 * * 2'
+  schedule: '0 0 0 * * 2' # Tuesday at midnight
   backupOwnerReference: self
   immediate: true
   cluster:
