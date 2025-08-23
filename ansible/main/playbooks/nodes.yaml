@@ -6,24 +6,6 @@
     - kubernetes
 
   tasks:
-    - name: install nfs-common for longhorn nfs backup # https://longhorn.io/docs/1.9.1/deploy/install/#installing-nfsv4-client
-      apt:
-        name: nfs-common
-        update_cache: yes
-        state: present
-
-    - name: install open-iscsi for longhorn
-      apt:
-        name: open-iscsi
-        update_cache: yes
-        state: present
-
-    - name: enable and start iscsid service
-      systemd:
-        name: iscsid
-        enabled: yes
-        state: started
-
     - name: 'increase inotify user watches'
       sysctl:
         name: fs.inotify.max_user_watches
