@@ -32,7 +32,7 @@ spec:
               - name: SPEEDTEST_SCHEDULE
                 value: '0 */4 * * *'
               - name: PRUNE_RESULTS_OLDER_THAN
-                value: '90'
+                value: '365'
               - name: PUBLIC_DASHBOARD
                 value: 'true'
             resources:
