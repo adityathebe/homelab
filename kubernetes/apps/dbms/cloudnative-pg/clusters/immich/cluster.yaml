@@ -7,7 +7,7 @@ metadata:
   name: immich
 spec:
   instances: 3
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16-0.4.3
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16-0.4.2
   primaryUpdateStrategy: unsupervised
 
   bootstrap:
@@ -54,13 +54,13 @@ spec:
   externalClusters:
     - name: portainer
       password:
-        key: 'password'
-        name: 'immich-app'
+        key: password
+        name: immich-app
       connectionParameters:
-        host: '10.99.99.5'
-        user: 'immich'
-        dbname: 'immich'
-        sslmode: 'disable'
+        host: 10.99.99.5
+        user: immich
+        dbname: immich
+        sslmode: disable
 
   backup:
     barmanObjectStore:
@@ -76,8 +76,8 @@ spec:
         maxParallel: 8
       s3Credentials:
         accessKeyId:
-          name: immich-backup-store
+          name: cnpg-backup-store
           key: ACCESS_KEY_ID
         secretAccessKey:
-          name: immich-backup-store
+          name: cnpg-backup-store
           key: ACCESS_SECRET_KEY

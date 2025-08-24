@@ -3,7 +3,7 @@ kind: ScheduledBackup
 metadata:
   name: immich
 spec:
-  schedule: '0 0 0 * * 3' # Wednesday at midnight
+  schedule: '0 2 0 * * *' # Every day at 2:00 AM (UTC) Nepal (3:45AM)
   backupOwnerReference: self
   immediate: true
   cluster:
