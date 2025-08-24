@@ -169,12 +169,12 @@ data:
         
         - Adguard II:
             icon: adguard-home.png
-            href: http://10.99.99.5:3000/
-            ping: http://10.99.99.5:3000/
+            href: http://10.99.99.3
+            ping: http://10.99.99.3
             description: Secondary DNS
             widget:
               type: adguard
-              url: http://10.99.99.5:3000
+              url: http://10.99.99.3
               username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
               password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
             
