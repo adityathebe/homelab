@@ -3,4 +3,3 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - ./cloudnative-pg.yaml
-  - ./pg-backup.yaml
