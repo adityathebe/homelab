@@ -42,7 +42,8 @@ spec:
       v1DataEngine: true
       v2DataEngine: false
     defaultBackupStore:
-      backupTarget: nfs://10.99.99.5:/mnt/hdd/kubernetes/longhorn
+      backupTarget: s3://longhorn@apac/backups
+      backupTargetCredentialSecret: longhorn-r2-backups
     ingress:
       enabled: true
       host: longhorn.${HOMELAB_DOMAIN}
