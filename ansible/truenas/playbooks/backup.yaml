@@ -6,27 +6,27 @@
   become: true
 
   vars:
-    restic_version: 0.16.3
-    restic_path: /usr/local/bin/restic
+    restic_version: 0.18.0
+    restic_path: /usr/bin/restic
     rclone_version: '1.67.0'
 
-  pre_tasks:
-    - name: Download restic
-      ansible.builtin.get_url:
-        url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_amd64.bz2'
-        dest: '/tmp/restic_{{ restic_version }}_linux_amd64.bz2'
+  # pre_tasks:
+  #   - name: Download restic
+  #     ansible.builtin.get_url:
+  #       url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_amd64.bz2'
+  #       dest: '/tmp/restic_{{ restic_version }}_linux_amd64.bz2'
 
-    - name: Extract restic
-      command: 'bzip2 -dk /tmp/restic_{{ restic_version }}_linux_amd64.bz2'
-      args:
-        creates: '/tmp/restic_{{ restic_version }}_linux_amd64'
+  #   - name: Extract restic
+  #     command: 'bzip2 -dk /tmp/restic_{{ restic_version }}_linux_amd64.bz2'
+  #     args:
+  #       creates: '/tmp/restic_{{ restic_version }}_linux_amd64'
 
-    - name: Install restic
-      ansible.builtin.copy:
-        remote_src: true
-        src: '/tmp/restic_{{ restic_version }}_linux_amd64'
-        dest: '{{ restic_path }}'
-        mode: 0755
+  #   - name: Install restic
+  #     ansible.builtin.copy:
+  #       remote_src: true
+  #       src: '/tmp/restic_{{ restic_version }}_linux_amd64'
+  #       dest: '{{ restic_path }}'
+  #       mode: 0755
 
   roles:
     - name: Installs restic & sets up scheduled backup to external HDD
@@ -44,8 +44,8 @@
             }
         restic_default_folders: [] # don't backup the default folders
         restic_ssh_enabled: false
-        restic_repository: /home/admin/seagate/backups
-        restic_repository_name: /home/admin/seagate/backups
+        restic_repository: /mnt/seagate/backups
+        restic_repository_name: /mnt/seagate/backups
         restic_systemd_timer_on_calender: '*-*-* 03:00:00'
         restic_forget_keep_within: 90d
 
@@ -56,18 +56,14 @@
       role: ansible-systemd-timers
       vars:
         timers:
-          rclone-arch-backup:
-            timer_command: rclone sync /home/admin/backups/arch b2:{{ b2_arch_backup }} -v --progress
-            timer_OnCalendar: 'OnCalendar=*-*-1/2 04:00:00'
-            timer_user: 'root'
           rclone-nas-backup:
-            timer_command: rclone sync /home/admin/seagate/backups b2:{{ b2_nas_backup }} -v --progress
-            timer_OnCalendar: 'OnCalendar=*-*-1/2 04:30:00'
+            timer_command: rclone sync /mnt/seagate/backups b2:{{ b2_nas_backup }} -v --progress
+            timer_OnCalendar: '*-*-1/2 04:30:00'
             timer_user: 'root'
 
-  tasks:
-    - name: Setup NAS ssh
-      ansible.posix.authorized_key:
-        user: admin
-        state: present
-        key: '../files/proxmox-player.pub'
+  # tasks:
+  #   - name: Setup NAS ssh
+  #     ansible.posix.authorized_key:
+  #       user: admin
+  #       state: present
+  #       key: '../files/proxmox-player.pub'
