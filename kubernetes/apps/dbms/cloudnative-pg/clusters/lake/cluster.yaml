@@ -24,7 +24,7 @@ spec:
           - vikunja
 
   storage:
-    size: 1Gi
+    size: 5Gi
     storageClass: longhorn-local
 
   # -- When this option is enabled, the operator will use the SuperuserSecret to update the postgres user password.
