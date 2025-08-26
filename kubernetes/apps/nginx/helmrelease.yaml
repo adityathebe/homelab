@@ -34,7 +34,7 @@ spec:
       ingressClassResource:
         default: true
 
-      replicaCount: 3
+      replicaCount: 2
 
       resources:
         requests:
@@ -50,6 +50,16 @@ spec:
           namespace: nginx-ingress
           namespaceSelector:
             any: true
+
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway 
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+              app.kubernetes.io/component: controller
+              app.kubernetes.io/instance: nginx-ingress
 
       extraArgs:
         default-ssl-certificate: 'nginx-ingress/homelab-tls-cert'
