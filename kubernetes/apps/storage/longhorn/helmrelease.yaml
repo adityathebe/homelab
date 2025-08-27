@@ -31,6 +31,10 @@ spec:
     persistence:
       defaultClass: false
       defaultDataLocality: best-effort
+      recurringJobSelector:
+        enable: true
+        jobList:
+          - '{"name":"r2", "isGroup":true}'
     defaultSettings:
       defaultReplicaCount: 1
       defaultLonghornStaticStorageClass: longhorn
