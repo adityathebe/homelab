@@ -1,0 +1,48 @@
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: daily-backup
+spec:
+  cron: '0 1 * * *' # Daily at 1 AM
+  task: backup
+  groups:
+    - r2
+  retain: 7
+  concurrency: 2
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: weekly-backup
+spec:
+  cron: '0 2 * * 0' # Weekly at 2 AM on Sunday
+  task: backup
+  groups:
+    - r2
+  retain: 4
+  concurrency: 2
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: monthly-backup
+spec:
+  cron: '0 2 1 * *' # Monthly at 2 AM on the 1st day of the month
+  task: backup
+  groups:
+    - r2
+  retain: 4
+  concurrency: 2
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: snapshot-backup
+spec:
+  cron: '0 0/6,12,18 * * *' # Every 0th minute past the 6, 12 and 18th hour
+  task: snapshot
+  groups:
+    - r2
+  retain: 5
+  concurrency: 2
