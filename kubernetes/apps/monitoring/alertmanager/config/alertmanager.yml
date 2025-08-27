@@ -19,3 +19,8 @@ receivers:
     pushover_configs:
       - user_key: ${PUSHOVER_USER_KEY}
         token: ${PUSHOVER_APP_TOKEN}
+        priority: >
+          {{ if eq .Status "firing" }}0{{ else }}-1{{ end }}
+        # How long your notification will continue to be retried for, unless the user
+        # acknowledges the notification.
+        expire: 5m
