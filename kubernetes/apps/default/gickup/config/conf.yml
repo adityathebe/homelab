@@ -2,6 +2,9 @@
 source:
   github:
     - user: adityathebe
+      exclude:
+        - adityathebe/DefinitelyTyped
+        - DefinitelyTyped
 
 destination:
   local:
