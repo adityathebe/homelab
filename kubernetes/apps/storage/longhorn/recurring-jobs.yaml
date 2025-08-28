@@ -8,7 +8,7 @@ spec:
   task: backup
   groups:
     - r2
-  retain: 7
+  retain: 6
   concurrency: 2
   labels:
     kind: daily
@@ -36,7 +36,7 @@ spec:
   task: backup
   groups:
     - r2
-  retain: 4
+  retain: 3
   concurrency: 2
   labels:
     kind: monthly
@@ -46,11 +46,11 @@ kind: RecurringJob
 metadata:
   name: snapshot
 spec:
-  cron: '0 0,12 * * *' # At 00:00 and 12:00, every day
+  cron: '0 */6 * * *'
   task: snapshot
   groups:
     - r2
-  retain: 6
+  retain: 8
   concurrency: 2
   labels:
     kind: snapshot
