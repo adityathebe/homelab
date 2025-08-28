@@ -68,8 +68,6 @@ spec:
           - path: /config
       data:
         enabled: true
-        type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/kubernetes/gickup
+        existingClaim: gickup
         globalMounts:
           - path: /data
