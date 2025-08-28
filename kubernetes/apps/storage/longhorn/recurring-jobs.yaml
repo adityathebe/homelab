@@ -4,7 +4,7 @@ kind: RecurringJob
 metadata:
   name: daily-backup
 spec:
-  cron: '15 19 * * *' # Daily at 1 AM Nepal Time (7:15 PM UTC)
+  cron: '0 1 * * *' # Daily at 1 AM Nepal Time
   task: backup
   groups:
     - r2
@@ -18,7 +18,7 @@ kind: RecurringJob
 metadata:
   name: weekly-backup
 spec:
-  cron: '15 20 * * 6' # Weekly at 2 AM Nepal Time on Sunday (8:15 PM UTC Saturday)
+  cron: '0 2 * * 6' # Weekly at 2 AM Nepal Time on Sunday
   task: backup
   groups:
     - r2
@@ -32,14 +32,14 @@ kind: RecurringJob
 metadata:
   name: monthly-backup
 spec:
-  cron: '15 21 1 * *' # Monthly at 3 AM Nepal Time on the 1st (9:15 PM UTC on previous day)
+  cron: '0 3 1 * *' # Monthly at 3 AM Nepal Time on the 1st
   task: backup
   groups:
     - r2
   retain: 4
   concurrency: 2
   labels:
-    kind: snapshot
+    kind: monthly
 ---
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
@@ -52,3 +52,5 @@ spec:
     - r2
   retain: 6
   concurrency: 2
+  labels:
+    kind: snapshot
