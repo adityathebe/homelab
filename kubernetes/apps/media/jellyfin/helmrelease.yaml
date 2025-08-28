@@ -129,3 +129,5 @@ spec:
                 subPath: log
               - path: /tmp
                 subPath: tmp
+              - path: /config/transcodes
+                subPath: transcodes
