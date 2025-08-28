@@ -9,7 +9,7 @@
   apt:
     name: iotop
     state: present
-  become: yes
+  become: true
 
 - name: Download bottom .deb package
   get_url:

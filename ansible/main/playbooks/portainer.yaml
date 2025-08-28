@@ -5,44 +5,10 @@
   serial: 1
 
   vars:
-    data_path: /home/player/data
-    user_home: /home/player
     user_name: player
-
-  pre_tasks:
-    - name: Prepare data directory
-      ansible.builtin.file:
-        path: '{{ item }}'
-        state: directory
-        owner: player
-        group: player
-        mode: '0755'
-      loop:
-        - '{{ data_path }}/portainer'
-
-    - name: Add ssh private key
-      ansible.builtin.copy:
-        src: ../files/proxmox-player
-        dest: '{{ user_home }}/.ssh/proxmox-player'
-        owner: '{{ user_name }}'
-        group: '{{ user_name }}'
-        mode: '0600'
-
-    - name: Setup ssh config
-      ansible.builtin.copy:
-        content: "{{ lookup('template', '../template/ssh_config.jinja2') }}"
-        dest: '{{ user_home }}/.ssh/config'
-        owner: '{{ user_name }}'
-        group: '{{ user_name }}'
-        mode: '0600'
-      vars:
-        ssh_private_key_file: '{{ user_home }}/.ssh/proxmox-player'
 
   roles:
     - ubuntu
-
-    - name: Install node exporter
-      role: geerlingguy.node_exporter
 
     - name: Setup nfs server
       role: geerlingguy.nfs
@@ -52,15 +18,6 @@
           - /mnt/hdd/media *(sec=sys,all_squash,anonuid=1000,anongid=1000,rw,sync,no_subtree_check,fsid=1)
           - /mnt/hdd/kubernetes *(sec=sys,all_squash,anonuid=1000,anongid=1000,rw,sync,no_subtree_check,fsid=2)
 
-    - name: Install docker
-      role: geerlingguy.docker
-
-    - name: Allow non root docker access
-      role: dockernonroot
-
-    - name: Install postgres cluster on docker
-      role: postgres
-
     - name: Schedule backup to nas
       role: ansible-systemd-timers
       vars:
@@ -68,8 +25,4 @@
           songs-backup:
             timer_command: rsync -avhP --no-times /mnt/hdd/media/music truenas:/mnt/mega/aditya
             timer_OnCalendar: '*-*-* 02:00:00'
-            timer_user: '{{ user_name }}'
-          pg-backup:
-            timer_command: rsync -avhP --no-times /mnt/hdd/kubernetes/pg-backup truenas:/mnt/mega/aditya
-            timer_OnCalendar: '*-*-* 03:00:00'
             timer_user: '{{ user_name }}'
