@@ -9,7 +9,7 @@ destination:
       structured: true
       bare: false
       mirror: true
-      lfs: true
+      lfs: false # Too slow and always fails with "exit status 128"
 
 metrics:
   prometheus:
