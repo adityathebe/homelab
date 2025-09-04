@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: actualbudget/actual-server
-              tag: 25.8.0
+              tag: 25.9.0
             env:
               PGID: '1337'
             probes:
