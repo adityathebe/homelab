@@ -5,8 +5,8 @@
     update_cache: yes
     state: present
 
-- name: prune unused container images
-  shell: k3s crictl rmi --prune
+# - name: prune unused container images
+#   shell: k3s crictl rmi --prune
 
 - name: install open-iscsi for longhorn
   apt:

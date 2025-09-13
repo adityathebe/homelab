@@ -1,10 +1,12 @@
 [masters]
 arteta
+arsene
+wrighty
 
 [nodes]
-saka
 ozil
 saliba
+alexis
 
 [container]
 portainer
