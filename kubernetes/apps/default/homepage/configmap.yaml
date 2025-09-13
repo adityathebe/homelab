@@ -292,7 +292,7 @@ data:
         columns: 5
       Management:
         style: row
-        columns: 6
+        columns: 5
 
   widgets.yaml: |
     ---
