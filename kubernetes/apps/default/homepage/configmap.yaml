@@ -140,6 +140,18 @@ data:
             href: https://10.99.99.12:8006
             ping: https://10.99.99.12:8006
             description: Proxmox
+        
+        - Ramsey:
+            icon: proxmox.png
+            href: https://10.99.99.13:8006
+            ping: https://10.99.99.13:8006
+            description: Proxmox
+
+        - Cazorla:
+            icon: proxmox.png
+            href: https://10.99.99.14:8006
+            ping: https://10.99.99.14:8006
+            description: Proxmox
 
         - Longhorn:
             icon: longhorn.png
