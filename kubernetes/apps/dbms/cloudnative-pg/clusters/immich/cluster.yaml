@@ -64,6 +64,7 @@ spec:
         sslmode: disable
 
   backup:
+    retentionPolicy: 30d
     barmanObjectStore:
       destinationPath: 's3://immich-backups/'
       endpointURL: https://${CF_ACCOUNT_ID}.r2.cloudflarestorage.com
