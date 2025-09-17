@@ -70,8 +70,8 @@ spec:
       downloads:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/music
+        server: 10.99.99.51
+        path: /mnt/mega/aditya/music
 
       config:
         enabled: true
