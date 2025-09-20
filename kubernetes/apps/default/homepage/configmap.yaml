@@ -129,12 +129,6 @@ data:
               version: 2
 
     - Management:
-        - Proxmox:
-            icon: proxmox.png
-            href: https://pve.home.adityathebe.com:8006
-            ping: https://pve.home.adityathebe.com:8006
-            description: Proxmox
-
         - Wilshere:
             icon: proxmox.png
             href: https://10.99.99.12:8006
