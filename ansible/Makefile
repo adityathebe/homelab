@@ -1,8 +1,5 @@
-portainer:
-	cd main && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/portainer.yaml
-
-portainer-vault:
-	cd main && echo "$$ANSIBLE_VAULT_PASS" | ansible-vault edit --vault-password-file='/bin/cat' host_vars/portainer.yaml
+media:
+	cd main && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/media.yaml
 
 nodes:
 	cd main && ansible-playbook playbooks/nodes.yaml
