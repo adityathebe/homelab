@@ -99,14 +99,14 @@ spec:
           - path: /config/logs
       torrent-downloads:
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/transmission-downloads
+        server: 10.99.99.20
+        path: /srv/media/torrent-downloads
         globalMounts:
           - path: /downloads
       movies:
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/movies
+        server: 10.99.99.20
+        path: /srv/media/movies
         globalMounts:
           - path: /movies
       tmp:

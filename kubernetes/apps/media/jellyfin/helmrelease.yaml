@@ -97,24 +97,24 @@ spec:
       movies:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/movies
+        server: 10.99.99.20
+        path: /srv/media/movies
         globalMounts:
           - path: /movies
             readOnly: true
       shows:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/shows
+        server: 10.99.99.20
+        path: /srv/media/shows
         globalMounts:
           - path: /shows
             readOnly: true
       music:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/music
+        server: 10.99.99.51
+        path: /mnt/mega/aditya/music
         globalMounts:
           - path: /music
             readOnly: true

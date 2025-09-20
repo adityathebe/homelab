@@ -89,8 +89,8 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/transmission-downloads
+        server: 10.99.99.20
+        path: /srv/media/torrent-downloads
         globalMounts:
           - path: /config/Downloads
       tmp:

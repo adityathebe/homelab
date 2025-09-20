@@ -96,16 +96,16 @@ spec:
       movies:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/movies
+        server: 10.99.99.20
+        path: /srv/media/movies
         globalMounts:
           - path: /movies
 
       shows:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/shows
+        server: 10.99.99.20
+        path: /srv/media/shows
         globalMounts:
           - path: /shows
 

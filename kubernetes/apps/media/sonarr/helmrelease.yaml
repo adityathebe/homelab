@@ -100,14 +100,14 @@ spec:
       torrent-downloads:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/transmission-downloads
+        server: 10.99.99.20
+        path: /srv/media/torrent-downloads
         globalMounts:
           - path: /downloads
       shows:
         enabled: true
         type: nfs
-        server: 10.99.99.5
-        path: /mnt/hdd/media/shows
+        server: 10.99.99.20
+        path: /srv/media/shows
         globalMounts:
           - path: /shows
