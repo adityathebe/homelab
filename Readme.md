@@ -21,21 +21,24 @@ Using GitOps principals and workflow to manage a lightweight <a href="https://k3
 
 # Infrastructure
 
-I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 3 node _(1 master & 2 workers)_ cluster on 3 Proxmox VMs.
+I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 6 node _(3 masters & 3 workers)_ cluster across 3 Proxmox hosts, with each host running 2 VMs (1 master node with 4GB RAM/2vCPU and 1 worker node with 8GB RAM/4vCPU).
 
 ![Dashboard](https://i.imgur.com/dceiTP6.png)
 
 ## Servers
 
-### 1. Proxmox
+### 1. Proxmox Cluster
 
-| Description | Spec              |
-| ----------- | ----------------- |
-| Server      | Acer Nitro 5      |
-| RAM         | 32GB              |
-| CPU         | Intel i7 11th gen |
-| HDD         | 1TB               |
-| SSD         | 256GB             |
+| Host            | Model   | CPU           | Storage   |
+| --------------- | ------- | ------------- | --------- |
+| Beelink S12 Pro | Mini PC | 12th gen N100 | 512GB M.2 |
+| Beelink S13     | Mini PC | 12th gen N150 | 512GB M.2 |
+| Beelink EQ14    | Mini PC | 12th gen N150 | 512GB M.2 |
+
+Each Proxmox host runs:
+
+- 1x Kubernetes master node (4GB RAM, 2vCPU)
+- 1x Kubernetes worker node (8GB RAM, 4vCPU)
 
 ### 2. TrueNAS Scale
 
@@ -48,7 +51,7 @@ I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) 
 | SDD         | 1TB                            |
 
 ![Server](https://i.imgur.com/NZUvI2A.jpg)
-_Proxmox & Truenas(bottom) servers_
+_Beelink mini PCs & TrueNAS server_
 
 # Setting it up
 
