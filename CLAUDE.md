@@ -61,6 +61,10 @@ The entire infrastructure is declaratively managed through FluxCD, with secrets 
 - **Longhorn**: Distributed block storage with volume snapshots and backups to Cloudflare R2
 - **NFS storage class**: For shared persistent volumes across nodes
 
+### Database Patterns
+
+- **CNPG**: CloudNative-PG operator for PostgreSQL clusters with 3 replicas and PITR backups to Cloudflare R2
+
 ## Infrastructure Details
 
 **Hardware**: Acer Nitro 5 (32GB RAM, Intel i7 11th gen) running Proxmox with 3 K3s VMs

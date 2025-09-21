@@ -77,12 +77,12 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 
 ## Database Backups
 
-### PostgreSQL (Daily Dumps)
+### PostgreSQL (CNPG Cluster with PITR)
 
-- **Tool**: `prodrigestivill/postgres-backup-local:17` via Kubernetes CronJob
-- **Schedule**: Daily at midnight
-- **Retention**: 60 days daily, 8 weeks weekly, 6 months monthly
-- **Storage**: 50GB NFS persistent volume
+- **Tool**: CloudNative-PG (CNPG) operator with Point-in-Time Recovery
+- **Architecture**: 3-replica PostgreSQL cluster for high availability
+- **Backup**: Continuous WAL archiving and base backups to Cloudflare R2
+- **Recovery**: Point-in-Time Recovery (PITR) capability
 - **Covers**: Immich, Movary, Fresh RSS, Vikunja, Speedtest Tracker
 
 ## Volume Backups (Longhorn)
@@ -111,7 +111,7 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 
 | Type        | Primary          | Secondary    | Cloud         |
 | ----------- | ---------------- | ------------ | ------------- |
-| PostgreSQL  | NFS Storage      | -            | -             |
+| PostgreSQL  | CNPG Cluster     | 3 Replicas   | Cloudflare R2 |
 | Volumes     | Longhorn Volumes | Snapshots    | Cloudflare R2 |
 | File System | TrueNAS          | External HDD | Backblaze B2  |
 
@@ -119,7 +119,7 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 
 All backup credentials are encrypted with SOPS/Age and managed through GitOps. Recovery procedures involve:
 
-1. Database restores from PostgreSQL daily dumps
+1. Database restores from CNPG Point-in-Time Recovery or replica promotion
 2. Volume restores from Longhorn snapshots and backups
 3. File system restores using `restic restore` from local or cloud repositories
 4. Application data persistence through Longhorn distributed storage
