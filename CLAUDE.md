@@ -67,6 +67,6 @@ The entire infrastructure is declaratively managed through FluxCD, with secrets 
 
 ## Infrastructure Details
 
-**Hardware**: Acer Nitro 5 (32GB RAM, Intel i7 11th gen) running Proxmox with 3 K3s VMs
+**Hardware**: 3 Beelink mini PCs running Proxmox with K3s cluster
 **Storage**: TrueNAS Scale on Sony VAIO (8GB RAM, Intel i5-3210M) providing NFS and iSCSI
 **Network**: Cloudflare tunnels for external access, nginx-ingress for internal routing
