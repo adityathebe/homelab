@@ -23,7 +23,7 @@ Using GitOps principals and workflow to manage a lightweight <a href="https://k3
 
 I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 6 node _(3 masters & 3 workers)_ cluster across 3 Proxmox hosts, with each host running 2 VMs (1 master node with 4GB RAM/2vCPU and 1 worker node with 8GB RAM/4vCPU).
 
-![Dashboard](https://i.imgur.com/dceiTP6.png)
+![Dashboard](.github/images/homepage.png)
 
 ## Servers
 
@@ -47,10 +47,10 @@ Each Proxmox host runs:
 | Server      | SONY VAIO - SVE14126CXB (2012) |
 | RAM         | 8GB _(maxed out)_              |
 | CPU         | Intel i5-3210M                 |
-| SSD (os)    | 256GB                          |
+| SSD (os)    | 128GB                          |
 | SDD         | 1TB                            |
 
-![Server](https://i.imgur.com/NZUvI2A.jpg)
+![Server](.github/images/IMG_9856.jpg)
 _Beelink mini PCs & TrueNAS server_
 
 # Setting it up
@@ -111,8 +111,8 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 
 | Type        | Primary          | Secondary    | Cloud         |
 | ----------- | ---------------- | ------------ | ------------- |
-| PostgreSQL  | CNPG Cluster     | 3 Replicas   | Cloudflare R2 |
-| Volumes     | Longhorn Volumes | Snapshots    | Cloudflare R2 |
+| PostgreSQL  | CNPG Cluster     | -            | Cloudflare R2 |
+| Volumes     | Longhorn Volumes | -            | Cloudflare R2 |
 | File System | TrueNAS          | External HDD | Backblaze B2  |
 
 ## Recovery
