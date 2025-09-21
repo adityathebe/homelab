@@ -154,13 +154,13 @@ data:
 
         - Truenas:
             icon: truenas.png
-            href: https://nas.home.adityathebe.com
-            ping: https://nas.home.adityathebe.com
+            href: https://nas.${HOMELAB_DOMAIN}
+            ping: https://nas.${HOMELAB_DOMAIN}
             description: TrueNAS Scale
             widget:
               type: truenas
               key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
-              url: https://nas.home.adityathebe.com
+              url: https://nas.${HOMELAB_DOMAIN}
 
         - Adguard:
             icon: adguard-home.png

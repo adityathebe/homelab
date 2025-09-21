@@ -6,7 +6,7 @@ metadata:
     kustomize.toolkit.fluxcd.io/substitute: disabled
 provisioner: smb.csi.k8s.io
 parameters:
-  source: //nas.home.adityathebe.com/aditya
+  source: //10.99.99.51/aditya
   subDir: backups/${pvc.metadata.name}
   # if csi.storage.k8s.io/provisioner-secret is provided, will create a sub directory
   # with PV name under source
