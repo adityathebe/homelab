@@ -1,12 +1,3 @@
-resource "cloudflare_record" "proxmox" {
-  zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "pve.home"
-  allow_overwrite = true
-  content         = "10.99.99.4"
-  type            = "A"
-  proxied         = false
-}
-
 resource "cloudflare_record" "truenas" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
   name            = "nas.home"
