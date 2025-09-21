@@ -85,11 +85,12 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 - **Storage**: 50GB NFS persistent volume
 - **Covers**: Immich, Movary, Fresh RSS, Vikunja, Speedtest Tracker
 
-### SQLite (Real-time Replication)
+## Volume Backups (Longhorn)
 
-- **Tool**: Litestream → Cloudflare R2
-- **Schedule**: Real-time continuous replication
-- **Covers**: Navidrome, Jellyfin, Jellyseerr, Sonarr, Radarr, Prowlarr, Actual Budget
+- **Tool**: Longhorn volume snapshots and backups
+- **Schedule**: Automated snapshots and backups
+- **Storage**: Longhorn distributed block storage with backups to Cloudflare R2
+- **Covers**: All persistent volumes including SQLite databases, application data, and configuration files
 
 ## File System Backups
 
@@ -108,19 +109,20 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 
 ## Backup Locations
 
-| Type        | Primary      | Secondary    | Cloud         |
-| ----------- | ------------ | ------------ | ------------- |
-| PostgreSQL  | NFS Storage  | -            | -             |
-| SQLite      | Local SQLite | -            | Cloudflare R2 |
-| File System | TrueNAS      | External HDD | Backblaze B2  |
+| Type        | Primary          | Secondary    | Cloud         |
+| ----------- | ---------------- | ------------ | ------------- |
+| PostgreSQL  | NFS Storage      | -            | -             |
+| Volumes     | Longhorn Volumes | Snapshots    | Cloudflare R2 |
+| File System | TrueNAS          | External HDD | Backblaze B2  |
 
 ## Recovery
 
 All backup credentials are encrypted with SOPS/Age and managed through GitOps. Recovery procedures involve:
 
-1. Database restores from daily dumps or real-time replicas
-2. File system restores using `restic restore` from local or cloud repositories
-3. Application data persistence through NFS storage class
+1. Database restores from PostgreSQL daily dumps
+2. Volume restores from Longhorn snapshots and backups
+3. File system restores using `restic restore` from local or cloud repositories
+4. Application data persistence through Longhorn distributed storage
 
 ## Requirements
 

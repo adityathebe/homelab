@@ -58,9 +58,8 @@ The entire infrastructure is declaratively managed through FluxCD, with secrets 
 
 ### Storage Patterns
 
+- **Longhorn**: Distributed block storage with volume snapshots and backups to Cloudflare R2
 - **NFS storage class**: For shared persistent volumes across nodes
-- **Democratic CSI**: For local-hostpath storage
-- **Litestream**: SQLite database backups
 
 ## Infrastructure Details
 
