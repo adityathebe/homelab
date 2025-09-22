@@ -71,13 +71,16 @@ export GITHUB_TOKEN='ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 make bootstrap
 ```
 
-# Backup Strategy
+# Kubernetes Backup
 
 This homelab implements a comprehensive three-tier backup strategy covering databases, application data, and file systems.
 
-## Database Backups
+| Type       | Primary          | Cloud         |
+| ---------- | ---------------- | ------------- |
+| PostgreSQL | CNPG Cluster     | Cloudflare R2 |
+| Volumes    | Longhorn Volumes | Cloudflare R2 |
 
-### PostgreSQL (CNPG Cluster with PITR)
+## Database Backups
 
 - **Tool**: CloudNative-PG (CNPG) operator with Point-in-Time Recovery
 - **Architecture**: 3-replica PostgreSQL cluster for high availability
@@ -92,9 +95,7 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 - **Storage**: Longhorn distributed block storage with backups to Cloudflare R2
 - **Covers**: All persistent volumes including SQLite databases, application data, and configuration files
 
-## File System Backups
-
-### Local & External Storage
+# NAS Backups
 
 - **Tool**: Restic
 - **Schedule**: Daily at 03:00 AM
@@ -106,14 +107,6 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 - **Tool**: Rclone → Backblaze B2
 - **Schedule**: Every 2 days at 04:30 AM
 - **Sources**: Personal files (`/mnt/mega/aditya`), Photos (`/mnt/mega/photos`)
-
-## Backup Locations
-
-| Type        | Primary          | Secondary    | Cloud         |
-| ----------- | ---------------- | ------------ | ------------- |
-| PostgreSQL  | CNPG Cluster     | -            | Cloudflare R2 |
-| Volumes     | Longhorn Volumes | -            | Cloudflare R2 |
-| File System | TrueNAS          | External HDD | Backblaze B2  |
 
 ## Recovery
 
