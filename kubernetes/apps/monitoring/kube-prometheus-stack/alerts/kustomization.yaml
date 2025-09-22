@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./oom.yaml
   - ./host.yaml
+  - ./longhorn-backup.yaml

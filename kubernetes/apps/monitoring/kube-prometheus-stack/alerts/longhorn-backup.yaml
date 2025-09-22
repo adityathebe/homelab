@@ -1,0 +1,99 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: longhorn-backup
+spec:
+  groups:
+    - name: longhorn.backup
+      rules:
+        - alert: LonghornBackupJobStuck
+          annotations:
+            summary: 'Longhorn backup job {{ $labels.job_name }} is stuck'
+            description: 'Backup job {{ $labels.job_name }} in namespace {{ $labels.namespace }} has been running for more than 2 hours without completion.'
+          expr: |
+            time() - kube_job_status_start_time{job="kube-state-metrics", namespace="storage", job_name=~".*backup.*"} > 7200
+            and
+            kube_job_status_active{job="kube-state-metrics", namespace="storage", job_name=~".*backup.*"} > 0
+          for: 5m
+          labels:
+            severity: warning
+
+        - alert: LonghornBackupJobFailed
+          annotations:
+            summary: 'Longhorn backup job {{ $labels.job_name }} failed'
+            description: 'Backup job {{ $labels.job_name }} in namespace {{ $labels.namespace }} has failed. Check the job logs for details.'
+          expr: |
+            kube_job_failed{job="kube-state-metrics", namespace="storage", job_name=~".*backup.*"} > 0
+          for: 1m
+          labels:
+            severity: critical
+
+        - alert: LonghornDailyBackupMissing
+          annotations:
+            summary: 'Longhorn daily backup has not run recently'
+            description: 'No daily backup job has completed successfully in the last 26 hours. Expected daily backups at 01:00 Nepal time.'
+          expr: |
+            (
+              time() -
+              max(
+                kube_job_status_completion_time{job="kube-state-metrics", namespace="storage", job_name=~"daily-backup-.*"}
+              )
+            ) > 93600
+          for: 5m
+          labels:
+            severity: warning
+
+        - alert: LonghornWeeklyBackupMissing
+          annotations:
+            summary: 'Longhorn weekly backup has not run recently'
+            description: 'No weekly backup job has completed successfully in the last 8 days. Expected weekly backups on Saturdays at 02:00 Nepal time.'
+          expr: |
+            (
+              time() -
+              max(
+                kube_job_status_completion_time{job="kube-state-metrics", namespace="storage", job_name=~"weekly-backup-.*"}
+              )
+            ) > 691200
+          for: 5m
+          labels:
+            severity: warning
+
+        - alert: LonghornMonthlyBackupMissing
+          annotations:
+            summary: 'Longhorn monthly backup has not run recently'
+            description: 'No monthly backup job has completed successfully in the last 35 days. Expected monthly backups on the 1st at 03:00 Nepal time.'
+          expr: |
+            (
+              time() -
+              max(
+                kube_job_status_completion_time{job="kube-state-metrics", namespace="storage", job_name=~"monthly-backup-.*"}
+              )
+            ) > 3024000
+          for: 5m
+          labels:
+            severity: warning
+
+        - alert: LonghornBackupTargetUnavailable
+          annotations:
+            summary: 'Longhorn backup target is unavailable'
+            description: 'The Longhorn backup target ({{ $labels.target }}) is not available. Check the S3/R2 connectivity and credentials.'
+          expr: |
+            longhorn_backup_target_available == 0
+          for: 5m
+          labels:
+            severity: critical
+
+        - alert: LonghornVolumeBackupStale
+          annotations:
+            summary: 'Longhorn volume {{ $labels.volume }} backup is stale'
+            description: 'Volume {{ $labels.volume }} has not been backed up successfully in the last 48 hours.'
+          expr: |
+            (
+              time() -
+              longhorn_volume_last_backup_at
+            ) > 172800
+          for: 10m
+          labels:
+            severity: warning
