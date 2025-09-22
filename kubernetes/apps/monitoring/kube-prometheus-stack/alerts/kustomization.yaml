@@ -6,3 +6,4 @@ resources:
   - ./oom.yaml
   - ./host.yaml
   - ./longhorn-backup.yaml
+  - ./longhorn.yaml
