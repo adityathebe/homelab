@@ -6,15 +6,20 @@ route:
   group_wait: 45s
   group_interval: 10m
   repeat_interval: 12h
-  receiver: 'pushover'
+  receiver: 'telegram'
   routes:
     - receiver: 'null'
       matchers:
         - alertname = "Watchdog"
-    - receiver: 'pushover'
+    - receiver: 'telegram'
 
 receivers:
   - name: 'null'
+  - name: 'telegram'
+    telegram_configs:
+      - chat_id: ${TELEGRAM_CHAT_ID}
+        token: ${TELEGRAM_BOT_TOKEN}
+        parse_mode: 'Markdown'
   - name: 'pushover'
     pushover_configs:
       - user_key: ${PUSHOVER_USER_KEY}
