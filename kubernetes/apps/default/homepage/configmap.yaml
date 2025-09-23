@@ -110,13 +110,6 @@ data:
             href: https://vehicle.${HOMELAB_DOMAIN}
             description: Vehicle maintenance log
 
-        - Vikunja:
-            icon: vikunja.png
-            namespace: default
-            app: vikunja-api
-            href: https://vikunja.${HOMELAB_DOMAIN}
-            description: Todo app
-
         - Paperless:
             icon: paperless.png
             namespace: default
