@@ -22,11 +22,15 @@ data:
     - Music:
         - Airsonic:
             icon: airsonic.png
+            namespace: music
+            app: airsonic
             href: https://airsonic.${HOMELAB_DOMAIN}
             description: Music Player
 
         - Navidrome:
             icon: navidrome.png
+            namespace: music
+            app: navidrome
             href: https://navidrome.${HOMELAB_DOMAIN}
             description: Music Player
             widget:
@@ -38,17 +42,23 @@ data:
 
         - Deemix:
             icon: deemix.png
+            namespace: music
+            app: deemix
             href: https://deemix.${HOMELAB_DOMAIN}
             description: Deezer music downlader
 
     - Monitoring:
         - Grafana:
             icon: grafana.png
+            namespace: monitoring
+            app: grafana
             href: https://grafana.${HOMELAB_DOMAIN}
             description: Dashboard
 
         - Prometheus:
             icon: prometheus.png
+            namespace: monitoring
+            app: prometheus
             href: https://prometheus.${HOMELAB_DOMAIN}
             description: Prometheus
             widget:
@@ -57,11 +67,15 @@ data:
 
         - Alert Manager:
             icon: alertmanager.png
+            namespace: monitoring
+            app: alertmanager
             href: https://alertmanager.${HOMELAB_DOMAIN}
             description: Alert Manager
 
         - Speed Tracker:
             icon: speedtest-tracker.png
+            namespace: monitoring
+            app: speedtest-tracker
             href: https://speedtest.${HOMELAB_DOMAIN}
             description: Speedtest
             widget:
@@ -70,36 +84,50 @@ data:
 
         - Canary Checker:
             icon: https://raw.githubusercontent.com/flanksource/flanksource-icons/refs/heads/main/svg/flanksource-icon.svg
+            namespace: monitoring
+            app: canary-checker
             href: https://canary-checker.${HOMELAB_DOMAIN}
 
     - Applications:
         - Actual:
             icon: actual-budget.png
+            namespace: default
+            app: actualbudget
             href: https://actual.${HOMELAB_DOMAIN}
             description: Budget
 
         - IT Tools:
             icon: it-tools.png
+            namespace: default
+            app: ittools
             href: https://ittools.${HOMELAB_DOMAIN}
             description: Swiss army knife for IT
 
         - LubeLogger:
             icon: lubelogger.png
+            namespace: default
+            app: lubelogger
             href: https://vehicle.${HOMELAB_DOMAIN}
             description: Vehicle maintenance log
 
         - Vikunja:
             icon: vikunja.png
+            namespace: default
+            app: vikunja-api
             href: https://vikunja.${HOMELAB_DOMAIN}
             description: Todo app
 
         - Paperless:
             icon: paperless.png
+            namespace: default
+            app: paperless
             href: https://paperless.${HOMELAB_DOMAIN}
             description: Documents management
 
         - RSS:
             icon: freshrss.png
+            namespace: default
+            app: freshrss
             href: https://rss.${HOMELAB_DOMAIN}
             widget:
               type: freshrss
@@ -109,10 +137,14 @@ data:
 
         - Radicale:
             icon: radicale.png
+            namespace: default
+            app: radicale
             href: https://radicale.${HOMELAB_DOMAIN}
 
         - Silver Bullet:
             icon: https://silverbullet.md/.client/logo.png
+            namespace: default
+            app: silverbullet
             href: https://notes.${HOMELAB_DOMAIN}
             description: Note taking app
 
@@ -211,6 +243,8 @@ data:
             icon: sonarr.png
             href: https://sonarr.${HOMELAB_DOMAIN}
             description: TV Show
+            namespace: media
+            app: sonarr
             widget:
               type: sonarr
               url: http://sonarr.media.svc:8989
@@ -220,6 +254,8 @@ data:
             icon: radarr.png
             href: https://radarr.${HOMELAB_DOMAIN}
             description: Movies
+            namespace: media
+            app: radarr
             widget:
               type: radarr
               url: http://radarr.media.svc:7878
@@ -229,6 +265,8 @@ data:
             icon: prowlarr.png
             href: https://prowlarr.${HOMELAB_DOMAIN}
             description: Torrent indexer
+            namespace: media
+            app: prowlarr
             widget:
               type: prowlarr
               url: http://prowlarr.media.svc:9696
