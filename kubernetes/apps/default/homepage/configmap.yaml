@@ -251,6 +251,12 @@ data:
             description: Torrent Client
             namespace: media
             app: qbittorrent
+            widget:
+              type: qbittorrent
+              url: https://qbittorrent.${HOMELAB_DOMAIN}
+              username: admin
+              password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
+              enableLeechProgress: true # optional, defaults to false
 
         - Movary:
             icon: https://raw.githubusercontent.com/leepeuker/movary/main/public/images/movary-logo-192x192.png
