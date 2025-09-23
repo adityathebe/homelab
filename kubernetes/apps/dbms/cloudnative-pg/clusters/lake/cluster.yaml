@@ -8,21 +8,6 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17
   primaryUpdateStrategy: unsupervised
 
-  bootstrap:
-    initdb:
-      import:
-        source:
-          externalCluster: portainer
-        type: monolith
-        roles:
-          - freshrss
-          - lubelogger
-          - vikunja
-        databases:
-          - freshrss
-          - lubelogger
-          - vikunja
-
   storage:
     size: 5Gi
     storageClass: longhorn-local
@@ -46,17 +31,6 @@ spec:
     limits:
       memory: 3Gi
       cpu: 2
-
-  externalClusters:
-    - name: portainer
-      password:
-        key: password
-        name: portainer
-      connectionParameters:
-        host: '10.99.99.5'
-        user: postgres
-        dbname: postgres
-        sslmode: disable
 
   backup:
     retentionPolicy: 30d
