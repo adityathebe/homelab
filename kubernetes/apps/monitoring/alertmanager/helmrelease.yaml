@@ -31,6 +31,10 @@ spec:
               globalMounts:
                 - path: /alertmanager
 
+        pod:
+          securityContext:
+            fsGroup: 65534
+
         containers:
           alertmanager:
             image:
