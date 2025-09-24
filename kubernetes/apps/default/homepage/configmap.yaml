@@ -116,7 +116,13 @@ data:
             app: paperless
             href: https://paperless.${HOMELAB_DOMAIN}
             description: Documents management
-
+        
+        - Radicale:
+            icon: radicale.png
+            namespace: default
+            app: radicale
+            href: https://radicale.${HOMELAB_DOMAIN}
+        
         - RSS:
             icon: freshrss.png
             namespace: default
@@ -127,12 +133,6 @@ data:
               url: https://rss.${HOMELAB_DOMAIN}
               username: adityathebe
               password: {{HOMEPAGE_VAR_FRESH_RSS_PASSWORD}}
-
-        - Radicale:
-            icon: radicale.png
-            namespace: default
-            app: radicale
-            href: https://radicale.${HOMELAB_DOMAIN}
 
         - Silver Bullet:
             icon: https://silverbullet.md/.client/logo.png
