@@ -34,7 +34,7 @@ resource "cloudflare_tunnel_config" "homelab" {
       }
     }
     ingress_rule {
-      hostname = "notes.${data.sops_file.cloudflare_secrets.data["cloudflare_domain"]}"
+      hostname = "notes.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       path     = ""
       service  = "http://10.99.99.25"
       origin_request {
@@ -47,6 +47,14 @@ resource "cloudflare_tunnel_config" "homelab" {
       service  = "http://10.99.99.25"
       origin_request {
         http_host_header = "movary.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
+      }
+    }
+    ingress_rule {
+      hostname = "radicale.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
+      path     = ""
+      service  = "http://10.99.99.25"
+      origin_request {
+        http_host_header = "radicale.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"
       }
     }
     ingress_rule {
@@ -113,8 +121,16 @@ resource "cloudflare_record" "homelab_movary" {
 }
 
 resource "cloudflare_record" "homelab_silverbullet" {
-  zone_id = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
+  zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
   name    = "notes"
+  content = cloudflare_tunnel.homelab.cname
+  type    = "CNAME"
+  proxied = true
+}
+
+resource "cloudflare_record" "homelab_radicale" {
+  zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
+  name    = "radicale"
   content = cloudflare_tunnel.homelab.cname
   type    = "CNAME"
   proxied = true
@@ -135,7 +151,6 @@ resource "cloudflare_record" "homelab_navidrome" {
   type    = "CNAME"
   proxied = true
 }
-
 
 resource "cloudflare_record" "homelab_vehicle" {
   zone_id = data.sops_file.cloudflare_secrets.data["homelab_cloudflare_zone_id"]
