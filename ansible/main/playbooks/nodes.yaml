@@ -23,3 +23,17 @@
         name: fs.inotify.max_queued_events
         value: 2099999999
         state: present
+
+    - name: 'disable multipath service (conflicts with longhorn)'
+      systemd:
+        name: multipathd
+        state: stopped
+        enabled: false
+      ignore_errors: true
+
+    - name: 'disable multipath socket (conflicts with longhorn)'
+      systemd:
+        name: multipathd.socket
+        state: stopped
+        enabled: false
+      ignore_errors: true
