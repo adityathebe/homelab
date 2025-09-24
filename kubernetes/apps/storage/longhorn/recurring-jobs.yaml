@@ -10,6 +10,8 @@ spec:
     - r2
   retain: 6
   concurrency: 2
+  parameters:
+    full-backup-interval: '6'
   labels:
     kind: daily
 ---
@@ -24,6 +26,8 @@ spec:
     - r2
   retain: 4
   concurrency: 2
+  parameters:
+    full-backup-interval: '4'
   labels:
     kind: weekly
 ---
@@ -38,6 +42,8 @@ spec:
     - r2
   retain: 3
   concurrency: 2
+  parameters:
+    full-backup-interval: '3'
   labels:
     kind: monthly
 ---
