@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app jellyfin
+  name: jellyfin
   namespace: media
 spec:
   interval: 30m
@@ -74,7 +74,7 @@ spec:
         controller: main
         ports:
           http:
-            port: 8096
+            port: *port
 
     ingress:
       main:
@@ -129,5 +129,5 @@ spec:
                 subPath: log
               - path: /tmp
                 subPath: tmp
-              - path: /config/transcodes
+              - path: /transcodes
                 subPath: transcodes
