@@ -6,3 +6,4 @@ resources:
   - cloudflared.yaml
   - csi-driver-smb.yaml
   - external-dns.yaml
+  - tailscale.yaml
