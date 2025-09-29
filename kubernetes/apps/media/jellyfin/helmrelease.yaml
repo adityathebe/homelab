@@ -69,6 +69,8 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 992  # render group for Intel GPU access
 
     service:
       main:
