@@ -11,6 +11,7 @@ resources:
   - flanksource.yaml
   - grafana.yaml
   - immich.yaml
+  - intel.yaml
   - longhorn.yaml
   - nginx-ingress.yaml
   - node-feature-discovery.yaml
