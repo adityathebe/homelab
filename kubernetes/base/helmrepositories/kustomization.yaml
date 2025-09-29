@@ -13,6 +13,7 @@ resources:
   - immich.yaml
   - longhorn.yaml
   - nginx-ingress.yaml
+  - node-feature-discovery.yaml
   - prometheus-community.yaml
   - stakater.yaml
   - tailscale.yaml
