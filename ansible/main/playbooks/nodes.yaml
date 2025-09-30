@@ -37,3 +37,58 @@
         state: stopped
         enabled: false
       ignore_errors: true
+
+    - name: 'install intel gpu drivers and dependencies'
+      apt:
+        name:
+          - intel-media-va-driver-non-free
+          - i965-va-driver
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: 'ensure render group exists'
+      group:
+        name: render
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: 'set proper permissions on /dev/dri'
+      file:
+        path: /dev/dri
+        state: directory
+        mode: '0755'
+      when: ansible_os_family == "Debian"
+
+    - name: 'create udev rule for intel gpu access'
+      copy:
+        dest: /etc/udev/rules.d/99-intel-gpu.rules
+        content: |
+          SUBSYSTEM=="drm", KERNEL=="card[0-9]*", GROUP="render", MODE="0666"
+          SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="render", MODE="0666"
+        mode: '0644'
+      notify: reload udev
+      when: ansible_os_family == "Debian"
+
+    - name: 'load intel gpu kernel modules'
+      modprobe:
+        name: '{{ item }}'
+        state: present
+      loop:
+        - i915
+        - kvmgt
+      when: ansible_os_family == "Debian" and inventory_hostname != "ozil"
+
+    - name: 'ensure intel gpu modules load on boot'
+      lineinfile:
+        path: /etc/modules-load.d/intel-gpu.conf
+        line: '{{ item }}'
+        create: yes
+        mode: '0644'
+      loop:
+        - i915
+        - kvmgt
+      when: ansible_os_family == "Debian"
+
+  handlers:
+    - name: reload udev
+      shell: udevadm control --reload-rules && udevadm trigger
