@@ -29,7 +29,7 @@ spec:
           it-tools:
             image:
               repository: corentinth/it-tools
-              tag: latest
+              tag: 2024.10.22-7ca5933
             resources:
               requests:
                 cpu: 25m
