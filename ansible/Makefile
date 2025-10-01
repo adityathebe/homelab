@@ -19,6 +19,9 @@ vms:
 proxmox:
 	cd main && ansible-playbook playbooks/proxmox.yaml
 
+gpu-passthrough:
+	cd main && ansible-playbook playbooks/gpu-passthrough.yaml
+
 galaxy:
 	cd main && ansible-galaxy install -r requirements.yaml --force
 	cd truenas && ansible-galaxy install -r requirements.yaml --force

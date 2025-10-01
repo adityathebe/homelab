@@ -12,7 +12,9 @@ alexis
 media
 
 [pve]
-proxmox
+wilshere
+ramsey
+cazorla
 
 [vms:children]
 masters

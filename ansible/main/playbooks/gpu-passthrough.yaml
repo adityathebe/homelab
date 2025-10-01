@@ -1,0 +1,119 @@
+---
+- hosts: pve
+  become: false
+
+  tasks:
+    - name: Install Intel GPU passthrough packages
+      apt:
+        name:
+          - pciutils
+          - hwdata
+        state: present
+        update_cache: yes
+
+    - name: Update PCI IDs database
+      command: update-pciids
+      changed_when: true
+
+    - name: Enable IOMMU in GRUB configuration
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt"'
+        backup: yes
+      register: grub_config
+      notify: Update GRUB
+
+    - name: Add VFIO modules to /etc/modules
+      blockinfile:
+        path: /etc/modules
+        block: |
+          vfio
+          vfio_iommu_type1
+          vfio_pci
+          vfio_virqfd
+        marker: '# {mark} ANSIBLE MANAGED BLOCK - GPU PASSTHROUGH'
+        create: yes
+      register: vfio_modules
+
+    - name: Blacklist GPU drivers
+      blockinfile:
+        path: /etc/modprobe.d/blacklist.conf
+        block: |
+          blacklist i915
+        marker: '# {mark} ANSIBLE MANAGED BLOCK - GPU PASSTHROUGH'
+        create: yes
+      register: blacklist_drivers
+
+    - name: Get GPU PCI IDs
+      shell: lspci -nn | grep -iE 'VGA|3D|Display'
+      register: gpu_info
+      changed_when: false
+      failed_when: false
+
+    - name: Display GPU information
+      debug:
+        msg: '{{ gpu_info.stdout_lines }}'
+      when: gpu_info.stdout_lines | length > 0
+
+    - name: Extract GPU PCI address
+      shell: lspci | grep -iE 'VGA|3D|Display' | head -n 1 | cut -d' ' -f1
+      register: gpu_pci_address
+      changed_when: false
+      failed_when: false
+      when: gpu_pci_ids is not defined and gpu_info.stdout_lines | length > 0
+
+    - name: Get GPU vendor ID (excluding audio)
+      shell: lspci -n -s {{ gpu_pci_address.stdout }}
+      register: gpu_vendor_ids_raw
+      changed_when: false
+      failed_when: false
+      when: gpu_pci_ids is not defined and gpu_pci_address.stdout is defined and gpu_pci_address.stdout | length > 0
+
+    - name: Parse GPU vendor ID
+      set_fact:
+        auto_gpu_pci_ids: "{{ gpu_vendor_ids_raw.stdout | regex_replace('^.*\\s([0-9a-f]{4}:[0-9a-f]{4}).*$', '\\1') }}"
+      when: gpu_pci_ids is not defined and gpu_vendor_ids_raw.stdout is defined
+
+    - name: Display detected GPU vendor IDs
+      debug:
+        msg: 'Detected GPU vendor IDs: {{ auto_gpu_pci_ids }}'
+      when: auto_gpu_pci_ids is defined
+
+    - name: Configure VFIO for specific GPU
+      lineinfile:
+        path: /etc/modprobe.d/vfio.conf
+        line: 'options vfio-pci ids={{ gpu_pci_ids | default(auto_gpu_pci_ids) }} disable_vga=1'
+        create: yes
+      when: gpu_pci_ids is defined or auto_gpu_pci_ids is defined
+      register: vfio_config
+
+    - name: Configure VFIO IOMMU unsafe interrupts
+      copy:
+        content: "options vfio_iommu_type1 allow_unsafe_interrupts=1\n"
+        dest: /etc/modprobe.d/iommu_unsafe_interrupts.conf
+      register: iommu_unsafe_interrupts
+
+    - name: Configure KVM to ignore MSRs
+      copy:
+        content: "options kvm ignore_msrs=1\n"
+        dest: /etc/modprobe.d/kvm.conf
+      register: kvm_config
+
+    - name: Update initramfs
+      command: update-initramfs -u -k all
+      when: vfio_modules.changed or blacklist_drivers.changed or vfio_config.changed or iommu_unsafe_interrupts.changed or kvm_config.changed
+
+    - name: Check if reboot is required
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required_file
+
+    - name: Notify if reboot is needed
+      debug:
+        msg: 'REBOOT REQUIRED: Changes have been made that require a system reboot for GPU passthrough to take effect.'
+      when: grub_config.changed or vfio_modules.changed or blacklist_drivers.changed or vfio_config.changed or iommu_unsafe_interrupts.changed or kvm_config.changed
+
+  handlers:
+    - name: Update GRUB
+      command: update-grub
