@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a GitOps-managed homelab infrastructure running a 3-node K3s cluster (1 master, 2 workers) on Proxmox VMs.
+This is a GitOps-managed homelab infrastructure running a 6-node K3s cluster (3 masters, 3 workers) across 3 Proxmox hosts.
 The entire infrastructure is declaratively managed through FluxCD, with secrets encrypted using SOPS/Age.
 
 ## Architecture
@@ -67,6 +67,9 @@ The entire infrastructure is declaratively managed through FluxCD, with secrets 
 
 ## Infrastructure Details
 
-**Hardware**: 3 Beelink mini PCs running Proxmox with K3s cluster
-**Storage**: TrueNAS Scale on Sony VAIO (8GB RAM, Intel i5-3210M) providing NFS and iSCSI
+**Hardware**: 3 Beelink mini PCs (S12 Pro with N100, S13 with N150, EQ14 with N150) running Proxmox
+
+- Each Proxmox host runs 1 master node (4GB RAM, 2vCPU) and 1 worker node (8GB RAM, 4vCPU)
+
+**Storage**: TrueNAS Scale on Sony VAIO (8GB RAM, Intel i5-3210M) providing NFS and SMB
 **Network**: Cloudflare tunnels for external access, nginx-ingress for internal routing
