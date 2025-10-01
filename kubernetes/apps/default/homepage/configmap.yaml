@@ -82,12 +82,6 @@ data:
               type: speedtest
               url: http://speedtest-tracker.monitoring.svc
 
-        - Canary Checker:
-            icon: https://raw.githubusercontent.com/flanksource/flanksource-icons/refs/heads/main/svg/flanksource-icon.svg
-            namespace: monitoring
-            app: canary-checker
-            href: https://canary-checker.${HOMELAB_DOMAIN}
-
     - Applications:
         - Actual:
             icon: actual-budget.png
@@ -133,6 +127,13 @@ data:
               url: https://rss.${HOMELAB_DOMAIN}
               username: adityathebe
               password: {{HOMEPAGE_VAR_FRESH_RSS_PASSWORD}}
+
+        - SearXNG:
+            icon: searxng.png
+            namespace: default
+            app: searxng
+            href: https://search.${HOMELAB_DOMAIN}
+            description: Privacy-respecting metasearch engine
 
         - Silver Bullet:
             icon: https://silverbullet.md/.client/logo.png
