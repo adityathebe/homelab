@@ -28,7 +28,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      recyclarr:
         type: cronjob
         cronjob:
           schedule: '0 0 * * *' # Run daily at midnight
@@ -46,6 +46,8 @@ spec:
               tag: 7.4.1@sha256:759540877f95453eca8a26c1a93593e783a7a824c324fbd57523deffb67f48e1
             args:
               - sync
+              - --config
+              - /app/recyclarr.yml
             envFrom:
               - secretRef:
                   name: recyclarr-secret
@@ -77,14 +79,16 @@ spec:
       config-file:
         type: configMap
         name: recyclarr-configmap
-        globalMounts:
-          - path: /config/recyclarr.yml
-            subPath: recyclarr.yml
-            readOnly: true
+        advancedMounts:
+          recyclarr:
+            app:
+              - path: /app/recyclarr.yml
+                subPath: recyclarr.yml
+                readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:
-          main:
+          recyclarr:
             app:
               - path: /config/logs
                 subPath: logs
