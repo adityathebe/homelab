@@ -3,4 +3,5 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - intel-video-driver.yaml
+  - metrics-server.yaml
   - node-feature-discovery.yaml

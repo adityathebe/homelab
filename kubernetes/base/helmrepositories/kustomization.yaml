@@ -12,6 +12,7 @@ resources:
   - grafana.yaml
   - immich.yaml
   - intel.yaml
+  - kubernetes-sigs-metrics-server-charts.yaml
   - longhorn.yaml
   - nginx-ingress.yaml
   - node-feature-discovery.yaml
