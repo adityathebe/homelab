@@ -5,6 +5,7 @@ metadata:
 spec:
   replicas: 2
   hostnamePrefix: ts-pod-cidrs
+  proxyClass: homelab-default
   subnetRouter:
     advertiseRoutes:
       - '10.99.99.0/24'

@@ -28,3 +28,9 @@ spec:
   values:
     crds:
       create: true
+    resources:
+      requests:
+        cpu: 25m
+        memory: 100Mi
+      limits:
+        memory: 200Mi

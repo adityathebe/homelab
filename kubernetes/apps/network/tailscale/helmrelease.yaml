@@ -20,6 +20,10 @@ spec:
       hostname: tailscale-operator
       defaultTags:
         - tag:k8s
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
     apiServerProxyConfig:
       mode: "true"
   valuesFrom:
