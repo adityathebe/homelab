@@ -30,7 +30,6 @@ spec:
       cpu: 50m
     limits:
       memory: 3Gi
-      cpu: 2
 
   backup:
     retentionPolicy: 30d
