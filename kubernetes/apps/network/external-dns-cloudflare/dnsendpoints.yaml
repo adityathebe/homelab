@@ -7,7 +7,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: ${HOMELAB_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
@@ -20,7 +19,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: movies.${HOMELAB_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
@@ -33,7 +31,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: movie-request.${HOMELAB_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
@@ -46,7 +43,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: notes.${HOMELAB_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
@@ -59,7 +55,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: radicale.${HOMELAB_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
@@ -72,7 +67,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: rss.${HOMELAB_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
@@ -85,7 +79,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: vehicle.${HOMELAB_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
@@ -98,7 +91,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: movies.${PUBLIC_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
@@ -111,7 +103,6 @@ metadata:
 spec:
   endpoints:
     - dnsName: music.${PUBLIC_DOMAIN}
-      recordTTL: 1
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
