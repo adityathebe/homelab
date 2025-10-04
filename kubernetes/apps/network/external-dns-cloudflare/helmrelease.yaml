@@ -34,13 +34,11 @@ spec:
             name: external-dns-cloudflare-secret
             key: CF_API_TOKEN
     extraArgs:
-      - --annotation-filter=external-dns.alpha.kubernetes.io/target
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
     policy: sync
     sources:
-      - ingress
       - crd
     txtOwnerId: k8s-homelab
     txtPrefix: k8s-
