@@ -65,6 +65,31 @@ The entire infrastructure is declaratively managed through FluxCD, with secrets 
 
 - **CNPG**: CloudNative-PG operator for PostgreSQL clusters with 3 replicas and PITR backups to Cloudflare R2
 
+### DNS Management Patterns
+
+This homelab uses **two ExternalDNS instances** for dual DNS provider management:
+
+1. **external-dns (AdGuard Home)** - Internal DNS
+
+   - Sources: `ingress`
+   - Automatically processes ALL ingresses
+   - Creates A records → `10.99.99.25` (nginx-ingress IP)
+   - No configuration needed on ingresses
+
+2. **external-dns-cloudflare** - External DNS
+   - Sources: `crd` (DNSEndpoint only)
+   - Processes DNSEndpoint CRDs in `kubernetes/apps/network/external-dns-cloudflare/dnsendpoints.yaml`
+   - Creates CNAME records → Cloudflare Tunnel
+   - Requires explicit DNSEndpoint creation for external access
+
+**To expose a service externally:**
+
+- Ingress is automatically handled by AdGuard (internal A record)
+- Add a DNSEndpoint resource for Cloudflare (external CNAME to tunnel)
+- Same DNS name exists in both providers with different targets
+
+**Important:** Do NOT add `external-dns.alpha.kubernetes.io/target` annotations to ingresses - this would cause both ExternalDNS instances to process them incorrectly. Use DNSEndpoint CRDs for Cloudflare.
+
 ## Infrastructure Details
 
 **Hardware**: 3 Beelink mini PCs (S12 Pro with N100, S13 with N150, EQ14 with N150) running Proxmox

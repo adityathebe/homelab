@@ -71,6 +71,57 @@ export GITHUB_TOKEN='ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 make bootstrap
 ```
 
+# DNS Management
+
+This homelab uses a dual ExternalDNS setup to manage both internal (homelab) and external (public) DNS records automatically from Kubernetes resources.
+
+## Architecture
+
+**Two ExternalDNS Instances:**
+
+1. **external-dns (AdGuard Home)** - Internal DNS
+   - **Provider**: AdGuard Home via webhook
+   - **Sources**: Ingress resources
+   - **Purpose**: Automatically creates A records pointing to nginx-ingress (`10.99.99.25`) for all services
+   - **Usage**: Internal homelab DNS resolution
+
+2. **external-dns-cloudflare** - External DNS
+   - **Provider**: Cloudflare
+   - **Sources**: DNSEndpoint CRDs only
+   - **Purpose**: Creates CNAME records pointing to Cloudflare Tunnel for external access
+   - **Usage**: Public DNS records for services accessible outside the homelab
+
+## How It Works
+
+For a service to be accessible both internally and externally:
+
+1. **Create an Ingress** (automatically managed by AdGuard ExternalDNS)
+   ```yaml
+   ingress:
+     enabled: true
+     className: nginx
+     hosts:
+       - host: 'notes.${HOMELAB_DOMAIN}'
+   ```
+   → AdGuard creates: `notes.example.com → A → 10.99.99.25`
+
+2. **Create a DNSEndpoint** in `kubernetes/apps/network/external-dns-cloudflare/dnsendpoints.yaml` (managed by Cloudflare ExternalDNS)
+   ```yaml
+   apiVersion: externaldns.k8s.io/v1alpha1
+   kind: DNSEndpoint
+   metadata:
+     name: homelab-notes
+   spec:
+     endpoints:
+       - dnsName: notes.${HOMELAB_DOMAIN}
+         recordType: CNAME
+         targets:
+           - ${CF_TUNNEL_ID}.cfargotunnel.com
+   ```
+   → Cloudflare creates: `notes.example.com → CNAME → tunnel`
+
+**Result**: Same DNS name exists in both providers with different targets - internal clients use AdGuard (direct to ingress), external clients use Cloudflare (via tunnel).
+
 # Kubernetes Backup
 
 This homelab implements a comprehensive three-tier backup strategy covering databases, application data, and file systems.
