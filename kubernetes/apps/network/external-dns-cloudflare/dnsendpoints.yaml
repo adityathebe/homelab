@@ -1,0 +1,108 @@
+---
+# Root homelab domain
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-root
+spec:
+  endpoints:
+    - dnsName: ${HOMELAB_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
+---
+# Jellyfin
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-movies
+spec:
+  endpoints:
+    - dnsName: movies.${HOMELAB_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
+---
+# Jellyseerr
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-movie-request
+spec:
+  endpoints:
+    - dnsName: movie-request.${HOMELAB_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
+---
+# SilverBullet
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-notes
+spec:
+  endpoints:
+    - dnsName: notes.${HOMELAB_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
+---
+# Radicale
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-radicale
+spec:
+  endpoints:
+    - dnsName: radicale.${HOMELAB_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
+---
+# FreshRSS
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-rss
+spec:
+  endpoints:
+    - dnsName: rss.${HOMELAB_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
+---
+# Vehicle tracker
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-vehicle
+spec:
+  endpoints:
+    - dnsName: vehicle.${HOMELAB_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
+---
+# Movary (public domain)
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: public-movary
+spec:
+  endpoints:
+    - dnsName: movies.${PUBLIC_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
+---
+# Navidrome (public domain)
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: public-music
+spec:
+  endpoints:
+    - dnsName: music.${PUBLIC_DOMAIN}
+      recordType: CNAME
+      targets:
+        - ${CF_TUNNEL_ID}.cfargotunnel.com

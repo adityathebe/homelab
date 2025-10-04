@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-dns-cloudflare
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/network/external-dns-cloudflare
+  targetNamespace: network
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  prune: true
+  wait: false
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+      - kind: Secret
+        name: cluster-secrets
