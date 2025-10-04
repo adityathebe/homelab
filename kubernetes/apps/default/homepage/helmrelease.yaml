@@ -65,7 +65,9 @@ spec:
         enabled: true
         className: nginx
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: home.${HOMELAB_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: &hostname ${CF_TUNNEL_ID}.cfargotunnel.com
+          external-dns.alpha.kubernetes.io/hostname: *hostname
+          # external-dns.alpha.kubernetes.io/recordType: CNAME
         hosts:
           - host: home.${HOMELAB_DOMAIN}
             paths:
