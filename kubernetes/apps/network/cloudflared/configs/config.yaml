@@ -5,7 +5,59 @@ originRequest:
   http2Origin: true
 
 ingress:
-  - hostname: canary.${HOMELAB_DOMAIN}
-    service: http://localhost:3000
+  # Root homelab domain
+  - hostname: ${HOMELAB_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: ${HOMELAB_DOMAIN}
 
-  - service: http_status:404
+  # Jellyfin (movies)
+  - hostname: movies.${HOMELAB_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: jellyfin.${HOMELAB_DOMAIN}
+
+  # Jellyseerr (movie requests)
+  - hostname: movie-request.${HOMELAB_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: jellyseerr.${HOMELAB_DOMAIN}
+
+  # SilverBullet (notes)
+  - hostname: notes.${HOMELAB_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: notes.${HOMELAB_DOMAIN}
+
+  # Radicale (calendar/contacts)
+  - hostname: radicale.${HOMELAB_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: radicale.${HOMELAB_DOMAIN}
+
+  # FreshRSS (rss)
+  - hostname: rss.${HOMELAB_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: rss.${HOMELAB_DOMAIN}
+
+  # Vehicle tracker
+  - hostname: vehicle.${HOMELAB_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: vehicle.${HOMELAB_DOMAIN}
+
+  # Movary (on public domain)
+  - hostname: movies.${PUBLIC_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: movary.${HOMELAB_DOMAIN}
+
+  # Navidrome (on public domain)
+  - hostname: music.${PUBLIC_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: navidrome.${HOMELAB_DOMAIN}
+
+  # Catch-all
+  - service: http_status:503

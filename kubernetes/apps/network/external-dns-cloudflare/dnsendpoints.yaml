@@ -1,0 +1,117 @@
+---
+# Root homelab domain
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-root
+spec:
+  endpoints:
+    - dnsName: ${HOMELAB_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
+---
+# Jellyfin
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-movies
+spec:
+  endpoints:
+    - dnsName: movies.${HOMELAB_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
+---
+# Jellyseerr
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-movie-request
+spec:
+  endpoints:
+    - dnsName: movie-request.${HOMELAB_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
+---
+# SilverBullet
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-notes
+spec:
+  endpoints:
+    - dnsName: notes.${HOMELAB_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
+---
+# Radicale
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-radicale
+spec:
+  endpoints:
+    - dnsName: radicale.${HOMELAB_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
+---
+# FreshRSS
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-rss
+spec:
+  endpoints:
+    - dnsName: rss.${HOMELAB_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
+---
+# Vehicle tracker
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: homelab-vehicle
+spec:
+  endpoints:
+    - dnsName: vehicle.${HOMELAB_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
+---
+# Movary (public domain)
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: public-movary
+spec:
+  endpoints:
+    - dnsName: movies.${PUBLIC_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
+---
+# Navidrome (public domain)
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: public-music
+spec:
+  endpoints:
+    - dnsName: music.${PUBLIC_DOMAIN}
+      recordTTL: 1
+      recordType: CNAME
+      targets:
+        - ${TUNNEL_CNAME}
