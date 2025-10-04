@@ -10,7 +10,7 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # Jellyfin
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -23,7 +23,7 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # Jellyseerr
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -36,7 +36,7 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # SilverBullet
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -49,7 +49,7 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # Radicale
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -62,7 +62,7 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # FreshRSS
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -75,7 +75,7 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # Vehicle tracker
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -88,7 +88,7 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # Movary (public domain)
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -101,7 +101,7 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # Navidrome (public domain)
 apiVersion: externaldns.k8s.io/v1alpha1
@@ -114,4 +114,4 @@ spec:
       recordTTL: 1
       recordType: CNAME
       targets:
-        - ${TUNNEL_CNAME}
+        - ${CF_TUNNEL_ID}.cfargotunnel.com
