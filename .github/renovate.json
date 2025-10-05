@@ -12,18 +12,27 @@
     "github>adityathebe/homelab//.github/renovate/labels.json"
   ],
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "managerFilePatterns": [
+      "/\\.yaml$/"
+    ]
   },
   "flux": {
-    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"]
+    "managerFilePatterns": [
+      "/(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$/"
+    ]
   },
   "helm-values": {
-    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"]
+    "managerFilePatterns": [
+      "/(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$/"
+    ]
   },
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "description": "Process custom dependencies",
-      "fileMatch": ["\\.ya?ml$"],
+      "managerFilePatterns": [
+        "/\\.ya?ml$/"
+      ],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
       ],
