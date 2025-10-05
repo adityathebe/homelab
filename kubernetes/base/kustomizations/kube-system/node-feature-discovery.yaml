@@ -30,7 +30,7 @@ spec:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: node-feature-discovery
-      namespace: kube-system
+      namespace: flux-system
   interval: 10m
   path: kubernetes/apps/kube-system/node-feature-discovery/rules
   prune: true
