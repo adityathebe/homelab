@@ -67,12 +67,11 @@ spec:
       enabled: true
       fullnameOverride: redis
       architecture: standalone
-      persistence:
-        enabled: false
-        storageClass: longhorn-single
-        size: 1Gi
+      image:
+        tag: 8.2.1-debian-12-r0
       master:
-        enabled: false
+        persistence:
+          enabled: false
         resources:
           requests:
             cpu: 20m
