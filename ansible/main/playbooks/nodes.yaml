@@ -6,18 +6,6 @@
     - kubernetes
 
   tasks:
-    - name: 'install packages for GPU passthrough'
-      apt:
-        name:
-          - 'linux-modules-extra-{{ ansible_kernel }}'
-          - linux-firmware
-          - i965-va-driver
-          - intel-media-va-driver-non-free
-          - mesa-utils
-          - mesa-vulkan-drivers
-        state: present
-      when: ansible_os_family == "Debian"
-
     - name: 'increase inotify user watches'
       sysctl:
         name: fs.inotify.max_user_watches
@@ -49,62 +37,3 @@
         state: stopped
         enabled: false
       ignore_errors: true
-
-    - name: 'ensure render group exists'
-      group:
-        name: render
-        state: present
-      when: ansible_os_family == "Debian"
-
-    - name: 'set proper permissions on /dev/dri'
-      file:
-        path: /dev/dri
-        state: directory
-        mode: '0755'
-      when: ansible_os_family == "Debian"
-
-    - name: 'create udev rule for intel gpu access'
-      copy:
-        dest: /etc/udev/rules.d/99-intel-gpu.rules
-        content: |
-          SUBSYSTEM=="drm", KERNEL=="card[0-9]*", GROUP="render", MODE="0666"
-          SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="render", MODE="0666"
-        mode: '0644'
-      notify: reload udev
-      when: ansible_os_family == "Debian"
-
-    - name: 'load intel gpu kernel modules'
-      modprobe:
-        name: '{{ item }}'
-        state: present
-      loop:
-        - i915
-        - kvmgt
-      when: ansible_os_family == "Debian" and inventory_hostname != "ozil"
-
-    - name: 'ensure intel gpu modules load on boot'
-      lineinfile:
-        path: /etc/modules-load.d/intel-gpu.conf
-        line: '{{ item }}'
-        create: yes
-        mode: '0644'
-      loop:
-        - i915
-        - kvmgt
-      when: ansible_os_family == "Debian"
-
-    - name: 'check gpu kernel driver status'
-      shell: lspci -nnk | grep -i vga -A3
-      register: gpu_driver_check
-      changed_when: false
-      failed_when: false
-      when: ansible_os_family == "Debian"
-
-    - name: 'display gpu kernel driver info'
-      debug:
-        var: gpu_driver_check.stdout_lines
-      when: ansible_os_family == "Debian" and gpu_driver_check.stdout_lines is defined
-
-  handlers:
-    - name: reload udev
-      shell: udevadm control --reload-rules && udevadm trigger
