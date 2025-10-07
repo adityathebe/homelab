@@ -65,9 +65,9 @@ spec:
 
     redis:
       enabled: true
-      global:
-        storageClass: longhorn-single
+      architecture: standalone
       master:
+        enabled: false
         resources:
           requests:
             cpu: 20m
