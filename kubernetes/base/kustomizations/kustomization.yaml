@@ -6,7 +6,7 @@ resources:
   - dbms
   - default
   - flux-system
-  - immich
+  # - immich
   - kube-system
   - media
   - monitoring
