@@ -65,6 +65,7 @@ spec:
 
     redis:
       enabled: true
+      fullnameOverride: redis
       architecture: standalone
       persistence:
         enabled: false
