@@ -5,11 +5,11 @@
     upgrade: yes
     cache_valid_time: 3600
 
-- name: Install iotop
-  apt:
-    name: iotop
-    state: present
-  become: true
+# - name: Install iotop
+#   apt:
+#     name: iotop
+#     state: present
+#   become: true
 
 - name: Download bottom .deb package
   get_url:

@@ -2,8 +2,8 @@
 - hosts: pve
   become: false # proxmox doesn't have sudo
 
-  roles:
-    - geerlingguy.node_exporter
+  # roles:
+  #   - geerlingguy.node_exporter
 
   tasks:
     - name: Ensure apt cache is updated
