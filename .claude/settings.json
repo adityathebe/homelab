@@ -5,6 +5,7 @@
       "Bash(kubectl describe:*)",
       "Bash(kubectl get:*)",
       "Bash(kubectl logs:*)",
+      "Bash(flux resume:*)",
       "Bash(mkdir:*)",
       "Bash(terraform plan)",
       "Bash(terraform state list)",

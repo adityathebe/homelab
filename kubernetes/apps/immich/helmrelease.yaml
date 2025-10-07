@@ -41,7 +41,7 @@ spec:
             env:
               TZ: ${TZ}
               IMMICH_MEDIA_LOCATION: /usr/src/app/upload
-              REDIS_HOSTNAME: immich-redis
+              REDIS_HOSTNAME: immich-valkey
               DB_HOSTNAME:
                 valueFrom:
                   secretKeyRef:
@@ -75,14 +75,14 @@ spec:
                 spec:
                   httpGet:
                     path: /api/server/ping
-                    port: 3001
+                    port: 2283
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
 
-      redis:
+      valkey:
         type: deployment
         replicas: 1
         containers:
@@ -102,9 +102,9 @@ spec:
         controller: server
         ports:
           http:
-            port: 3001
-      redis:
-        controller: redis
+            port: 2283
+      valkey:
+        controller: valkey
         ports:
           redis:
             port: 6379
