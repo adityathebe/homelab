@@ -147,7 +147,7 @@ data:
             href: https://photos.${HOMELAB_DOMAIN}
             description: Photo Management
             namespace: immich
-            app: server
+            app: immich
             widget:
               type: immich
               url: https://photos.${HOMELAB_DOMAIN}

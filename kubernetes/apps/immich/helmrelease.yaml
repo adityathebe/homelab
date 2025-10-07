@@ -10,11 +10,11 @@ spec:
   timeout: 10m
   chart:
     spec:
-      chart: immich
-      version: 0.9.3
+      chart: app-template
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: immich-charts
+        name: bjw-s-helm-charts
         namespace: flux-system
   install:
     remediation:
@@ -26,90 +26,117 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    env:
-      TZ: ${TZ}
-      DB_HOSTNAME:
-        valueFrom:
-          secretKeyRef:
-            name: immich-postgres
-            key: HOST
-      DB_DATABASE_NAME:
-        valueFrom:
-          secretKeyRef:
-            name: immich-postgres
-            key: DATABASE
-      DB_USERNAME:
-        valueFrom:
-          secretKeyRef:
-            name: immich-postgres
-            key: USER
-      DB_PASSWORD:
-        valueFrom:
-          secretKeyRef:
-            name: immich-postgres
-            key: PASSWORD
+    controllers:
+      server:
+        type: deployment
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              # renovate: datasource=github-releases depName=immich-app/immich
+              repository: ghcr.io/immich-app/immich-server
+              tag: 'v2.0.1'
+            env:
+              TZ: ${TZ}
+              IMMICH_MEDIA_LOCATION: /usr/src/app/upload
+              REDIS_HOSTNAME: immich-redis
+              DB_HOSTNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-postgres
+                    key: HOST
+              DB_DATABASE_NAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-postgres
+                    key: DATABASE
+              DB_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-postgres
+                    key: USER
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-postgres
+                    key: PASSWORD
+            resources:
+              requests:
+                cpu: 250m
+                memory: 1000Mi
+              limits:
+                memory: 4000Mi
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: 3001
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
 
-    image:
-      # renovate: datasource=github-releases depName=immich-app/immich
-      tag: "v2.0.1"
+      redis:
+        type: deployment
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: docker.io/valkey/valkey
+              tag: 8.0
+            resources:
+              requests:
+                cpu: 20m
+                memory: 64Mi
+              limits:
+                memory: 512Mi
 
-    immich:
-      metrics:
-        enabled: true
-      persistence:
-        library:
-          existingClaim: immich
+    service:
+      server:
+        controller: server
+        ports:
+          http:
+            port: 3001
+      redis:
+        controller: redis
+        ports:
+          redis:
+            port: 6379
 
-    postgresql:
-      enabled: false
+    ingress:
+      main:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: '50000M'
+          nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+          nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+        hosts:
+          - host: photos.${HOMELAB_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: server
+                  port: http
 
-    redis:
-      enabled: true
-      fullnameOverride: redis
-      architecture: standalone
-      image:
-        tag: 8.2.1-debian-12-r0
-      master:
-        persistence:
-          enabled: false
-        resources:
-          requests:
-            cpu: 20m
-            memory: 64Mi
-          limits:
-            memory: 512Mi
-
-    server:
-      resources:
-        requests:
-          cpu: 250m
-          memory: 1000Mi
-        limits:
-          memory: 4000Mi
-      persistence:
-        gopro:
-          enabled: true
-          existingClaim: immich-gopro
-          mountPath: /mnt/external/gopro
-          readOnly: true
-        libraries:
-          enabled: true
-          existingClaim: immich-libraries
-          mountPath: /mnt/external/libraries
-          readOnly: true
-      ingress:
-        main:
-          enabled: true
-          annotations:
-            # proxy-body-size is set to 0 to remove the body limit on file uploads
-            nginx.ingress.kubernetes.io/proxy-body-size: '50000M'
-            nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
-            nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
-            kubernetes.io/ingress.class: nginx
-          hosts:
-            - host: photos.${HOMELAB_DOMAIN}
-              paths:
-                - path: '/'
-
-    machine-learning:
-      enabled: false
+    persistence:
+      library:
+        existingClaim: immich
+        globalMounts:
+          - path: /usr/src/app/upload
+      gopro:
+        existingClaim: immich-gopro
+        globalMounts:
+          - path: /mnt/external/gopro
+            readOnly: true
+      libraries:
+        existingClaim: immich-libraries
+        globalMounts:
+          - path: /mnt/external/libraries
+            readOnly: true
