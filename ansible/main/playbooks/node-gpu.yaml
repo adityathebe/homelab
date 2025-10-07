@@ -45,7 +45,7 @@
       loop:
         - i915
         - kvmgt
-      when: ansible_os_family == "Debian" and inventory_hostname != "ozil"
+      when: ansible_os_family == "Debian"
 
     - name: 'ensure intel gpu modules load on boot'
       lineinfile:
