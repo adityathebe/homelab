@@ -60,3 +60,14 @@ spec:
   concurrency: 2
   labels:
     kind: snapshot
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: fs-trim
+spec:
+  cron: '0 4,16 * * *' # Twice daily at 4 AM and 4 PM Nepal Time
+  task: filesystem-trim
+  groups:
+    - r2
+  concurrency: 2
