@@ -98,3 +98,7 @@ This homelab uses **two ExternalDNS instances** for dual DNS provider management
 
 **Storage**: TrueNAS Scale on Sony VAIO (8GB RAM, Intel i5-3210M) providing NFS and SMB
 **Network**: Cloudflare tunnels for external access, nginx-ingress for internal routing
+
+## Commands
+
+- use `kubectl cnpg ` command to work with CNPG cluster
