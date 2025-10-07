@@ -36,7 +36,7 @@ spec:
         jobList:
           - '{"name":"r2", "isGroup":true}'
     defaultSettings:
-      defaultReplicaCount: 1
+      defaultReplicaCount: '1'
       defaultLonghornStaticStorageClass: longhorn
       autoCleanupSystemGeneratedSnapshot: true
       snapshotDataIntegrity: enabled
