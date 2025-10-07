@@ -66,6 +66,10 @@ spec:
     redis:
       enabled: true
       architecture: standalone
+      persistence:
+        enabled: false
+        storageClass: longhorn-single
+        size: 1Gi
       master:
         enabled: false
         resources:
@@ -73,7 +77,7 @@ spec:
             cpu: 20m
             memory: 64Mi
           limits:
-            memory: 256Mi
+            memory: 512Mi
 
     server:
       resources:
