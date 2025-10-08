@@ -104,7 +104,6 @@ spec:
         path: /srv/media/movies
         globalMounts:
           - path: /movies
-            readOnly: true
       shows:
         enabled: true
         type: nfs
