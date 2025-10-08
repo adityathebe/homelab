@@ -70,4 +70,5 @@ spec:
   task: filesystem-trim
   groups:
     - r2
+    - default
   concurrency: 2
