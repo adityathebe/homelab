@@ -160,6 +160,11 @@ spec:
           gnetId: 11454
           revision: 14
           datasource: Prometheus
+        kubernetes-pvc-stats:
+          # renovate: depName="Kubernetes PVC Stats"
+          gnetId: 23233
+          revision: 6
+          datasource: Prometheus
 
       nginx:
         nginx:
