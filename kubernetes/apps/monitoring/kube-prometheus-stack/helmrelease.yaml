@@ -147,8 +147,6 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
-        externalLabels:
-          cluster: homelab
         retention: 7d
         enableFeatures:
           - auto-gomaxprocs
