@@ -40,7 +40,7 @@ spec:
       defaultLonghornStaticStorageClass: longhorn
       autoCleanupSystemGeneratedSnapshot: true
       snapshotDataIntegrity: enabled
-      snapshotDataIntegrityImmediateCheckAfterSnapshotCreation: false
+      snapshotDataIntegrityImmediateCheckAfterSnapshotCreation: 'true'
       snapshotDataIntegrityCronjob: '0 4 * * *'
       allowCollectingLonghornUsageMetrics: false
       v1DataEngine: true
