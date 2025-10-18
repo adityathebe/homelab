@@ -8,9 +8,7 @@
         name:
           - 'linux-modules-extra-{{ ansible_kernel }}'
           - linux-firmware
-          - i965-va-driver
           - intel-media-va-driver-non-free
-          - mesa-utils
           - mesa-vulkan-drivers
         state: present
       when: ansible_os_family == "Debian"
@@ -40,22 +38,16 @@
 
     - name: 'load intel gpu kernel modules'
       modprobe:
-        name: '{{ item }}'
+        name: i915
         state: present
-      loop:
-        - i915
-        - kvmgt
       when: ansible_os_family == "Debian"
 
     - name: 'ensure intel gpu modules load on boot'
       lineinfile:
         path: /etc/modules-load.d/intel-gpu.conf
-        line: '{{ item }}'
+        line: i915
         create: yes
         mode: '0644'
-      loop:
-        - i915
-        - kvmgt
       when: ansible_os_family == "Debian"
 
     - name: 'check gpu kernel driver status'
