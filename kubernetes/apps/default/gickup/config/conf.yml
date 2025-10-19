@@ -13,8 +13,3 @@ destination:
       bare: false
       mirror: true
       lfs: false # Too slow and always fails with "exit status 128"
-
-metrics:
-  prometheus:
-    endpoint: /metrics
-    listen_addr: ':6178'
