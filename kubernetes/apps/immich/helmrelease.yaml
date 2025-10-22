@@ -89,7 +89,7 @@ spec:
           app:
             image:
               repository: docker.io/valkey/valkey
-              tag: 8.0
+              tag: 9.0
             resources:
               requests:
                 cpu: 20m
