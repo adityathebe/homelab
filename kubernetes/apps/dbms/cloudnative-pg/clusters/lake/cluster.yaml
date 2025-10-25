@@ -9,7 +9,7 @@ spec:
   primaryUpdateStrategy: unsupervised
 
   storage:
-    size: 5Gi
+    size: 8Gi
     storageClass: longhorn-local
 
   # -- When this option is enabled, the operator will use the SuperuserSecret to update the postgres user password.
