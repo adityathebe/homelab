@@ -84,16 +84,16 @@ spec:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # Movary (public domain)
-apiVersion: externaldns.k8s.io/v1alpha1
-kind: DNSEndpoint
-metadata:
-  name: public-movary
-spec:
-  endpoints:
-    - dnsName: movies.${PUBLIC_DOMAIN}
-      recordType: CNAME
-      targets:
-        - ${CF_TUNNEL_ID}.cfargotunnel.com
+# apiVersion: externaldns.k8s.io/v1alpha1
+# kind: DNSEndpoint
+# metadata:
+#   name: public-movary
+# spec:
+#   endpoints:
+#     - dnsName: movies.${PUBLIC_DOMAIN}
+#       recordType: CNAME
+#       targets:
+#         - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
 # Navidrome (public domain)
 apiVersion: externaldns.k8s.io/v1alpha1

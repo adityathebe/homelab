@@ -48,10 +48,10 @@ ingress:
       httpHostHeader: vehicle.${HOMELAB_DOMAIN}
 
   # Movary (on public domain)
-  - hostname: movies.${PUBLIC_DOMAIN}
-    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
-    originRequest:
-      httpHostHeader: movary.${HOMELAB_DOMAIN}
+  # - hostname: movies.${PUBLIC_DOMAIN}
+  #   service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+  #   originRequest:
+  #     httpHostHeader: movary.${HOMELAB_DOMAIN}
 
   # Navidrome (on public domain)
   - hostname: music.${PUBLIC_DOMAIN}
