@@ -33,7 +33,7 @@ spec:
           jellyfin:
             image:
               repository: jellyfin/jellyfin
-              tag: '10.11.0'
+              tag: '10.11.3'
             env:
               TZ: Asia/Kathmandu
             probes:
