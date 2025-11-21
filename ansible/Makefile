@@ -1,7 +1,8 @@
 media:
 	cd main && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/media.yaml
 
-nodes:
+# Setup k8s worker nodes
+workers:
 	cd main && ansible-playbook playbooks/nodes.yaml
 
 nas-vault:
@@ -21,6 +22,10 @@ proxmox:
 
 gpu-passthrough:
 	cd main && ansible-playbook playbooks/proxmox-gpu-passthrough.yaml
+
+# Example: make cloud-init-template EXTRA_VARS="-e target_host=ramsey"
+cloud-init-template:
+	cd main && ansible-playbook playbooks/proxmox-cloud-init-template.yaml $(EXTRA_VARS)
 
 galaxy:
 	cd main && ansible-galaxy install -r requirements.yaml --force

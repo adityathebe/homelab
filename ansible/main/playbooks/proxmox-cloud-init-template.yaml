@@ -1,0 +1,116 @@
+---
+- name: Create Ubuntu Cloud Init Template on Proxmox
+  hosts: '{{ target_host }}'
+  gather_facts: true
+  vars:
+    # Cloud image version (noble, jammy, focal, etc.)
+    ubuntu_version: 'noble'
+
+    # Cloud image URL
+    ubuntu_image_url: 'https://cloud-images.ubuntu.com/{{ ubuntu_version }}/current/{{ ubuntu_version }}-server-cloudimg-amd64.img'
+
+    # Local download path
+    image_local_path: '/tmp/{{ ubuntu_version }}-server-cloudimg-amd64.img'
+
+    # VM Configuration
+    vm_id: '8000'
+    vm_name: 'ubuntu-cloud-template'
+    vm_memory: 4096
+    vm_cores: 2
+    storage: 'local-lvm'
+    bridge: 'vmbr0'
+
+  tasks:
+    - name: Download Ubuntu cloud image
+      ansible.builtin.get_url:
+        url: '{{ ubuntu_image_url }}'
+        dest: '{{ image_local_path }}'
+        mode: '0644'
+      register: download_result
+
+    - name: Check if VM already exists
+      ansible.builtin.shell: "qm list | grep -E '^\\s*{{ vm_id }}\\s'"
+      register: vm_exists
+      changed_when: false
+      failed_when: false
+
+    - name: Create VM
+      ansible.builtin.shell: |
+        qm create {{ vm_id }} \
+          --memory {{ vm_memory }} \
+          --core {{ vm_cores }} \
+          --name {{ vm_name }} \
+          --net0 virtio,bridge={{ bridge }}
+      when: vm_exists.rc != 0
+
+    - name: Import disk image to VM
+      ansible.builtin.shell: |
+        qm disk import {{ vm_id }} {{ image_local_path }} {{ storage }}
+      register: import_result
+      when: vm_exists.rc != 0
+
+    - name: Extract disk identifier from import output
+      ansible.builtin.set_fact:
+        disk_name: "{{ import_result.stdout | regex_search('(vm-' + vm_id + '-disk-\\d+)') }}"
+
+    - name: Attach disk to VM as SCSI drive
+      when: vm_exists.rc != 0
+      ansible.builtin.shell: |
+        qm set {{ vm_id }} \
+          --scsihw virtio-scsi-pci \
+          --scsi0 {{ storage }}:{{ disk_name }}
+
+    - name: Add cloud-init drive
+      when: vm_exists.rc != 0
+      ansible.builtin.shell: |
+        qm set {{ vm_id }} --ide2 {{ storage }}:cloudinit
+
+    - name: Set boot configuration
+      when: vm_exists.rc != 0
+      ansible.builtin.shell: |
+        qm set {{ vm_id }} \
+          --boot c \
+          --bootdisk scsi0
+
+    - name: Add serial console
+      when: vm_exists.rc != 0
+      ansible.builtin.shell: |
+        qm set {{ vm_id }} \
+          --serial0 socket \
+          --vga serial0
+
+    - name: Copy SSH public key to Proxmox host
+      ansible.builtin.copy:
+        src: ../files/adityathebe.pub
+        dest: /tmp/adityathebe.pub
+        mode: '0644'
+
+    - name: Configure cloud-init settings
+      when: vm_exists.rc != 0
+      ansible.builtin.shell: |
+        qm set {{ vm_id }} \
+          --ciuser player \
+          --cipassword 'helloworld' \
+          --sshkeys /tmp/adityathebe.pub \
+          --ipconfig0 ip=dhcp
+
+    - name: Create template from VM
+      when: vm_exists.rc != 0
+      ansible.builtin.shell: |
+        qm template {{ vm_id }}
+
+    - name: Display template creation summary
+      ansible.builtin.debug:
+        msg: |
+          ✓ Ubuntu Cloud Init Template Created Successfully
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          Template ID: {{ vm_id }}
+          Template Name: {{ vm_name }}
+          Ubuntu Version: {{ ubuntu_version }}
+          Memory: {{ vm_memory }} MB
+          CPU Cores: {{ vm_cores }}
+          Storage: {{ storage }}
+
+          Next Steps:
+          • Clone the template: qm clone {{ vm_id }} <new_id> --name <new_name> --full
+          • Or use this playbook with the clone-vm task below
