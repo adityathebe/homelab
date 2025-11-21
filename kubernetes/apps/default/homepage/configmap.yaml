@@ -20,13 +20,6 @@ data:
   services.yaml: |
     ---
     - Music:
-        - Airsonic:
-            icon: airsonic.png
-            namespace: music
-            app: airsonic
-            href: https://airsonic.${HOMELAB_DOMAIN}
-            description: Music Player
-
         - Navidrome:
             icon: navidrome.png
             namespace: music
