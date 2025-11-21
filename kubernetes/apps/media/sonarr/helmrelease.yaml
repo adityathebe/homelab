@@ -42,7 +42,7 @@ spec:
           sonarr:
             image:
               repository: lscr.io/linuxserver/sonarr
-              tag: 4.0.15
+              tag: 4.0.16
             env:
               PGUID: '1000'
               PGID: '1000'
