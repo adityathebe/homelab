@@ -20,6 +20,9 @@ vms:
 proxmox:
 	cd main && ansible-playbook playbooks/proxmox.yaml
 
+node-gpu:
+	cd main && ansible-playbook playbooks/node-gpu.yaml
+
 gpu-passthrough:
 	cd main && ansible-playbook playbooks/proxmox-gpu-passthrough.yaml
 

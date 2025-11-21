@@ -10,8 +10,23 @@
   roles:
     - ubuntu
 
+  tasks:
+    - name: Create media directories
+      file:
+        path: '{{ item }}'
+        state: directory
+        owner: '{{ user_name }}'
+        group: '{{ user_name }}'
+        mode: '0755'
+      loop:
+        - /srv/media
+        - /srv/media/torrent-downloads
+        - /srv/media/movies
+        - /srv/media/shows
+
     - name: Setup nfs server
-      role: geerlingguy.nfs
+      include_role:
+        name: geerlingguy.nfs
       vars:
         nfs_exports:
           # Map all nfs access as user:group (player:player)
