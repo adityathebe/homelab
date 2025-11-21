@@ -28,6 +28,20 @@
   #       dest: '{{ restic_path }}'
   #       mode: 0755
 
+  pre_tasks:
+    - name: Create rclone backup script with mount verification
+      ansible.builtin.copy:
+        dest: /home/admin/rclone-nas-backup.sh
+        mode: '0755'
+        owner: admin
+        content: |
+          #!/bin/bash
+          if ! mountpoint -q /mnt/seagate || [ ! "$(ls -A /mnt/seagate/backups)" ]; then
+            echo "ERROR: /mnt/seagate not mounted or backups directory empty. Aborting rclone sync."
+            exit 1
+          fi
+          rclone sync /mnt/seagate/backups b2:{{ b2_nas_backup }} -v --progress
+
   roles:
     - name: Installs restic & sets up scheduled backup to external HDD
       role: ansible-restic
@@ -57,7 +71,7 @@
       vars:
         timers:
           rclone-nas-backup:
-            timer_command: rclone sync /mnt/seagate/backups b2:{{ b2_nas_backup }} -v --progress
+            timer_command: bash /home/admin/rclone-nas-backup.sh
             timer_OnCalendar: '*-*-1/2 04:30:00'
             timer_user: 'root'
 
