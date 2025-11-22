@@ -6,20 +6,19 @@ route:
   group_wait: 45s
   group_interval: 10m
   repeat_interval: 12h
-  receiver: 'telegram'
+  receiver: 'discord'
   routes:
     - receiver: 'null'
       matchers:
         - alertname = "Watchdog"
-    - receiver: 'telegram'
+    - receiver: 'discord'
 
 receivers:
   - name: 'null'
-  - name: 'telegram'
-    telegram_configs:
-      - chat_id: ${TELEGRAM_CHAT_ID}
-        bot_token: ${TELEGRAM_BOT_TOKEN}
-        parse_mode: 'Markdown'
+  - name: 'discord'
+    webhook_configs:
+      - url: ${DISCORD_WEBHOOK_URL}
+        send_resolved: true
   - name: 'pushover'
     pushover_configs:
       - user_key: ${PUSHOVER_USER_KEY}
