@@ -76,3 +76,10 @@ spec:
         name: alertmanager-configmap
         globalMounts:
           - path: /etc/alertmanager
+      secrets:
+        enabled: true
+        type: secret
+        name: alertmanager
+        globalMounts:
+          - path: /etc/alertmanager/secrets
+            readOnly: true
