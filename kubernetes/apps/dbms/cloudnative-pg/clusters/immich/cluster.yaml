@@ -1,6 +1,6 @@
 ---
-# https://github.com/mchestr/home-cluster/blob/main/kubernetes/apps/database/cloudnative-pg/cluster/immich.yaml
-
+# Reference: https://github.com/mchestr/home-cluster/blob/main/kubernetes/apps/database/cloudnative-pg/cluster/immich.yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/cluster_v1.json
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
