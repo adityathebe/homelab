@@ -29,11 +29,11 @@ I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) 
 
 ### 1. Proxmox Cluster
 
-| Host            | Model   | CPU           | Storage   |
-| --------------- | ------- | ------------- | --------- |
-| Beelink S12 Pro | Mini PC | 12th gen N100 | 512GB M.2 |
-| Beelink S13     | Mini PC | 12th gen N150 | 512GB M.2 |
-| Beelink EQ14    | Mini PC | 12th gen N150 | 512GB M.2 |
+| Hostname | Model            | CPU        | RAM  | Storage        | Proxmox |
+| -------- | ---------------- | ---------- | ---- | -------------- | ------- |
+| cazorla  | Beelink S12 Pro  | Intel N100 | 16GB | 512GB SATA SSD | 8.4     |
+| ramsey   | Beelink MINI-S13 | Intel N150 | 16GB | 512GB NVMe     | 9.1     |
+| wilshere | Beelink EQ14     | Intel N150 | 16GB | 500GB NVMe     | 8.4     |
 
 Each Proxmox host runs:
 
@@ -80,6 +80,7 @@ This homelab uses a dual ExternalDNS setup to manage both internal (homelab) and
 **Two ExternalDNS Instances:**
 
 1. **external-dns (AdGuard Home)** - Internal DNS
+
    - **Provider**: AdGuard Home via webhook
    - **Sources**: Ingress resources
    - **Purpose**: Automatically creates A records pointing to nginx-ingress (`10.99.99.25`) for all services
@@ -96,13 +97,15 @@ This homelab uses a dual ExternalDNS setup to manage both internal (homelab) and
 For a service to be accessible both internally and externally:
 
 1. **Create an Ingress** (automatically managed by AdGuard ExternalDNS)
+
    ```yaml
    ingress:
      enabled: true
      className: nginx
      hosts:
-       - host: 'notes.${HOMELAB_DOMAIN}'
+       - host: "notes.${HOMELAB_DOMAIN}"
    ```
+
    → AdGuard creates: `notes.example.com → A → 10.99.99.25`
 
 2. **Create a DNSEndpoint** in `kubernetes/apps/network/external-dns-cloudflare/dnsendpoints.yaml` (managed by Cloudflare ExternalDNS)
