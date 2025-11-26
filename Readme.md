@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://k3s.io/">
-    <img alt="k3s" src="https://img.shields.io/badge/k3s-v1.30.2-orange?logo=kubernetes&logoColor=white&style=flat-square">
+    <img alt="k3s" src="https://img.shields.io/badge/k3s-v1.34.1-orange?logo=kubernetes&logoColor=white&style=flat-square">
   </a>
   <a href="https://github.com/adityathebe/homelab/commits/master">
     <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/adityathebe/homelab?logo=git&logoColor=white&color=purple&style=flat-square">
