@@ -6,4 +6,5 @@ resources:
   - alloy.yaml
   - grafana.yaml
   - kube-prometheus-stack.yaml
+  - speedtest-exporter.yaml
   - speedtest-tracker.yaml
