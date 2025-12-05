@@ -27,10 +27,8 @@ spec:
                   name: restic-exporter
             env:
               - name: REFRESH_INTERVAL
-                value: '1800' # 30 minutes
+                value: '3600' # 1 hour
               - name: NO_LOCKS
-                value: 'true'
-              - name: NO_STATS
                 value: 'true'
             resources:
               requests:
@@ -52,5 +50,5 @@ spec:
           - port: http
             scheme: http
             path: /metrics
-            interval: 15m
+            interval: 5m
             scrapeTimeout: 3m
