@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: restic-exporter
+spec:
+  groups:
+    - name: restic-exporter
+      rules:
+        - alert: ResticCheckFailed
+          expr: restic_check_success == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: Restic check failed (instance {{ $labels.instance }})
+            description: "Restic check failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ResticOutdatedBackup
+          expr: time() - restic_backup_timestamp > 1209600
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} backup is outdated
+            description: "Restic backup is outdated\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
