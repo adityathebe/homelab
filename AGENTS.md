@@ -102,3 +102,20 @@ This homelab uses **two ExternalDNS instances** for dual DNS provider management
 ## Commands
 
 - use `kubectl cnpg ` command to work with CNPG cluster
+
+## Talk to vms and k8s nodes
+
+You can run commands on the proxmox hosts, and the vms running on them using ssh <hostname>,
+
+Available hosts
+
+Proxmox hosts
+
+- cazorla
+  - vm: wrighty(k8s master)
+  - vm: alexis (k8s worker)
+- wilshere
+  - vm: saliba (k8s worker)
+  - vm: arteta (k8s master)
+- ramsey
+  - vm: eze (k8s worker)
