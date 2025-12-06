@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: speedtest-exporter
+spec:
+  groups:
+    - name: speedtest.rules
+      rules:
+        - alert: SpeedtestLowDownloadSpeed
+          annotations:
+            summary: Download speed is below 200Mbps
+            description: >-
+              Current download speed is {{ $value | humanize1024 }}bps, below the threshold of 200000000bps (200Mbps).
+          expr: |
+            min_over_time(speedtest_download_bits_per_second[75m]) < 200000000
+              and on(job, instance) max_over_time(speedtest_up[75m]) == 1
+          labels:
+            severity: warning
+
+        - alert: SpeedtestHighPing
+          annotations:
+            summary: Ping latency is above 10ms
+            description: >-
+              Current ping latency is {{ printf "%.2f" $value }}ms, which is above the threshold of 10ms.
+          expr: |
+            max_over_time(speedtest_ping_latency_milliseconds[75m]) > 10
+              and on(job, instance) max_over_time(speedtest_up[75m]) == 1
+          labels:
+            severity: warning
+
+        - alert: SpeedtestLowUploadSpeed
+          annotations:
+            summary: Upload speed is below 100Mbps
+            description: >-
+              Current upload speed is {{ $value | humanize1024 }}bps, below the threshold of 100000000bps (100Mbps).
+          expr: |
+            min_over_time(speedtest_upload_bits_per_second[75m]) < 100000000
+              and on(job, instance) max_over_time(speedtest_up[75m]) == 1
+          labels:
+            severity: warning
+
+        - alert: SpeedtestHighJitter
+          annotations:
+            summary: Jitter is above 5ms
+            description: >-
+              Current jitter is {{ printf "%.2f" $value }}ms, which is above the threshold of 5ms.
+          expr: |
+            max_over_time(speedtest_jitter_latency_milliseconds[75m]) > 5
+              and on(job, instance) max_over_time(speedtest_up[75m]) == 1
+          labels:
+            severity: warning
+
+        - alert: SpeedtestRunMissingOrFailing
+          annotations:
+            summary: Speedtest exporter has not produced a successful run in 75m
+            description: >-
+              No successful speedtest results have been observed in the last 75m. Check the exporter job, credentials, or network.
+          expr: |
+            absent_over_time(speedtest_up[75m]) or max_over_time(speedtest_up[75m]) == 0
+          labels:
+            severity: warning
