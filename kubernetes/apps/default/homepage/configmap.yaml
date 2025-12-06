@@ -65,16 +65,6 @@ data:
             href: https://alertmanager.${HOMELAB_DOMAIN}
             description: Alert Manager
 
-        - Speed Tracker:
-            icon: speedtest-tracker.png
-            namespace: monitoring
-            app: speedtest-tracker
-            href: https://speedtest.${HOMELAB_DOMAIN}
-            description: Speedtest
-            widget:
-              type: speedtest
-              url: http://speedtest-tracker.monitoring.svc
-
     - Applications:
         - Actual:
             icon: actual-budget.png
