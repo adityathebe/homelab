@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
@@ -18,10 +17,132 @@ spec:
             description: "Restic check failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
         - alert: ResticOutdatedBackup
-          expr: time() - restic_backup_timestamp > 1209600
+          expr: time() - restic_backup_timestamp > 172800 # 2 days
           for: 0m
           labels:
             severity: critical
           annotations:
-            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} backup is outdated
-            description: "Restic backup is outdated\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} backup is very outdated (>2 days)
+            description: "Restic backup hasn't run in  a 2 days\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ResticBackupSizeDecreasedSignificantly
+          expr: |
+            restic_backup_size_total < max_over_time(restic_backup_size_total[7d]) * 0.7
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} backup size decreased by >30%
+            description: "Backup size decreased significantly compared to max in last 7 days, possible data loss\n  Current size: {{ $value | humanize1024 }}B\n  LABELS = {{ $labels }}"
+
+        - alert: ResticBackupSizeNearingLimit
+          expr: restic_backup_size_total > 950000000000 # 950GB
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} backup size nearing 1TB limit
+            description: "Backup size is approaching 1TB limit\n  Current size: {{ $value | humanize1024 }}B\n  LABELS = {{ $labels }}"
+
+        - alert: ResticBackupSizeIncreasedUnusually
+          expr: |
+            restic_backup_size_total > min_over_time(restic_backup_size_total[7d]) * 1.5
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} backup size increased by >50%
+            description: "Unusual backup size increase detected compared to min in last 7 days, verify if expected\n  Current size: {{ $value | humanize1024 }}B\n  LABELS = {{ $labels }}"
+
+        - alert: ResticBackupFilesDecreasedSignificantly
+          expr: |
+            restic_backup_files_total < max_over_time(restic_backup_files_total[7d]) * 0.7
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} file count decreased by >30%
+            description: "File count decreased significantly compared to max in last 7 days, possible data loss\n  Current files: {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ResticBackupFilesIncreasedUnusually
+          expr: |
+            restic_backup_files_total > min_over_time(restic_backup_files_total[7d]) * 1.5
+          for: 1h
+          labels:
+            severity: info
+          annotations:
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} file count increased by >50%
+            description: "Unusual file count increase detected compared to min in last 7 days, verify if expected\n  Current files: {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ResticNoSnapshots
+          expr: restic_snapshots_total == 0
+          for: 10m
+          labels:
+            severity: critical
+          annotations:
+            summary: Restic repository has no snapshots (instance {{ $labels.instance }})
+            description: "No snapshots found in restic repository\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ResticTooManyLocks
+          expr: restic_locks_total > 5
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic repository has too many locks (instance {{ $labels.instance }})
+            description: "Too many locks in repository, may indicate stale locks\n  Lock count: {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ResticStaleLocks
+          expr: restic_locks_total > 0
+          for: 4h
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic repository has locks for extended period (instance {{ $labels.instance }})
+            description: "Locks have been present for over 4 hours, likely stale\n  Lock count: {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ResticScrapeDurationHigh
+          expr: restic_scrape_duration_seconds > 300 # 5 minutes
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic exporter scrape duration is high (instance {{ $labels.instance }})
+            description: "Scrape is taking longer than expected\n  Duration: {{ $value }}s\n  LABELS = {{ $labels }}"
+
+        - alert: ResticNoRecentScrape
+          expr: time() - restic_last_scrape_timestamp_seconds > 3600 # 1 hour
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic exporter hasn't scraped recently (instance {{ $labels.instance }})
+            description: "No recent scrape from restic exporter\n  Last scrape: {{ $value }}s ago\n  LABELS = {{ $labels }}"
+
+        - alert: ResticExporterDown
+          expr: up{job="restic-exporter"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: Restic exporter is down (instance {{ $labels.instance }})
+            description: "Restic exporter instance is not responding\n  LABELS = {{ $labels }}"
+
+        - alert: ResticClientSnapshotsDecreased
+          expr: |
+            restic_backup_snapshots_total < max_over_time(restic_backup_snapshots_total[7d]) - 5
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} snapshot count decreased
+            description: "Snapshot count decreased by more than 5 compared to max in last 7 days, snapshots may have been pruned or deleted\n  Current snapshots: {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ResticClientNoSnapshots
+          expr: restic_backup_snapshots_total == 0
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} has no snapshots
+            description: "No snapshots found for this client\n  LABELS = {{ $labels }}"
