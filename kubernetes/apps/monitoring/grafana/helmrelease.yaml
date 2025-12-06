@@ -109,7 +109,7 @@ spec:
           url: https://raw.githubusercontent.com/haraldkoch/kochhaus-home/main/kubernetes/main/apps/observability/speedtest-exporter/app/dashboard/speedtest_exporter.json
           datasource: Prometheus
         restic-exporter:
-          url: https://raw.githubusercontent.com/adityathebe/restic-exporter/refs/heads/main/grafana/grafana_dashboard.json
+          url: https://raw.githubusercontent.com/adityathebe/restic-exporter/refs/heads/main/monitoring/grafana_dashboard.json
           datasource: Prometheus
       flux:
         flux-cluster:
