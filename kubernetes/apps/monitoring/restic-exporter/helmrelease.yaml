@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: ghcr.io/adityathebe/restic-exporter
-              tag: v1.0.13
+              tag: v1.0.14
             envFrom:
               - secretRef:
                   name: restic-exporter
