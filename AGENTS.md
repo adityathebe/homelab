@@ -9,7 +9,7 @@ The entire infrastructure is declaratively managed through FluxCD, with secrets 
 
 ## Architecture
 
-- **K3s Kubernetes cluster** v1.30.2 orchestrating 40+ self-hosted applications
+- **K3s Kubernetes cluster** v1.34.1 orchestrating 40+ self-hosted applications
 - **FluxCD** for GitOps continuous deployment
 - **Terraform** for infrastructure as code (Cloudflare DNS, AWS S3 backend)
 - **Ansible** for server provisioning (k3s-ansible playbook)
