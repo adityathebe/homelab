@@ -6,29 +6,28 @@
   become: true
 
   vars:
-    restic_version: 0.18.0
-    restic_path: /usr/bin/restic
-    rclone_version: '1.67.0'
-
-  # pre_tasks:
-  #   - name: Download restic
-  #     ansible.builtin.get_url:
-  #       url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_amd64.bz2'
-  #       dest: '/tmp/restic_{{ restic_version }}_linux_amd64.bz2'
-
-  #   - name: Extract restic
-  #     command: 'bzip2 -dk /tmp/restic_{{ restic_version }}_linux_amd64.bz2'
-  #     args:
-  #       creates: '/tmp/restic_{{ restic_version }}_linux_amd64'
-
-  #   - name: Install restic
-  #     ansible.builtin.copy:
-  #       remote_src: true
-  #       src: '/tmp/restic_{{ restic_version }}_linux_amd64'
-  #       dest: '{{ restic_path }}'
-  #       mode: 0755
+    restic_version: 0.18.1
+    restic_path: /var/restic # Newer Truenas has most dirs mounted as read-only or noexec, so install restic in /var
+    rclone_version: '1.72.0'
 
   pre_tasks:
+    - name: Download restic
+      ansible.builtin.get_url:
+        url: 'https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_amd64.bz2'
+        dest: '/var/restic_{{ restic_version }}_linux_amd64.bz2'
+
+    - name: Extract restic
+      command: 'bzip2 -dk /var/restic_{{ restic_version }}_linux_amd64.bz2'
+      args:
+        creates: '/var/restic_{{ restic_version }}_linux_amd64'
+
+    - name: Install restic
+      ansible.builtin.copy:
+        remote_src: true
+        src: '/var/restic_{{ restic_version }}_linux_amd64'
+        dest: '{{ restic_path }}'
+        mode: 0755
+
     - name: Create rclone backup script with mount verification
       ansible.builtin.copy:
         dest: /home/admin/rclone-nas-backup.sh
@@ -74,10 +73,3 @@
             timer_command: bash /home/admin/rclone-nas-backup.sh
             timer_OnCalendar: '*-*-1/2 04:30:00'
             timer_user: 'root'
-
-  # tasks:
-  #   - name: Setup NAS ssh
-  #     ansible.posix.authorized_key:
-  #       user: admin
-  #       state: present
-  #       key: '../files/proxmox-player.pub'

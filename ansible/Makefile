@@ -8,6 +8,7 @@ workers:
 nas-vault:
 	cd truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-vault edit --vault-password-file='/bin/cat' host_vars/truenas.yaml
 
+.PHONY: nas
 nas:
 	cd truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/backup.yaml --ask-become-pass
 
