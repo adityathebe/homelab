@@ -5,7 +5,7 @@ roles:
     version: 535396963a6d5269375c95d271e7d0d8b9f21695
   - name: ansible-rclone
     src: https://github.com/stefangweichinger/ansible-rclone
-    version: 41ca34ee375a311257b5ccadf2fba564d7a58182
+    version: a882d5b91e91e1fb599dead4713cbf8e21a6483c
   - name: geerlingguy.node_exporter
   - name: ansible-systemd-timers
     src: https://github.com/vlcty/ansible-systemd-timers
