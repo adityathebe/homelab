@@ -106,7 +106,7 @@ spec:
           revision: 4
           datasource: Prometheus
         speedtest-exporter:
-          url: https://raw.githubusercontent.com/haraldkoch/kochhaus-home/main/kubernetes/main/apps/observability/speedtest-exporter/app/dashboard/speedtest_exporter.json
+          url: https://raw.githubusercontent.com/adityathebe/speedtest-exporter/refs/heads/main/monitoring/grafana_dashboard.json
           datasource: Prometheus
         restic-exporter:
           url: https://raw.githubusercontent.com/adityathebe/restic-exporter/refs/heads/main/monitoring/grafana_dashboard.json
