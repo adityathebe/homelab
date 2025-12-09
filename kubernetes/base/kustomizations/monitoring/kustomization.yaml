@@ -4,6 +4,7 @@ buildMetadata: [originAnnotations]
 resources:
   - alertmanager.yaml
   - alloy.yaml
+  - blackbox-exporter.yaml
   - grafana.yaml
   - kube-prometheus-stack.yaml
   - restic-exporter.yaml
