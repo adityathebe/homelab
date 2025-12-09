@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dns-icmp
+spec:
+  module: icmp
+  interval: 5s
+  prober:
+    url: blackbox-exporter.monitoring.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - 8.8.8.8
+        - 1.1.1.1
+        - 10.99.99.2 # Adguard
+        - 10.99.99.3 # Adguard
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
+kind: Probe
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: devices
+spec:
+  module: tcp_connect
+  interval: 5s
+  prober:
+    url: blackbox-exporter.monitoring.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - 10.99.99.51:443 # Truenas
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: http-external
+spec:
+  module: http_2xx
+  interval: 2m
+  prober:
+    url: blackbox-exporter.monitoring.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - https://one.one.one.one
+        - https://adityathebe.com
