@@ -112,14 +112,6 @@ spec:
         globalMounts:
           - path: /shows
             readOnly: true
-      music:
-        enabled: true
-        type: nfs
-        server: 10.99.99.51
-        path: /mnt/mega/aditya/music
-        globalMounts:
-          - path: /music
-            readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:
