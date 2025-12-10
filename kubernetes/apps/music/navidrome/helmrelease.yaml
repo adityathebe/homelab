@@ -46,6 +46,7 @@ spec:
                   name: navidrome
 
             env:
+              ND_DEFAULTTHEME: Spotify-ish
               TZ: ${TZ}
 
             resources:
