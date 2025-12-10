@@ -19,7 +19,7 @@ spec:
     controllers:
       speedtest-exporter:
         containers:
-          app:
+          speedtest-exporter:
             image:
               repository: ghcr.io/adityathebe/speedtest-exporter
               tag: v1.0.1
@@ -28,20 +28,20 @@ spec:
                 value: DEBUG
             resources:
               requests:
-                cpu: 15m
-                memory: 64Mi
-              limits:
+                cpu: 1m
                 memory: 128Mi
+              limits:
+                memory: 256Mi
 
     service:
-      app:
+      speedtest-exporter:
         controller: speedtest-exporter
         ports:
           http:
             port: 7777
 
     serviceMonitor:
-      app:
+      speedtest-exporter:
         endpoints:
           - port: http
             scheme: http
