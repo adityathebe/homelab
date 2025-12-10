@@ -136,6 +136,7 @@ spec:
           - prometheus.${HOMELAB_DOMAIN}
 
       prometheusSpec:
+        enableRemoteWriteReceiver: true
         alertingEndpoints:
           - namespace: monitoring
             name: alertmanager
