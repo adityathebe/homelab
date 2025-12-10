@@ -79,14 +79,102 @@
   failed_when: dri_devices.rc != 0
   when: has_gpu | bool and dri_check.stat.exists
 
+- name: Evaluate render/card device presence
+  set_fact:
+    render_nodes_found: "{{ (dri_devices.stdout_lines | select('match', '(renderD|card)') | list | length) > 0 }}"
+  when: has_gpu | bool and dri_check.stat.exists and dri_devices.stdout_lines is defined
+  changed_when: false
+
 - name: Display render devices
   debug:
     var: dri_devices.stdout_lines
   when: has_gpu | bool and dri_check.stat.exists and dri_devices.stdout_lines is defined
 
+- name: Show render/card device status
+  debug:
+    msg: "{{ 'Render/card devices present in /dev/dri' if render_nodes_found else 'No render/card devices found in /dev/dri' }}"
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined
+
+- name: Collect lsmod i915 output when render devices are missing
+  shell: lsmod | grep -i i915
+  register: lsmod_i915
+  changed_when: false
+  failed_when: false
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined and not render_nodes_found
+
+- name: Collect dmesg DRM/i915 output when render devices are missing
+  shell: dmesg | grep -iE 'drm|i915' | tail -n 200
+  register: dmesg_drm
+  changed_when: false
+  failed_when: false
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined and not render_nodes_found
+
+- name: Check i915 module availability when render devices are missing
+  shell: modinfo i915
+  register: modinfo_i915
+  changed_when: false
+  failed_when: false
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined and not render_nodes_found
+
+- name: Check linux-firmware package (Debian family) when render devices are missing
+  shell: |
+    dpkg -s linux-firmware 2>/dev/null || dpkg -s firmware-misc-nonfree 2>/dev/null
+  register: firmware_pkg
+  changed_when: false
+  failed_when: false
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined and not render_nodes_found and ansible_facts['os_family'] == 'Debian'
+
+- name: Record firmware package presence
+  set_fact:
+    firmware_pkg_present: "{{ firmware_pkg.rc == 0 }}"
+  changed_when: false
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined and not render_nodes_found and ansible_facts['os_family'] == 'Debian'
+
+- name: Report firmware package status
+  debug:
+    msg: "{{ 'linux-firmware present' if firmware_pkg_present else 'linux-firmware not installed (checked linux-firmware and firmware-misc-nonfree)' }}"
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined and not render_nodes_found and ansible_facts['os_family'] == 'Debian'
+
+- name: Assert firmware package present on Debian family when render devices are missing
+  assert:
+    that:
+      - firmware_pkg_present | default(false)
+    fail_msg: 'GPU detected but no /dev/dri nodes; linux-firmware/firmware-misc-nonfree not installed on guest (required for i915 on Alder Lake-N)'
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined and not render_nodes_found and ansible_facts['os_family'] == 'Debian'
+
+- name: Display i915 modinfo output
+  debug:
+    var: modinfo_i915.stdout_lines
+  when: has_gpu | bool and modinfo_i915 is defined and modinfo_i915.stdout_lines is defined
+
+- name: Display i915 modinfo rc/stderr
+  debug:
+    msg:
+      - "modinfo i915 rc: {{ modinfo_i915.rc | default('unknown') }}"
+      - "modinfo i915 stderr: {{ modinfo_i915.stderr | default('') }}"
+  when: has_gpu | bool and modinfo_i915 is defined
+
+- name: Assert i915 module is available
+  assert:
+    that:
+      - modinfo_i915 is defined
+      - modinfo_i915.rc == 0
+    fail_msg: 'i915 kernel module is not available for this kernel; loadable driver required to create /dev/dri nodes.'
+  when: has_gpu | bool and dri_check.stat.exists and render_nodes_found is defined and not render_nodes_found
+
+- name: Display lsmod i915 output
+  debug:
+    var: lsmod_i915.stdout_lines
+  when: has_gpu | bool and lsmod_i915 is defined and lsmod_i915.stdout_lines is defined
+
+- name: Display dmesg DRM/i915 output
+  debug:
+    var: dmesg_drm.stdout_lines
+  when: has_gpu | bool and dmesg_drm is defined and dmesg_drm.stdout_lines is defined
+
 - name: Validate render/card devices exist
   assert:
     that:
-      - (dri_devices.stdout_lines | select('match', '(renderD|card)') | list | length) > 0
+      - render_nodes_found
     fail_msg: 'No render/card devices found in /dev/dri; GPU detected but device nodes missing'
   when: has_gpu | bool and dri_check.stat.exists and dri_devices.stdout_lines is defined
