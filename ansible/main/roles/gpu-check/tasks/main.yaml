@@ -1,0 +1,91 @@
+---
+- name: Ensure lspci is available
+  command: which lspci
+  register: lspci_check
+  changed_when: false
+  failed_when: lspci_check.rc != 0
+
+- name: Check for VGA/GPU devices
+  shell: |
+    set -o pipefail
+    lspci | grep -iE 'VGA|3D|Display'
+  register: gpu_check
+  changed_when: false
+  failed_when: gpu_check.rc not in [0, 1]
+  args:
+    executable: /bin/bash
+
+- name: Set GPU presence fact
+  set_fact:
+    has_gpu: '{{ gpu_check.rc == 0 }}'
+    gpu_devices: '{{ gpu_check.stdout_lines | default([]) }}'
+
+- name: Get detailed GPU information
+  shell: |
+    set -o pipefail
+    lspci -nnk | grep -iE 'VGA|3D|Display' -A3
+  register: gpu_detail
+  changed_when: false
+  failed_when: gpu_detail.rc != 0
+  args:
+    executable: /bin/bash
+  when: has_gpu | bool
+
+- name: Check GPU kernel driver
+  shell: lspci -nnk -d ::0300
+  register: gpu_driver
+  changed_when: false
+  failed_when: gpu_driver.rc != 0
+  when: has_gpu | bool
+
+- name: Display GPU status
+  debug:
+    msg:
+      - 'Hostname: {{ inventory_hostname }}'
+      - 'GPU Present: {{ has_gpu }}'
+      - "{{ 'GPU Devices: ' + (gpu_devices | join(', ')) if has_gpu else 'No GPU devices found' }}"
+
+- name: Display detailed GPU information
+  debug:
+    var: gpu_detail.stdout_lines
+  when: has_gpu | bool and gpu_detail.stdout_lines is defined
+
+- name: Display GPU driver information
+  debug:
+    var: gpu_driver.stdout_lines
+  when: has_gpu | bool and gpu_driver.stdout_lines is defined
+
+- name: Check /dev/dri directory
+  stat:
+    path: /dev/dri
+  register: dri_check
+  when: has_gpu | bool
+
+- name: Fail if /dev/dri is missing
+  fail:
+    msg: '/dev/dri directory is missing; GPU detected but device nodes are unavailable'
+  when: has_gpu | bool and not dri_check.stat.exists
+
+- name: Display render devices status
+  debug:
+    msg: "/dev/dri directory {{ 'exists' if dri_check.stat.exists else 'does not exist' }}"
+  when: has_gpu | bool
+
+- name: List render devices
+  shell: ls -la /dev/dri/
+  register: dri_devices
+  changed_when: false
+  failed_when: dri_devices.rc != 0
+  when: has_gpu | bool and dri_check.stat.exists
+
+- name: Display render devices
+  debug:
+    var: dri_devices.stdout_lines
+  when: has_gpu | bool and dri_check.stat.exists and dri_devices.stdout_lines is defined
+
+- name: Validate render/card devices exist
+  assert:
+    that:
+      - (dri_devices.stdout_lines | select('match', '(renderD|card)') | list | length) > 0
+    fail_msg: 'No render/card devices found in /dev/dri; GPU detected but device nodes missing'
+  when: has_gpu | bool and dri_check.stat.exists and dri_devices.stdout_lines is defined
