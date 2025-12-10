@@ -19,6 +19,7 @@
   set_fact:
     has_gpu: '{{ gpu_check.rc == 0 }}'
     gpu_devices: '{{ gpu_check.stdout_lines | default([]) }}'
+  changed_when: false
 
 - name: Get detailed GPU information
   shell: |
