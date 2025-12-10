@@ -6,7 +6,7 @@ metadata:
   name: dns-icmp
 spec:
   module: icmp
-  interval: 5s
+  interval: 30s
   prober:
     url: blackbox-exporter.monitoring.svc.cluster.local:9115
   targets:
@@ -24,7 +24,7 @@ metadata:
   name: devices
 spec:
   module: tcp_connect
-  interval: 5s
+  interval: 30s
   prober:
     url: blackbox-exporter.monitoring.svc.cluster.local:9115
   targets:
