@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: ghcr.io/adityathebe/speedtest-exporter
-              tag: v1.0.1
+              tag: v1.0.3
             env:
               - name: LOG_LEVEL
                 value: DEBUG
