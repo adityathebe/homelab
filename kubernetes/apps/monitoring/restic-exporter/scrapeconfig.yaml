@@ -15,5 +15,3 @@ spec:
   staticConfigs:
     - targets:
         - 10.99.99.51:7777
-      labels:
-        restic_exporter_repository_location: external-hdd

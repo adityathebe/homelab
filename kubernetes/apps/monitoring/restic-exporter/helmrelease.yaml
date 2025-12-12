@@ -21,19 +21,15 @@ spec:
           app:
             image:
               repository: ghcr.io/adityathebe/restic-exporter
-              tag: v1.0.16
+              tag: v1.0.18
             envFrom:
               - secretRef:
                   name: restic-exporter
             env:
               - name: REFRESH_INTERVAL
                 value: '3600' # 1 hour
-              - name: INCLUDE_PATHS
-                value: 'true'
               - name: NO_LOCKS
                 value: 'true'
-              - name: INCLUDE_CLIENTS
-                value: truenas
               - name: LOG_LEVEL
                 value: DEBUG
             resources:
@@ -58,7 +54,3 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 15s
-            relabelings:
-              - action: replace
-                targetLabel: restic_exporter_repository_location
-                replacement: backblaze
