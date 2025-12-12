@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: restic-exporter
     release: kube-prometheus-stack
 spec:
-  scrapeInterval: 1m
+  scrapeInterval: 15m
   scrapeTimeout: 15s
   scheme: HTTP
   metricsPath: /metrics
