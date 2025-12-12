@@ -58,3 +58,7 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 15s
+            relabelings:
+              - action: replace
+                targetLabel: restic_exporter_repository_location
+                replacement: backblaze

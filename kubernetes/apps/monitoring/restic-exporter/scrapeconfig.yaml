@@ -1,0 +1,19 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: restic-exporter-truenas
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: restic-exporter
+    release: kube-prometheus-stack
+spec:
+  scrapeInterval: 1m
+  scrapeTimeout: 15s
+  scheme: HTTP
+  metricsPath: /metrics
+  staticConfigs:
+    - targets:
+        - 10.99.99.51:7777
+      labels:
+        restic_exporter_repository_location: external-hdd
