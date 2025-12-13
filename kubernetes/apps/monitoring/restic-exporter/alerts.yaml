@@ -17,13 +17,15 @@ spec:
             description: "Restic check failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
         - alert: ResticOutdatedBackup
-          expr: time() - restic_backup_timestamp > 172800 # 2 days
+          expr: |
+            (time() - restic_backup_timestamp{repository="/backups"} > 88200) # 24.5h
+            or (time() - restic_backup_timestamp{repository="b2:nas-backup-aditya"} > 262800) # 3d +1h
           for: 0m
           labels:
             severity: critical
           annotations:
-            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} backup is very outdated (>2 days)
-            description: "Restic backup hasn't run in  a 2 days\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+            summary: Restic {{ $labels.client_hostname }} / {{ $labels.client_username }} backup is very outdated
+            description: "Restic backup hasn't run recently\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
         - alert: ResticBackupSizeDecreasedSignificantly
           expr: |
