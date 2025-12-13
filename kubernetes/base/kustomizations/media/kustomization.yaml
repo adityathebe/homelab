@@ -9,5 +9,4 @@ resources:
   - ./prowlarr.yaml
   - ./qbittorrent.yaml
   - ./radarr.yaml
-  - ./recyclarr.yaml
   - ./sonarr.yaml
