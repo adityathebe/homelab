@@ -101,7 +101,4 @@ spec:
         server: 10.99.99.20
         path: /srv/media
         globalMounts:
-          - path: /downloads
-            subPath: torrent-downloads
-          - path: /shows
-            subPath: shows
+          - path: /media
