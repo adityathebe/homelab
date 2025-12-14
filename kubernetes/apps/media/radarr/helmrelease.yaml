@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app radarr
+  name: radarr
   namespace: media
 spec:
   interval: 30m
@@ -52,7 +52,7 @@ spec:
                 spec:
                   httpGet:
                     path: /ping
-                    port: &port 7878
+                    port: 7878
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -97,17 +97,14 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /config/logs
-      torrent-downloads:
+      media:
         type: nfs
         server: 10.99.99.20
-        path: /srv/media/torrent-downloads
+        path: /srv/media
         globalMounts:
           - path: /downloads
-      movies:
-        type: nfs
-        server: 10.99.99.20
-        path: /srv/media/movies
-        globalMounts:
+            subPath: torrent-downloads
           - path: /movies
+            subPath: movies
       tmp:
         type: emptyDir
