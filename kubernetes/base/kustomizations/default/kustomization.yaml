@@ -10,7 +10,7 @@ resources:
   - homepage.yaml
   - ittools.yaml
   - lubelogger.yaml
-  - paperless.yaml
+  # - paperless.yaml
   - radicale.yaml
   - searxng.yaml
   - silverbullet.yaml
