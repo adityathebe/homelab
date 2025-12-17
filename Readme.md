@@ -153,29 +153,19 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 
 - **Tool**: Restic
 - **Schedule**: Daily at 03:00 AM
-- **Retention**: 90 days local
-- **Storage**: External HDD (`/home/admin/seagate/backups`)
+- **Storage**: External HDD
 
 ### Cloud Sync
 
 - **Tool**: Rclone → Backblaze B2
 - **Schedule**: Every 2 days at 04:30 AM
-- **Sources**: Personal files (`/mnt/mega/aditya`), Photos (`/mnt/mega/photos`)
-
-## Recovery
-
-All backup credentials are encrypted with SOPS/Age and managed through GitOps. Recovery procedures involve:
-
-1. Database restores from CNPG Point-in-Time Recovery or replica promotion
-2. Volume restores from Longhorn snapshots and backups
-3. File system restores using `restic restore` from local or cloud repositories
-4. Application data persistence through Longhorn distributed storage
 
 ## Requirements
 
 - sops (secrets management)
 - age (encryption)
 - precommit
+- flux
 
 ---
 
