@@ -93,21 +93,12 @@ spec:
         globalMounts:
           - path: /add-ons
 
-      movies:
-        enabled: true
+      media:
         type: nfs
         server: 10.99.99.20
-        path: /srv/media/movies
+        path: /srv/media
         globalMounts:
-          - path: /movies
-
-      shows:
-        enabled: true
-        type: nfs
-        server: 10.99.99.20
-        path: /srv/media/shows
-        globalMounts:
-          - path: /shows
+          - path: /media
 
       scripts:
         enabled: true
