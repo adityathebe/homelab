@@ -111,13 +111,6 @@ data:
               username: adityathebe
               password: {{HOMEPAGE_VAR_FRESH_RSS_PASSWORD}}
 
-        - SearXNG:
-            icon: searxng.png
-            namespace: default
-            app: searxng
-            href: https://search.${HOMELAB_DOMAIN}
-            description: Privacy-respecting metasearch engine
-
         - Silver Bullet:
             icon: https://silverbullet.md/.client/logo.png
             namespace: default

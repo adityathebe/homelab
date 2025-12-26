@@ -12,5 +12,4 @@ resources:
   - lubelogger.yaml
   # - paperless.yaml
   - radicale.yaml
-  - searxng.yaml
   - silverbullet.yaml
