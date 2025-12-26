@@ -87,12 +87,12 @@ data:
             href: https://vehicle.${HOMELAB_DOMAIN}
             description: Vehicle maintenance log
 
-        - Paperless:
-            icon: paperless.png
-            namespace: default
-            app: paperless
-            href: https://paperless.${HOMELAB_DOMAIN}
-            description: Documents management
+        # - Paperless:
+        #     icon: paperless.png
+        #     namespace: default
+        #     app: paperless
+        #     href: https://paperless.${HOMELAB_DOMAIN}
+        #     description: Documents management
         
         - Radicale:
             icon: radicale.png
