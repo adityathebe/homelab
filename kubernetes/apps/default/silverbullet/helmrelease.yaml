@@ -34,7 +34,7 @@ spec:
           silverbullet:
             image:
               repository: docker.io/zefhemel/silverbullet
-              tag: '2.3.0'
+              tag: '2.4.1'
             envFrom:
               - secretRef:
                   name: *app
