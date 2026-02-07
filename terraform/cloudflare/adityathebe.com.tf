@@ -1,6 +1,6 @@
 resource "cloudflare_record" "mx_record_1" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "@"
+  name            = "adityathebe.com"
   allow_overwrite = true
   content         = "in1-smtp.messagingengine.com"
   type            = "MX"
@@ -9,7 +9,7 @@ resource "cloudflare_record" "mx_record_1" {
 
 resource "cloudflare_record" "mx_record_2" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "@"
+  name            = "adityathebe.com"
   allow_overwrite = true
   content         = "in2-smtp.messagingengine.com"
   type            = "MX"
@@ -45,7 +45,7 @@ resource "cloudflare_record" "dkim_cname_3" {
 
 resource "cloudflare_record" "spf" {
   zone_id         = data.sops_file.cloudflare_secrets.data["cloudflare_zone_id"]
-  name            = "@"
+  name            = "adityathebe.com"
   allow_overwrite = true
   content         = "v=spf1 include:spf.messagingengine.com ?all"
   type            = "TXT"
