@@ -37,7 +37,7 @@ spec:
             image:
               # renovate: datasource=github-releases depName=immich-app/immich
               repository: ghcr.io/immich-app/immich-server
-              tag: 'v2.5.5'
+              tag: 'v2.5.6'
             env:
               TZ: ${TZ}
               IMMICH_MEDIA_LOCATION: /usr/src/app/upload
