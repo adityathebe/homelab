@@ -95,8 +95,8 @@ spec:
 
       media:
         type: nfs
-        server: 10.99.99.20
-        path: /srv/media
+        server: 10.99.99.151
+        path: /volume2/media
         globalMounts:
           - path: /media
 

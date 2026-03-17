@@ -100,15 +100,15 @@ spec:
       movies:
         enabled: true
         type: nfs
-        server: 10.99.99.20
-        path: /srv/media/movies
+        server: 10.99.99.151
+        path: /volume2/media/movies
         globalMounts:
           - path: /movies
       shows:
         enabled: true
         type: nfs
-        server: 10.99.99.20
-        path: /srv/media/shows
+        server: 10.99.99.151
+        path: /volume2/media/shows
         globalMounts:
           - path: /shows
             readOnly: true

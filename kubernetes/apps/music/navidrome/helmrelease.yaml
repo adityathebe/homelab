@@ -33,6 +33,12 @@ spec:
         annotations:
           reloader.stakater.com/auto: 'true'
 
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+
         containers:
           navidrome:
             image:
@@ -44,6 +50,10 @@ spec:
                   name: navidrome
               - configMapRef:
                   name: navidrome
+
+            securityContext:
+              runAsUser: 1000
+              runAsNonRoot: true
 
             env:
               ND_DEFAULTTHEME: Spotify-ish
@@ -90,8 +100,8 @@ spec:
       music:
         enabled: true
         type: nfs
-        server: 10.99.99.51
-        path: /mnt/mega/aditya/music
+        server: 10.99.99.151
+        path: /volume2/media/music
         globalMounts:
           - path: /music
             readOnly: true

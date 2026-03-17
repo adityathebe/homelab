@@ -89,8 +89,8 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: 10.99.99.20
-        path: /srv/media/torrent-downloads
+        server: 10.99.99.151
+        path: /volume2/media/torrent-downloads
         globalMounts:
           - path: /config/Downloads
       tmp:

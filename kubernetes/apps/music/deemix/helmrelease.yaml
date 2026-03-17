@@ -36,8 +36,8 @@ spec:
               pullPolicy: IfNotPresent
             env:
               TZ: ${TZ}
-              PGUID: 1000
-              PGID: 1337
+              PUID: 1000
+              PGID: 1000
               UMASK_SET: 022
               DEEMIX_SINGLE_USER: true
             resources:
@@ -70,8 +70,8 @@ spec:
       downloads:
         enabled: true
         type: nfs
-        server: 10.99.99.51
-        path: /mnt/mega/aditya/music
+        server: 10.99.99.151
+        path: /volume2/media/music
 
       config:
         enabled: true
