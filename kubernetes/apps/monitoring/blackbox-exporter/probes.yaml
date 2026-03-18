@@ -16,6 +16,7 @@ spec:
         - 1.1.1.1
         - 10.99.99.2 # Adguard
         - 10.99.99.3 # Adguard
+        - 10.99.99.151 # Ugreen NAS
 ---
 # yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
 kind: Probe
@@ -31,6 +32,7 @@ spec:
     staticConfig:
       static:
         - 10.99.99.51:443 # Truenas
+        - 10.99.99.151:9999 # Ugreen NAS
 ---
 # yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
 apiVersion: monitoring.coreos.com/v1

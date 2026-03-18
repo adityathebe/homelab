@@ -50,6 +50,13 @@ Each Proxmox host runs:
 | SSD (os)    | 128GB                          |
 | SDD         | 1TB                            |
 
+### 3. Ugreen NAS
+
+| Description | Spec       |
+| ----------- | ---------- |
+| Server      | Ugreen NAS |
+| IP          | 10.99.99.151 |
+
 ![Server](.github/images/IMG_9856.jpg)
 _Beelink mini PCs & TrueNAS server_
 

@@ -96,7 +96,7 @@ This homelab uses **two ExternalDNS instances** for dual DNS provider management
 
 - Each Proxmox host runs 1 master node (4GB RAM, 2vCPU) and 1 worker node (8GB RAM, 4vCPU)
 
-**Storage**: TrueNAS Scale on Sony VAIO (8GB RAM, Intel i5-3210M) providing NFS and SMB
+**Storage**: TrueNAS Scale on Sony VAIO (8GB RAM, Intel i5-3210M) providing NFS and SMB; Ugreen NAS at 10.99.99.151
 **Network**: Cloudflare tunnels for external access, nginx-ingress for internal routing
 
 ## Commands
