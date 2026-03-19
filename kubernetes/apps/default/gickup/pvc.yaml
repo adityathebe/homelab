@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: gickup
 spec:
-  storageClassName: smb-backup
+  storageClassName: smb-homelab
   resources:
     requests:
       storage: 2Gi
