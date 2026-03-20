@@ -127,7 +127,7 @@ spec:
 
     persistence:
       library:
-        existingClaim: immich
+        existingClaim: immich-library
         globalMounts:
           - path: /usr/src/app/upload
       gopro:
