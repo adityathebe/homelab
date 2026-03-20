@@ -4,7 +4,5 @@ buildMetadata: [originAnnotations]
 resources:
   - smb-storage-class.yaml
   - pvc.yaml
-  - gopro-pvc.yaml
-  - libraries-pvc.yaml
   - secret.sops.yaml
   - helmrelease.yaml

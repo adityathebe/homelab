@@ -22,3 +22,55 @@ mountOptions:
   - gid=3000
   - cache=strict
   - noserverino
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: smb-immich-external-libraries
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+provisioner: smb.csi.k8s.io
+parameters:
+  source: //10.99.99.151/personal_folder
+  subDir: photos/libraries
+  csi.storage.k8s.io/provisioner-secret-name: smb-personal
+  csi.storage.k8s.io/provisioner-secret-namespace: network
+  csi.storage.k8s.io/node-stage-secret-name: smb-personal
+  csi.storage.k8s.io/node-stage-secret-namespace: network
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+mountOptions:
+  - dir_mode=0555
+  - file_mode=0444
+  - uid=3000
+  - gid=3000
+  - cache=strict
+  - noserverino
+  - ro
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: smb-immich-gopro
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+provisioner: smb.csi.k8s.io
+parameters:
+  source: //10.99.99.151/personal_folder
+  subDir: photos/gopro
+  csi.storage.k8s.io/provisioner-secret-name: smb-personal
+  csi.storage.k8s.io/provisioner-secret-namespace: network
+  csi.storage.k8s.io/node-stage-secret-name: smb-personal
+  csi.storage.k8s.io/node-stage-secret-namespace: network
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+mountOptions:
+  - dir_mode=0555
+  - file_mode=0444
+  - uid=3000
+  - gid=3000
+  - cache=strict
+  - noserverino
+  - ro

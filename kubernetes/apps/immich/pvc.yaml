@@ -10,3 +10,29 @@ spec:
   resources:
     requests:
       storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: external-libraries
+  namespace: immich
+spec:
+  storageClassName: smb-immich-external-libraries
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gopro
+  namespace: immich
+spec:
+  storageClassName: smb-immich-gopro
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
