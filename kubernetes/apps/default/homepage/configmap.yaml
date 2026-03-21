@@ -154,18 +154,8 @@ data:
             href: https://longhorn.${HOMELAB_DOMAIN}
             description: Longhorn
 
-        - Truenas:
-            icon: truenas.png
-            href: https://nas.${HOMELAB_DOMAIN}
-            ping: https://nas.${HOMELAB_DOMAIN}
-            description: TrueNAS Scale
-            widget:
-              type: truenas
-              key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
-              url: https://nas.${HOMELAB_DOMAIN}
-
         - Ugreen NAS:
-            icon: https://www.ugreengroup.com/favicon.ico
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/ugreen-nas.png
             href: http://10.99.99.151:9999
             ping: http://10.99.99.151:9999
             description: Ugreen NAS

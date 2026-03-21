@@ -31,7 +31,6 @@ spec:
   targets:
     staticConfig:
       static:
-        - 10.99.99.51:443 # Truenas
         - 10.99.99.151:9999 # Ugreen NAS
 ---
 # yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
