@@ -46,7 +46,8 @@ spec:
       v1DataEngine: true
       v2DataEngine: false
     defaultBackupStore:
-      backupTarget: nfs://10.99.99.51:/mnt/mega/longhorn
+      backupTarget: s3://longhorn@us-east-1/
+      backupTargetCredentialSecret: longhorn-versitygw-backups
     ingress:
       enabled: true
       host: longhorn.${HOMELAB_DOMAIN}
