@@ -94,6 +94,8 @@ spec:
               time() -
               longhorn_volume_last_backup_at
             ) > 172800
+            and
+            longhorn_volume_last_backup_at > 0
           for: 10m
           labels:
             severity: warning
