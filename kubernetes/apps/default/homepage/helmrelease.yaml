@@ -34,7 +34,7 @@ spec:
           homepage:
             image:
               repository: ghcr.io/gethomepage/homepage
-              tag: v1.11.0
+              tag: v1.12.1
             resources:
               requests:
                 cpu: 25m
