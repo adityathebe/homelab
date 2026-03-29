@@ -1,0 +1,4 @@
+---
+# Defaults for gpu-check role
+has_gpu: false
+gpu_devices: []
