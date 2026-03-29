@@ -32,6 +32,8 @@ spec:
     staticConfig:
       static:
         - 10.99.99.151:9999 # Ugreen NAS
+        - 10.99.99.151:7070 # object storage
+        - 10.99.99.151:9898 # Backrest
 ---
 # yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
 apiVersion: monitoring.coreos.com/v1
