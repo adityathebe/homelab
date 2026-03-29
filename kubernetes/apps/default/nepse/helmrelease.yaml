@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nepse
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.5.0
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+
+  values:
+    controllers:
+      main:
+        strategy: Recreate
+        containers:
+          nepse:
+            image:
+              repository: ghcr.io/adityathebe/nepse
+              tag: latest
+            envFrom:
+              - secretRef:
+                  name: npttoken
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 9999
+
+    ingress:
+      main:
+        enabled: true
+        className: nginx
+        hosts:
+          - host: &host 'nepse.${HOMELAB_DOMAIN}'
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+
+    persistence:
+      data:
+        existingClaim: nepse-data
+        globalMounts:
+          - path: /data

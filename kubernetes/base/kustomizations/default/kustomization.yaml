@@ -11,5 +11,6 @@ resources:
   - ittools.yaml
   - lubelogger.yaml
   # - paperless.yaml
+  - nepse.yaml
   - radicale.yaml
   - silverbullet.yaml
