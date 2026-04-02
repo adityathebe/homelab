@@ -24,7 +24,7 @@ spec:
           nepse:
             image:
               repository: ghcr.io/adityathebe/nepse
-              tag: 0.23.0
+              tag: 0.25.0
             envFrom:
               - secretRef:
                   name: npttoken
