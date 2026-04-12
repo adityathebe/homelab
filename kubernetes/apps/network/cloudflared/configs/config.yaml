@@ -17,6 +17,12 @@ ingress:
     originRequest:
       httpHostHeader: nepse.${HOMELAB_DOMAIN}
 
+  # Investment
+  - hostname: investment.${HOMELAB_DOMAIN}
+    service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
+    originRequest:
+      httpHostHeader: investment.${HOMELAB_DOMAIN}
+
   # Jellyfin (movies)
   - hostname: movies.${HOMELAB_DOMAIN}
     service: http://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local
