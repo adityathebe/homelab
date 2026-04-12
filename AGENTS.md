@@ -105,7 +105,7 @@ This homelab uses **two ExternalDNS instances** for dual DNS provider management
 
 ## Talk to vms and k8s nodes
 
-You can run commands on the proxmox hosts, and the vms running on them using ssh <hostname>,
+You can run commands on the proxmox hosts, and the vms running on them using ssh <hostname>, no credentials required.
 
 Available hosts
 
