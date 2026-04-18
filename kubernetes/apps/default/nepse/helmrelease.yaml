@@ -28,9 +28,10 @@ spec:
             env:
               BACKUP_PATH: /data/backups
               LOG_LEVEL: debug
+              NEPSE_CACHE_DIR: /data/cache
             envFrom:
               - secretRef:
-                  name: npttoken
+                  name: nepse
             resources:
               requests:
                 cpu: 250m
