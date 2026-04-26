@@ -113,7 +113,7 @@ spec:
             description: "Scrape is taking longer than expected\n  Duration: {{ $value }}s\n  LABELS = {{ $labels }}"
 
         - alert: ResticNoRecentScrape
-          expr: time() - restic_last_scrape_timestamp_seconds > 3600 # 1 hour
+          expr: time() - restic_last_scrape_timestamp_seconds > 7200 # 2 hours
           for: 5m
           labels:
             severity: warning
