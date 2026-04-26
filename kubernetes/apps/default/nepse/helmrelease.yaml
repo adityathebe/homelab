@@ -24,7 +24,7 @@ spec:
           nepse:
             image:
               repository: ghcr.io/adityathebe/nepse
-              tag: 0.58.0
+              tag: 0.59.0
             env:
               BACKUP_PATH: /data/backups
               LOG_LEVEL: debug
