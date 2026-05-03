@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ./secret.sops.yaml
-  - ./helmrelease.yaml
-  - ./alerts.yaml
+  # - ./helmrelease.yaml
+  # - ./alerts.yaml
   # - ./scrapeconfig.yaml
