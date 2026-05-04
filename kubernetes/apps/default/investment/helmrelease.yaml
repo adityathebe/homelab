@@ -24,7 +24,7 @@ spec:
           investment:
             image:
               repository: ghcr.io/adityathebe/investment
-              tag: 1.1.1
+              tag: 1.3.0
             resources:
               requests:
                 cpu: 100m
