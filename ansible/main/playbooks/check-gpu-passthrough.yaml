@@ -1,0 +1,134 @@
+---
+- name: Check GPU passthrough to worker VMs
+  hosts: pve
+  gather_facts: true
+
+  vars:
+    # Expected worker VM on each Proxmox host
+    worker_vm_for_host:
+      cazorla: alexis
+      wilshere: saliba
+      ramsey: eze
+
+  tasks:
+    - name: Determine target worker VM for this host
+      set_fact:
+        target_worker: "{{ worker_vm_for_host.get(inventory_hostname, '') }}"
+      changed_when: false
+
+    - name: Skip host without mapped worker VM
+      meta: end_host
+      when: target_worker | length == 0
+
+    - name: Ensure qm command is available
+      command: which qm
+      register: qm_check
+      changed_when: false
+
+    - name: Find VMID for target worker VM
+      shell: |
+        set -o pipefail
+        qm list | awk 'NR>1 && $2=="{{ target_worker }}" {print $1}'
+      register: target_vmid
+      changed_when: false
+      failed_when: target_vmid.rc != 0
+      args:
+        executable: /bin/bash
+
+    - name: Fail if worker VM is not present on this host
+      fail:
+        msg: 'Worker VM {{ target_worker }} not found on host {{ inventory_hostname }}'
+      when: target_vmid.stdout | trim | length == 0
+
+    - name: Inspect host GPU devices
+      shell: |
+        set -o pipefail
+        lspci -nnk -d ::0300
+      register: host_gpu_detail
+      changed_when: false
+      args:
+        executable: /bin/bash
+
+    - name: Collect host dmesg vfio lines
+      shell: dmesg | grep -i vfio | tail -n 200
+      register: host_dmesg_vfio
+      changed_when: false
+      failed_when: false
+
+    - name: Capture GPU driver(s) in use
+      set_fact:
+        gpu_drivers_in_use: "{{ host_gpu_detail.stdout | regex_findall('Kernel driver in use:\\s*([^\\n]+)') | map('trim') | list }}"
+      changed_when: false
+
+    - name: Show host GPU devices and drivers
+      debug:
+        msg:
+          - 'Host: {{ inventory_hostname }}'
+          - 'Target worker VM: {{ target_worker }} (VMID {{ target_vmid.stdout | trim }})'
+          - "Kernel drivers in use for GPUs: {{ gpu_drivers_in_use | default(['none detected']) }}"
+          - 'Raw lspci output:'
+          - "{{ host_gpu_detail.stdout | default('') }}"
+
+    - name: Read worker VM config
+      command: qm config {{ target_vmid.stdout | trim }}
+      register: vm_config
+      changed_when: false
+      failed_when: vm_config.rc != 0
+
+    - name: Extract machine type from VM config
+      set_fact:
+        machine_type: "{{ (vm_config.stdout | regex_search('^machine:\\s*([^\\n]+)', '\\1', multiline=True)) | default('') }}"
+      changed_when: false
+
+    - name: Extract hostpci lines from worker VM config
+      set_fact:
+        hostpci_lines: "{{ vm_config.stdout_lines | select('match', '^hostpci') | list }}"
+      changed_when: false
+
+    - name: Show host dmesg vfio output
+      debug:
+        var: host_dmesg_vfio.stdout_lines
+      when: host_dmesg_vfio.stdout_lines is defined
+
+    - name: Show hostpci configuration for worker VM
+      debug:
+        msg:
+          - 'hostpci entries for {{ target_worker }}: {{ hostpci_lines | default([]) }}'
+
+    - name: Assert VM uses Q35 machine type
+      assert:
+        that:
+          - machine_type | lower is search('q35')
+        fail_msg: "VM {{ target_worker }} ({{ target_vmid.stdout | trim }}) on {{ inventory_hostname }} is not using Q35 machine type (found '{{ machine_type | default('unknown') }}'). Enable Q35 to allow PCIe/x-vga flags."
+
+    - name: Assert GPU passthrough is configured in VM
+      assert:
+        that:
+          - hostpci_lines | length > 0
+        fail_msg: 'VM {{ target_worker }} ({{ target_vmid.stdout | trim }}) on {{ inventory_hostname }} has no hostpci entries; GPU passthrough not configured.'
+
+    - name: Assert hostpci0 contains pcie flag
+      assert:
+        that:
+          - hostpci_lines | select('match', '^hostpci0') | list | length > 0
+          - hostpci_lines | select('match', '^hostpci0') | list | select('search', 'pcie=1') | list | length > 0
+        fail_msg: 'VM {{ target_worker }} ({{ target_vmid.stdout | trim }}) on {{ inventory_hostname }} missing required hostpci0 flag pcie=1 for iGPU passthrough.'
+
+    - name: Warn if x-vga flag is missing on hostpci0
+      debug:
+        msg: "VM {{ target_worker }} ({{ target_vmid.stdout | trim }}) hostpci0 lacks x-vga=1; if you disable it intentionally due to device limits, ignore this warning."
+      when: hostpci_lines | select('match', '^hostpci0') | list | select('search', 'x-vga=1') | list | length == 0
+
+    - name: Assert GPU is bound to vfio-pci on host
+      assert:
+        that:
+          - gpu_drivers_in_use is defined
+          - "'vfio-pci' in (gpu_drivers_in_use | map('lower') | list)"
+        fail_msg: "Host {{ inventory_hostname }} GPU not bound to vfio-pci (found '{{ gpu_drivers_in_use | default(['none']) }}'); passthrough will not expose /dev/dri in guest."
+
+    - name: Summary for host
+      debug:
+        msg:
+          - 'Host {{ inventory_hostname }} -> worker {{ target_worker }} (VMID {{ target_vmid.stdout | trim }})'
+          - "GPU drivers on host: {{ gpu_drivers_in_use | default(['none detected']) }}"
+          - 'hostpci entries: {{ hostpci_lines | default([]) }}'

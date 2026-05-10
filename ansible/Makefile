@@ -27,6 +27,12 @@ node-gpu:
 gpu-passthrough:
 	cd main && ansible-playbook playbooks/proxmox-gpu-passthrough.yaml
 
+check-vm-gpu:
+	cd main && ansible-playbook playbooks/check-vm-gpu.yaml
+
+check-gpu-passthrough:
+	cd main && ansible-playbook playbooks/check-gpu-passthrough.yaml
+
 # Example: make cloud-init-template EXTRA_VARS="-e target_host=ramsey"
 cloud-init-template:
 	cd main && ansible-playbook playbooks/proxmox-cloud-init-template.yaml $(EXTRA_VARS)
