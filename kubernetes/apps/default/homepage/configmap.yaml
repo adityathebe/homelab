@@ -40,31 +40,6 @@ data:
             href: https://deemix.${HOMELAB_DOMAIN}
             description: Deezer music downlader
 
-    - Monitoring:
-        - Grafana:
-            icon: grafana.png
-            namespace: monitoring
-            app: grafana
-            href: https://grafana.${HOMELAB_DOMAIN}
-            description: Dashboard
-
-        - Prometheus:
-            icon: prometheus.png
-            namespace: monitoring
-            app: prometheus
-            href: https://prometheus.${HOMELAB_DOMAIN}
-            description: Prometheus
-            widget:
-              type: prometheus
-              url: http://prometheus-operated.monitoring.svc:9090
-
-        - Alert Manager:
-            icon: alertmanager.png
-            namespace: monitoring
-            app: alertmanager
-            href: https://alertmanager.${HOMELAB_DOMAIN}
-            description: Alert Manager
-
     - Applications:
         - Actual:
             icon: actual-budget.png
@@ -100,6 +75,13 @@ data:
             app: radicale
             href: https://radicale.${HOMELAB_DOMAIN}
         
+        - Silver Bullet:
+            icon: https://silverbullet.md/.client/logo.png
+            namespace: default
+            app: silverbullet
+            href: https://notes.${HOMELAB_DOMAIN}
+            description: Note taking app
+
         - RSS:
             icon: freshrss.png
             namespace: default
@@ -110,13 +92,6 @@ data:
               url: https://rss.${HOMELAB_DOMAIN}
               username: adityathebe
               password: {{HOMEPAGE_VAR_FRESH_RSS_PASSWORD}}
-
-        - Silver Bullet:
-            icon: https://silverbullet.md/.client/logo.png
-            namespace: default
-            app: silverbullet
-            href: https://notes.${HOMELAB_DOMAIN}
-            description: Note taking app
 
         - Immich:
             icon: immich.png
@@ -131,6 +106,52 @@ data:
               version: 2
 
     - Management:
+        - Grafana:
+            icon: grafana.png
+            namespace: monitoring
+            app: grafana
+            href: https://grafana.${HOMELAB_DOMAIN}
+            description: Dashboard
+
+        - Prometheus:
+            icon: prometheus.png
+            namespace: monitoring
+            app: prometheus
+            href: https://prometheus.${HOMELAB_DOMAIN}
+            description: Prometheus
+            widget:
+              type: prometheus
+              url: http://prometheus-operated.monitoring.svc:9090
+
+        - Alert Manager:
+            icon: alertmanager.png
+            namespace: monitoring
+            app: alertmanager
+            href: https://alertmanager.${HOMELAB_DOMAIN}
+            description: Alert Manager
+
+        - Adguard:
+            icon: adguard-home.png
+            href: http://10.99.99.2:3000/
+            ping: http://10.99.99.2:3000/
+            description: Primary DNS
+            widget:
+              type: adguard
+              url: http://10.99.99.2:3000
+              username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
+              password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
+        
+        - Adguard II:
+            icon: adguard-home.png
+            href: http://10.99.99.3
+            ping: http://10.99.99.3
+            description: Secondary DNS
+            widget:
+              type: adguard
+              url: http://10.99.99.3
+              username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
+              password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
+
         - Wilshere:
             icon: proxmox.png
             href: https://10.99.99.12:8006
@@ -159,28 +180,6 @@ data:
             href: http://10.99.99.151:9999
             ping: http://10.99.99.151:9999
             description: Ugreen NAS
-
-        - Adguard:
-            icon: adguard-home.png
-            href: http://10.99.99.2:3000/
-            ping: http://10.99.99.2:3000/
-            description: Primary DNS
-            widget:
-              type: adguard
-              url: http://10.99.99.2:3000
-              username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
-              password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
-        
-        - Adguard II:
-            icon: adguard-home.png
-            href: http://10.99.99.3
-            ping: http://10.99.99.3
-            description: Secondary DNS
-            widget:
-              type: adguard
-              url: http://10.99.99.3
-              username: {{HOMEPAGE_VAR_ADGUARD_USERNAME}}
-              password: {{HOMEPAGE_VAR_ADGUARD_PASSWORD}}
             
     - Media:
         - Jellyfin:
