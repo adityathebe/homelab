@@ -26,6 +26,11 @@
       "enabled": false
     },
     {
+      "matchManagers": ["terraform"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "enabled": false
+    },
+    {
       "matchUpdateTypes": ["minor", "major"],
       "minimumReleaseAge": "7 days"
     }
