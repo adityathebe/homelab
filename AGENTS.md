@@ -119,3 +119,10 @@ Proxmox hosts
   - vm: arteta (k8s master)
 - ramsey
   - vm: eze (k8s worker)
+
+## Lan Speed test
+
+ssh cazorla
+iperf3 -s
+
+iperf3-darwin -c 10.99.99.14 -t 10
