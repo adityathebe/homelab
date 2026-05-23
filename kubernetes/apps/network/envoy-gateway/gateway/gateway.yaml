@@ -21,4 +21,6 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: homelab-tls-cert
+            name: homelab-root-tls-cert
+          - kind: Secret
+            name: homelab-wildcard-tls-cert

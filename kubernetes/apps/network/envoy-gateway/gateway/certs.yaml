@@ -2,13 +2,25 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: homelab-tls-cert
+  name: homelab-root-tls-cert
 spec:
-  secretName: homelab-tls-cert
+  secretName: homelab-root-tls-cert
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
   commonName: '${HOMELAB_DOMAIN}'
   dnsNames:
     - '${HOMELAB_DOMAIN}'
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homelab-wildcard-tls-cert
+spec:
+  secretName: homelab-wildcard-tls-cert
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: '*.${HOMELAB_DOMAIN}'
+  dnsNames:
     - '*.${HOMELAB_DOMAIN}'
