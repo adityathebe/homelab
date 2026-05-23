@@ -12,6 +12,5 @@ resources:
   - monitoring
   - music
   - network
-  - nginx
   - storage
   - system
