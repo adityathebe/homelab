@@ -52,9 +52,9 @@ Each Proxmox host runs:
 
 ### 3. Ugreen NAS
 
-| Description | Spec       |
-| ----------- | ---------- |
-| Server      | Ugreen NAS |
+| Description | Spec         |
+| ----------- | ------------ |
+| Server      | Ugreen NAS   |
 | IP          | 10.99.99.151 |
 
 ![Server](.github/images/IMG_9856.jpg)
@@ -78,6 +78,19 @@ export GITHUB_TOKEN='ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 make bootstrap
 ```
 
+# Kubernetes Networking
+
+## Load Balancing and Service Traffic
+
+| Role                            | Provider                | Notes                                                                                                                                                          |
+| ------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Service `LoadBalancer` provider | MetalLB                 | Allocates service external IPs from `first-pool` (`10.99.99.20-10.99.99.30`). The nginx ingress controller currently uses `10.99.99.25`.                       |
+| Control plane LB provider       | kube-vip                | Provides the Kubernetes API/control-plane VIP at `10.99.99.222`. kube-vip service load balancing is disabled (`svc_enable=false`).                             |
+| Service traffic                 | K3s embedded kube-proxy | K3s runs kube-proxy inside the `k3s server`/`k3s agent` process, not as a Kubernetes DaemonSet. It handles ClusterIP/NodePort/service NAT using iptables mode. |
+| Pod networking                  | Flannel VXLAN           | K3s built-in flannel provides pod networking via `flannel.1` and `cni0`.                                                                                       |
+
+K3s `servicelb` (klipper-lb) is disabled, so it is not providing service LoadBalancer functionality.
+
 # DNS Management
 
 This homelab uses a dual ExternalDNS setup to manage both internal (homelab) and external (public) DNS records automatically from Kubernetes resources.
@@ -87,7 +100,6 @@ This homelab uses a dual ExternalDNS setup to manage both internal (homelab) and
 **Two ExternalDNS Instances:**
 
 1. **external-dns (AdGuard Home)** - Internal DNS
-
    - **Provider**: AdGuard Home via webhook
    - **Sources**: Ingress resources
    - **Purpose**: Automatically creates A records pointing to nginx-ingress (`10.99.99.25`) for all services

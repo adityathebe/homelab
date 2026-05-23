@@ -25,3 +25,5 @@ terraform.tfstate*
 
 terraform/mcp/
 .DS_Store
+
+gcp
