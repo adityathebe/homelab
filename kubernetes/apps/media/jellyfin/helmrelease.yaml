@@ -54,7 +54,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
+              capabilities: {drop: ['ALL']}
             resources:
               requests:
                 cpu: 100m
@@ -70,27 +70,13 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
-          - 992  # render group for Intel GPU access
-
+          - 992 # render group for Intel GPU access
     service:
       main:
         controller: main
         ports:
           http:
             port: *port
-
-    ingress:
-      main:
-        enabled: true
-        className: 'nginx'
-        hosts:
-          - host: jellyfin.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       config:
         enabled: true
@@ -125,3 +111,18 @@ spec:
                 subPath: tmp
               - path: /transcodes
                 subPath: transcodes
+    route:
+      main:
+        hostnames:
+          - jellyfin.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

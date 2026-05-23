@@ -48,9 +48,6 @@ spec:
     defaultBackupStore:
       backupTarget: s3://longhorn@us-east-1/
       backupTargetCredentialSecret: longhorn-versitygw-backups
-    ingress:
-      enabled: true
-      host: longhorn.${HOMELAB_DOMAIN}
     longhornUI:
       replicas: 1
     metrics:

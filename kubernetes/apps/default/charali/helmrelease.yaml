@@ -15,7 +15,6 @@ spec:
         kind: HelmRepository
         name: bjw-s-helm-charts
         namespace: flux-system
-
   values:
     controllers:
       main:
@@ -39,13 +38,18 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       main:
-        enabled: true
-        hosts:
-          - host: '${HOMELAB_DOMAIN}'
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
+        hostnames:
+          - '${HOMELAB_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

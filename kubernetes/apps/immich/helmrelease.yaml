@@ -81,7 +81,6 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-
       valkey:
         type: deployment
         replicas: 1
@@ -96,7 +95,6 @@ spec:
                 memory: 64Mi
               limits:
                 memory: 512Mi
-
     service:
       server:
         controller: server
@@ -108,23 +106,6 @@ spec:
         ports:
           redis:
             port: 6379
-
-    ingress:
-      main:
-        className: nginx
-        annotations:
-          nginx.ingress.kubernetes.io/proxy-body-size: '50000M'
-          nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
-          nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
-        hosts:
-          - host: photos.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: server
-                  port: http
-
     persistence:
       library:
         existingClaim: immich-library
@@ -140,3 +121,18 @@ spec:
         globalMounts:
           - path: /mnt/external/libraries
             readOnly: true
+    route:
+      main:
+        hostnames:
+          - photos.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: server
+                port: http

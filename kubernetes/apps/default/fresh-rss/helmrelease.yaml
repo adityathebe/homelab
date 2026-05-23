@@ -63,23 +63,24 @@ spec:
         ports:
           http:
             port: 80
-    ingress:
-      app:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: &host 'rss.${HOMELAB_DOMAIN}'
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config:
         enabled: true
         existingClaim: freshrss
         globalMounts:
           - path: /var/www/FreshRSS/data
+    route:
+      app:
+        hostnames:
+          - &host 'rss.${HOMELAB_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: http

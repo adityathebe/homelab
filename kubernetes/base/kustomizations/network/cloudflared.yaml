@@ -8,6 +8,8 @@ spec:
   interval: 1h
   retryInterval: 1m
   targetNamespace: network
+  dependsOn:
+    - name: envoy-gateway-gateway
   timeout: 5m
   sourceRef:
     kind: GitRepository

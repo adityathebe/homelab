@@ -15,13 +15,11 @@ spec:
         kind: HelmRepository
         name: bjw-s-helm-charts
         namespace: flux-system
-
   values:
     controllers:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
-
         containers:
           echo:
             image:
@@ -37,25 +35,24 @@ spec:
                 memory: 30M
               limits:
                 memory: 50M
-
     service:
       main:
         controller: main
         ports:
           http:
             port: *port
-
-    ingress:
+    route:
       main:
-        enabled: true
-        className: "nginx"
-        hosts:
-          - host: &host "echo.${HOMELAB_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
+        hostnames:
+          - &host "echo.${HOMELAB_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

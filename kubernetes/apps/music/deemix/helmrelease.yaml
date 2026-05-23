@@ -46,35 +46,35 @@ spec:
                 memory: 50Mi
               limits:
                 memory: 200Mi
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 6595
-
-    ingress:
-      main:
-        enabled: true
-        className: 'nginx'
-        hosts:
-          - host: deemix.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       downloads:
         enabled: true
         type: nfs
         server: 10.99.99.151
         path: /volume2/media/music
-
       config:
         enabled: true
         existingClaim: deemix
         globalMounts:
           - path: /config
+    route:
+      main:
+        hostnames:
+          - deemix.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

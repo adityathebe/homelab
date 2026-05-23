@@ -60,18 +60,6 @@ spec:
     serviceAccount:
       homepage:
         enabled: true
-    ingress:
-      app:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: home.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
     persistence:
       config:
         enabled: true
@@ -94,3 +82,18 @@ spec:
             path: /app/config/custom.js
           - subPath: custom.css
             path: /app/config/custom.css
+    route:
+      app:
+        hostnames:
+          - home.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: http

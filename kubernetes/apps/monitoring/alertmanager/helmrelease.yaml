@@ -21,7 +21,6 @@ spec:
         type: statefulset
         annotations:
           reloader.stakater.com/auto: 'true'
-
         statefulset:
           volumeClaimTemplates:
             - name: alertmanager
@@ -30,11 +29,9 @@ spec:
               storageClass: longhorn
               globalMounts:
                 - path: /alertmanager
-
         pod:
           securityContext:
             fsGroup: 65534
-
         containers:
           alertmanager:
             image:
@@ -49,26 +46,12 @@ spec:
                 memory: 50M
               limits:
                 memory: 99M
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 9093
-
-    ingress:
-      main:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: alertmanager.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       config:
         enabled: true
@@ -83,3 +66,18 @@ spec:
         globalMounts:
           - path: /etc/alertmanager/secrets
             readOnly: true
+    route:
+      main:
+        hostnames:
+          - alertmanager.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

@@ -68,26 +68,12 @@ spec:
                 memory: 150Mi
               limits:
                 memory: 300Mi
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 8989
-
-    ingress:
-      main:
-        enabled: true
-        className: 'nginx'
-        hosts:
-          - host: sonarr.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       config:
         existingClaim: sonarr-config
@@ -102,3 +88,18 @@ spec:
         path: /volume2/media
         globalMounts:
           - path: /media
+    route:
+      main:
+        hostnames:
+          - sonarr.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

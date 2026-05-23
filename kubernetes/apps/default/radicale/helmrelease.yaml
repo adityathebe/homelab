@@ -15,20 +15,17 @@ spec:
         kind: HelmRepository
         name: bjw-s-helm-charts
         namespace: flux-system
-
   values:
     controllers:
       radicale:
         annotations:
           reloader.stakater.com/auto: 'true'
-
         pod:
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: 'OnRootMismatch'
-
         containers:
           app:
             image:
@@ -50,24 +47,12 @@ spec:
                 memory: 192Mi
               limits:
                 memory: 1024Mi
-
     service:
       app:
         controller: radicale
         ports:
           http:
             port: 5232
-
-    ingress:
-      app:
-        hosts:
-          - host: radicale.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-
     persistence:
       config:
         type: configMap
@@ -76,14 +61,12 @@ spec:
           - path: /config/config
             subPath: config.cfg
             readOnly: true
-
       data:
         existingClaim: radicale-data
         advancedMounts:
           radicale:
             app:
               - path: /data
-
       auth:
         type: secret
         name: radicale
@@ -91,3 +74,18 @@ spec:
           - path: /config/users
             subPath: users
             readOnly: true
+    route:
+      app:
+        hostnames:
+          - radicale.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: http

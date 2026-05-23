@@ -32,40 +32,33 @@ spec:
       main:
         annotations:
           reloader.stakater.com/auto: 'true'
-
         pod:
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
             fsGroup: 1000
-
         containers:
           navidrome:
             image:
               repository: deluan/navidrome
               tag: 0.61.2
-
             envFrom:
               - secretRef:
                   name: navidrome
               - configMapRef:
                   name: navidrome
-
             securityContext:
               runAsUser: 1000
               runAsNonRoot: true
-
             env:
               ND_DEFAULTTHEME: Spotify-ish
               TZ: ${TZ}
-
             resources:
               requests:
                 cpu: 50m
                 memory: 256Mi
               limits:
                 memory: 300Mi
-
             probes:
               liveness:
                 enabled: true
@@ -76,26 +69,12 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 4533
-
-    ingress:
-      main:
-        enabled: true
-        className: 'nginx'
-        hosts:
-          - host: navidrome.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       music:
         enabled: true
@@ -105,7 +84,6 @@ spec:
         globalMounts:
           - path: /music
             readOnly: true
-
       data:
         enabled: true
         existingClaim: navidrome-data
@@ -113,3 +91,18 @@ spec:
           main:
             navidrome:
               - path: /data
+    route:
+      main:
+        hostnames:
+          - navidrome.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http
