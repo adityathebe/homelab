@@ -50,26 +50,12 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 256Mi
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 8080
-
-    ingress:
-      main:
-        enabled: true
-        className: 'nginx'
-        hosts:
-          - host: movary.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       config:
         enabled: true
@@ -78,3 +64,18 @@ spec:
           main:
             movary:
               - path: /app/storage
+    route:
+      main:
+        hostnames:
+          - movary.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

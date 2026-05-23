@@ -56,7 +56,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
+              capabilities: {drop: ['ALL']}
             resources:
               requests:
                 cpu: 10m
@@ -73,16 +73,6 @@ spec:
             enabled: true
             port: *torrentPort
             protocol: TCP
-    ingress:
-      app:
-        className: nginx
-        hosts:
-          - host: qbittorrent.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       config:
         existingClaim: qbittorrent
@@ -95,3 +85,18 @@ spec:
           - path: /config/Downloads
       tmp:
         type: emptyDir
+    route:
+      app:
+        hostnames:
+          - qbittorrent.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: http

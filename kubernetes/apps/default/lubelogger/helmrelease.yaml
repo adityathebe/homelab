@@ -54,17 +54,6 @@ spec:
         ports:
           http:
             port: 8080
-    ingress:
-      app:
-        className: nginx
-        hosts:
-          - host: 'vehicle.${HOMELAB_DOMAIN}'
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
     persistence:
       app:
         existingClaim: lubelogger-data
@@ -87,3 +76,18 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /App/wwwroot/temp
+    route:
+      app:
+        hostnames:
+          - 'vehicle.${HOMELAB_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: http

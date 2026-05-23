@@ -8,6 +8,8 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/network/external-dns
   targetNamespace: network
+  dependsOn:
+    - name: envoy-gateway-gateway
   sourceRef:
     kind: GitRepository
     name: flux-system

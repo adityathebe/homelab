@@ -15,7 +15,6 @@ spec:
         kind: HelmRepository
         name: bjw-s-helm-charts
         namespace: flux-system
-
   values:
     controllers:
       main:
@@ -38,39 +37,35 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 1Gi
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 9999
-
-    ingress:
-      main:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: &host 'nepse.${HOMELAB_DOMAIN}'
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-
     persistence:
       data:
         existingClaim: nepse-data
         globalMounts:
           - path: /data
-
       dshm:
         type: emptyDir
         medium: Memory
         sizeLimit: 512Mi
         globalMounts:
           - path: /dev/shm
+    route:
+      main:
+        hostnames:
+          - &host 'nepse.${HOMELAB_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

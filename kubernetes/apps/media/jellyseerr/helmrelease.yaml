@@ -42,29 +42,30 @@ spec:
                 memory: 200Mi
               limits:
                 memory: 500Mi
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 5055
-
-    ingress:
-      main:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: jellyseerr.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       config:
         enabled: true
         existingClaim: jellyseerr-config
         globalMounts:
           - path: /app/config
+    route:
+      main:
+        hostnames:
+          - jellyseerr.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

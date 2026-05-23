@@ -96,16 +96,6 @@ spec:
         ports:
           http:
             port: 6379
-    ingress:
-      app:
-        className: "nginx"
-        hosts:
-          - host: "paperless.${HOMELAB_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       data:
         existingClaim: paperless-data
@@ -113,3 +103,18 @@ spec:
           paperless:
             paperless:
               - path: /data/local
+    route:
+      app:
+        hostnames:
+          - "paperless.${HOMELAB_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: http

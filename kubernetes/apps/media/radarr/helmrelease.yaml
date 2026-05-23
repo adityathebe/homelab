@@ -63,33 +63,19 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
+              capabilities: {drop: ['ALL']}
             resources:
               requests:
                 cpu: 50m
                 memory: 200Mi
               limits:
                 memory: 500Mi
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 7878
-
-    ingress:
-      main:
-        enabled: true
-        className: 'nginx'
-        hosts:
-          - host: radarr.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       config:
         existingClaim: radarr-config
@@ -105,3 +91,18 @@ spec:
           - path: /media
       tmp:
         type: emptyDir
+    route:
+      main:
+        hostnames:
+          - radarr.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

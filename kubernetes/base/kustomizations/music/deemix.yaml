@@ -11,6 +11,7 @@ spec:
   timeout: 2m
   dependsOn:
     - name: 'navidrome'
+    - name: envoy-gateway-gateway
   sourceRef:
     kind: GitRepository
     name: flux-system

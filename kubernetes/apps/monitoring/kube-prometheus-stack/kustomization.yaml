@@ -5,3 +5,4 @@ namespace: monitoring
 resources:
   - ./alerts
   - ./helmrelease.yaml
+  - ./httproute.yaml

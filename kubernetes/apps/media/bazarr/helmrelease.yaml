@@ -63,46 +63,29 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 512Mi
-
     service:
       bazarr:
         controller: main
         ports:
           http:
             port: 6767
-
-    ingress:
-      bazarr:
-        enabled: true
-        className: 'nginx'
-        hosts:
-          - host: bazarr.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: bazarr
-                  port: http
-
     persistence:
       config:
         enabled: true
         existingClaim: bazarr-data
         globalMounts:
           - path: /config
-
       add-ons:
         enabled: true
         type: emptyDir
         globalMounts:
           - path: /add-ons
-
       media:
         type: nfs
         server: 10.99.99.151
         path: /volume2/media
         globalMounts:
           - path: /media
-
       scripts:
         enabled: true
         type: configMap
@@ -111,3 +94,18 @@ spec:
         globalMounts:
           - path: /scripts
             readOnly: true
+    route:
+      bazarr:
+        hostnames:
+          - bazarr.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: bazarr
+                port: http

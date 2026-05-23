@@ -62,29 +62,30 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 512Mi
-
     service:
       main:
         controller: main
         ports:
           http:
             port: 9696
-
-    ingress:
-      main:
-        enabled: true
-        className: 'nginx'
-        hosts:
-          - host: prowlarr.${HOMELAB_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-
     persistence:
       config:
         enabled: true
         existingClaim: prowlarr-config
         globalMounts:
           - path: /config
+    route:
+      main:
+        hostnames:
+          - prowlarr.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

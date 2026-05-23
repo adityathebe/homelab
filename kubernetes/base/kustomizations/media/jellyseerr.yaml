@@ -12,6 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: jellyfin
+    - name: envoy-gateway-gateway
   path: kubernetes/apps/media/jellyseerr
   prune: true
   sourceRef:
