@@ -5,6 +5,7 @@ resources:
   - adguard-sync.yaml
   - cloudflared.yaml
   - csi-driver-smb.yaml
+  - envoy-gateway.yaml
   - external-dns.yaml
   - external-dns-cloudflare.yaml
   - tailscale.yaml
