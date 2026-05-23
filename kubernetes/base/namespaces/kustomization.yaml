@@ -6,6 +6,7 @@ resources:
   - cert-manager.yaml
   - dbms.yaml
   - immich.yaml
+  - kyverno.yaml
   - media.yaml
   - monitoring.yaml
   - music.yaml

@@ -14,6 +14,7 @@ resources:
   - immich.yaml
   - intel.yaml
   - kubernetes-sigs-metrics-server-charts.yaml
+  - kyverno.yaml
   - longhorn.yaml
   - node-feature-discovery.yaml
   - prometheus-community.yaml
