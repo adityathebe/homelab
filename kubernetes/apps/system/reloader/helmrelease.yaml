@@ -24,6 +24,8 @@ spec:
       reloadStrategy: annotations
 
       deployment:
+        securityContext:
+          runAsNonRoot: true
         resources:
           requests:
             cpu: 5m

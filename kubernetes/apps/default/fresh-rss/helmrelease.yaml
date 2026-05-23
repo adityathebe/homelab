@@ -29,6 +29,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
     controllers:
       freshrss:
         annotations:

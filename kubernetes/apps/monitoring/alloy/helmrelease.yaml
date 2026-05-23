@@ -29,7 +29,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    global:
+      podSecurityContext:
+        runAsNonRoot: true
     alloy:
+      securityContext:
+        runAsNonRoot: true
       extraEnv:
         - name: CLUSTER_ID
           value: homelab

@@ -24,6 +24,9 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
     controllers:
       lubelogger:
         labels:

@@ -26,6 +26,8 @@ spec:
       retries: 3
   values:
     worker:
+      securityContext:
+        runAsNonRoot: true
       config:
         core:
           sources: ["pci", "system", "usb", "kernel"]

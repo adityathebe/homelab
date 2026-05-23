@@ -24,6 +24,9 @@ spec:
     remediation:
       retries: 3
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
     controllers:
       cloudflared:
         replicas: 2

@@ -23,6 +23,9 @@ spec:
     remediation:
       retries: 5
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
     controllers:
       homepage:
         serviceAccount:

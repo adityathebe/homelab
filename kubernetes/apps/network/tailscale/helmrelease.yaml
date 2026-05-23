@@ -17,6 +17,10 @@ spec:
       interval: 5m
   values:
     operatorConfig:
+      podSecurityContext:
+        runAsNonRoot: true
+      securityContext:
+        runAsNonRoot: true
       hostname: tailscale-operator
       defaultTags:
         - tag:k8s

@@ -26,6 +26,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    podSecurityContext:
+      runAsNonRoot: true
     crds:
       create: true
     resources:

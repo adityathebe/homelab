@@ -15,6 +15,9 @@ spec:
         name: bjw-s-helm-charts
         namespace: flux-system
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
     controllers:
       restic-exporter:
         containers:
