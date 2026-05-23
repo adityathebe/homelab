@@ -5,3 +5,4 @@ resources:
   - ./certs.yaml
   - ./client-traffic-policy.yaml
   - ./gateway.yaml
+  - ./podmonitor.yaml
