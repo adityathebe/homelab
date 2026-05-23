@@ -94,6 +94,11 @@ spec:
           gnetId: 20417
           revision: 4
           datasource: Prometheus
+        envoy-gateway-overview:
+          # renovate: depName="Envoy Gateway / Overview"
+          gnetId: 24460
+          revision: 1
+          datasource: Prometheus
         speedtest-exporter:
           url: https://raw.githubusercontent.com/adityathebe/speedtest-exporter/refs/heads/main/monitoring/grafana_dashboard.json
           datasource: Prometheus
