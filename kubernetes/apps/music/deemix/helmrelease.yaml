@@ -28,6 +28,13 @@ spec:
   values:
     controllers:
       main:
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
         containers:
           deemix:
             image:
@@ -46,9 +53,6 @@ spec:
                 memory: 50Mi
               limits:
                 memory: 200Mi
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
@@ -73,6 +77,11 @@ spec:
         existingClaim: deemix
         globalMounts:
           - path: /config
+      run:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /var/run
     route:
       main:
         hostnames:
