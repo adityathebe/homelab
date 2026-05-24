@@ -26,6 +26,13 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     controllers:
       main:
         containers:
@@ -42,6 +49,12 @@ spec:
                 memory: 200Mi
               limits:
                 memory: 500Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
     service:
       main:
         controller: main
@@ -54,6 +67,15 @@ spec:
         existingClaim: jellyseerr-config
         globalMounts:
           - path: /app/config
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          main:
+            jellyseerr:
+              - path: /app/config/logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
     route:
       main:
         hostnames:
