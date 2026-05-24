@@ -24,6 +24,13 @@ spec:
         - resources:
             kinds:
               - Pod
+      exclude:
+        any:
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - storage
       preconditions:
         all:
         - key: "{{ request.operation || 'BACKGROUND' }}"

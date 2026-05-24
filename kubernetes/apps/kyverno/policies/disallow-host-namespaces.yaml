@@ -24,6 +24,42 @@ spec:
         - resources:
             kinds:
               - Pod
+      exclude:
+        any:
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - kube-system
+            names:
+              - kube-vip-ds*
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - metallb-system
+            names:
+              - speaker*
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - monitoring
+            names:
+              - kube-prometheus-stack-prometheus-node-exporter*
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - network
+            names:
+              - csi-smb-controller*
+              - csi-smb-node*
+        - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - storage
       validate:
         message: >-
           Sharing the host namespaces is disallowed. The fields spec.hostNetwork,
