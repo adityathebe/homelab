@@ -61,9 +61,7 @@ spec:
               startup:
                 enabled: false
             securityContext:
-              allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ['ALL']}
               runAsUser: 1000
               runAsGroup: 1000
             resources:
@@ -72,6 +70,13 @@ spec:
                 memory: 200Mi
               limits:
                 memory: 500Mi
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     service:
       main:
         controller: main

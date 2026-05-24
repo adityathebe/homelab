@@ -76,6 +76,13 @@ spec:
             securityContext:
               runAsUser: 1000
               runAsGroup: 1000
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       redis:
         containers:
           redis:
@@ -91,6 +98,13 @@ spec:
             securityContext:
               runAsUser: 1000
               runAsGroup: 1000
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     service:
       app:
         controller: paperless

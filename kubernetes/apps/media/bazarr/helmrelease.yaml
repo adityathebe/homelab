@@ -66,6 +66,13 @@ spec:
             securityContext:
               runAsUser: 1000
               runAsGroup: 1000
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     service:
       bazarr:
         controller: main

@@ -48,12 +48,17 @@ spec:
               - secretRef:
                   name: adguard-sync
             securityContext:
-              allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ['ALL'] }
             resources:
               requests:
                 cpu: 10m
                 memory: 30Mi
               limits:
                 memory: 100Mi
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL

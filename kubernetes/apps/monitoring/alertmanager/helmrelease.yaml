@@ -48,6 +48,13 @@ spec:
                 memory: 50M
               limits:
                 memory: 99M
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     service:
       main:
         controller: main
