@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: policy-reporter
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: ./kubernetes/apps/kyverno/policy-reporter
+  prune: true
+  targetNamespace: monitoring
+  dependsOn:
+    - name: kyverno
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

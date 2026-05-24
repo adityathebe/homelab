@@ -1,0 +1,93 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: policy-reporter-chart-values
+data:
+  values.yaml: |-
+    serviceAccount:
+      automount: true
+
+    podSecurityContext:
+      runAsUser: 1234
+      runAsGroup: 1234
+      fsGroup: 1234
+      fsGroupChangePolicy: OnRootMismatch
+      seccompProfile:
+        type: RuntimeDefault
+
+    securityContext:
+      runAsUser: 1234
+      runAsGroup: 1234
+      runAsNonRoot: true
+      privileged: false
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
+      seccompProfile:
+        type: RuntimeDefault
+
+    resources:
+      requests:
+        cpu: 5m
+        memory: 75Mi
+      limits:
+        memory: 128Mi
+
+    rest:
+      enabled: true
+
+    metrics:
+      enabled: true
+
+    ui:
+      enabled: true
+      displayMode: dark
+
+      serviceAccount:
+        automount: false
+
+      podSecurityContext:
+        runAsUser: 1234
+        runAsGroup: 1234
+        fsGroup: 1234
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+
+      securityContext:
+        runAsUser: 1234
+        runAsGroup: 1234
+        runAsNonRoot: true
+        privileged: false
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop:
+            - ALL
+        seccompProfile:
+          type: RuntimeDefault
+
+      resources:
+        requests:
+          cpu: 5m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
+
+      sources:
+        - name: kyverno
+          exceptions: false
+
+      clusters:
+        - name: homelab
+          host: http://policy-reporter:8080
+      httproute:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        hostnames:
+          - policy-reporter.${HOMELAB_DOMAIN}
