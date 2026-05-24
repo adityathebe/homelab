@@ -32,14 +32,15 @@ spec:
                 memory: 32Mi
               limits:
                 memory: 64Mi
-
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       speedtest-exporter:
         controller: speedtest-exporter
         ports:
           http:
             port: 7777
-
     serviceMonitor:
       speedtest-exporter:
         endpoints:

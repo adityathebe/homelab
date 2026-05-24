@@ -36,14 +36,15 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 512Mi
-
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       app:
         controller: restic-exporter
         ports:
           http:
             port: 8001
-
     serviceMonitor:
       app:
         endpoints:
