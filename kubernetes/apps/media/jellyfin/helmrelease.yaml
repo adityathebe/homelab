@@ -55,6 +55,8 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ['ALL']}
+              runAsUser: 1000
+              runAsGroup: 1000
             resources:
               requests:
                 cpu: 100m
