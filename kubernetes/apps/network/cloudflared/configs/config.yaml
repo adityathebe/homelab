@@ -17,12 +17,6 @@ ingress:
     originRequest:
       httpHostHeader: nepse.${HOMELAB_DOMAIN}
 
-  # Investment
-  - hostname: investment.${HOMELAB_DOMAIN}
-    service: http://envoy-external.network.svc.cluster.local
-    originRequest:
-      httpHostHeader: investment.${HOMELAB_DOMAIN}
-
   # Jellyfin (movies)
   - hostname: movies.${HOMELAB_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local
