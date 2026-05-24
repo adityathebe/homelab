@@ -73,6 +73,9 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 2Gi
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
       redis:
         containers:
           redis:
@@ -85,6 +88,9 @@ spec:
                 memory: 32Mi
               limits:
                 memory: 128Mi
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       app:
         controller: paperless

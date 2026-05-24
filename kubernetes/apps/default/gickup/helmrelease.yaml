@@ -52,12 +52,13 @@ spec:
                 cpu: '100m'
               limits:
                 memory: '1Gi'
-
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       main:
         controller: main
         enabled: false
-
     persistence:
       config:
         enabled: true

@@ -41,6 +41,9 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: fresh-rss
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
         containers:
           freshrss:
             image:
@@ -57,6 +60,9 @@ spec:
                 memory: 200Mi
               limits:
                 memory: 256Mi
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       app:
         controller: *app
@@ -72,7 +78,7 @@ spec:
     route:
       app:
         hostnames:
-          - &host 'rss.${HOMELAB_DOMAIN}'
+          - 'rss.${HOMELAB_DOMAIN}'
         parentRefs:
           - name: envoy-internal
             namespace: network

@@ -35,6 +35,9 @@ spec:
                 memory: 30M
               limits:
                 memory: 50M
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       main:
         controller: main
@@ -44,7 +47,7 @@ spec:
     route:
       main:
         hostnames:
-          - &host "echo.${HOMELAB_DOMAIN}"
+          - "echo.${HOMELAB_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network

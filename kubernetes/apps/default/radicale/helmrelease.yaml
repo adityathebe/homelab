@@ -22,8 +22,6 @@ spec:
           reloader.stakater.com/auto: 'true'
         pod:
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: 'OnRootMismatch'
         containers:
@@ -47,6 +45,9 @@ spec:
                 memory: 192Mi
               limits:
                 memory: 1024Mi
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       app:
         controller: radicale
