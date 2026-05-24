@@ -17,6 +17,7 @@ resources:
   - kyverno.yaml
   - longhorn.yaml
   - node-feature-discovery.yaml
+  - policy-reporter.yaml
   - prometheus-community.yaml
   - stakater.yaml
   - tailscale.yaml
