@@ -32,14 +32,13 @@ spec:
         replicas: 1
         annotations:
           reloader.stakater.com/auto: 'true'
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1337
-            fsGroupChangePolicy: 'OnRootMismatch'
         containers:
           app:
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1337
+              fsGroupChangePolicy: 'OnRootMismatch'
             image:
               # renovate: datasource=github-releases depName=immich-app/immich
               repository: ghcr.io/immich-app/immich-server
