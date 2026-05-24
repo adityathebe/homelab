@@ -17,6 +17,8 @@ data:
   kubernetes.yaml: |
     ---
     mode: cluster
+  proxmox.yaml: |
+    ---
   services.yaml: |
     ---
     - Music:
