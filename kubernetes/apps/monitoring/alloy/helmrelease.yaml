@@ -30,6 +30,10 @@ spec:
     keepHistory: false
   values:
     alloy:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
       extraEnv:
         - name: CLUSTER_ID
           value: homelab
@@ -93,3 +97,8 @@ spec:
               }
             }
           }
+    configReloader:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534

@@ -53,6 +53,9 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            runAsNonRoot: true
+            runAsUser: 3000
+            runAsGroup: 3000
             allowPrivilegeEscalation: false
             capabilities:
               drop:

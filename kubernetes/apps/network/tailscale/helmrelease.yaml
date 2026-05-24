@@ -25,7 +25,7 @@ spec:
           cpu: 100m
           memory: 128Mi
     apiServerProxyConfig:
-      mode: "true"
+      mode: 'true'
   valuesFrom:
     - kind: Secret
       name: tailscale-operator
