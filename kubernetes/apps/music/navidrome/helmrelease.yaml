@@ -66,6 +66,13 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     service:
       main:
         controller: main

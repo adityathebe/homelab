@@ -86,6 +86,13 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       valkey:
         type: deployment
         replicas: 1
@@ -104,6 +111,13 @@ spec:
                 memory: 64Mi
               limits:
                 memory: 512Mi
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     service:
       server:
         controller: server

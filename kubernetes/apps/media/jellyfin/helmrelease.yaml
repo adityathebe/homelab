@@ -52,9 +52,7 @@ spec:
               startup:
                 enabled: false
             securityContext:
-              allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ['ALL']}
               runAsUser: 1000
               runAsGroup: 1000
             resources:
@@ -64,6 +62,13 @@ spec:
               limits:
                 memory: 4Gi
                 # gpu.intel.com/i915: 1
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

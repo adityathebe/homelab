@@ -57,6 +57,13 @@ spec:
                 memory: 200Mi
               limits:
                 memory: 256Mi
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     service:
       app:
         controller: *app
