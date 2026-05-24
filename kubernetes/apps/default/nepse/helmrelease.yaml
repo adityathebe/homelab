@@ -37,6 +37,9 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 1Gi
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       main:
         controller: main
@@ -57,7 +60,7 @@ spec:
     route:
       main:
         hostnames:
-          - &host 'nepse.${HOMELAB_DOMAIN}'
+          - 'nepse.${HOMELAB_DOMAIN}'
         parentRefs:
           - name: envoy-internal
             namespace: network

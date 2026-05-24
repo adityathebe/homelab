@@ -48,6 +48,9 @@ spec:
                 memory: 80M
               limits:
                 memory: 256M
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       app:
         controller: *app
