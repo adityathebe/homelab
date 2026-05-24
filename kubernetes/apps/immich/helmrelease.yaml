@@ -32,6 +32,12 @@ spec:
         replicas: 1
         annotations:
           reloader.stakater.com/auto: 'true'
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1337
+            fsGroupChangePolicy: 'OnRootMismatch'
         containers:
           app:
             image:
