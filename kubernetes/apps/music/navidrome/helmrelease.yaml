@@ -47,9 +47,6 @@ spec:
                   name: navidrome
               - configMapRef:
                   name: navidrome
-            securityContext:
-              runAsUser: 1000
-              runAsNonRoot: true
             env:
               ND_DEFAULTTHEME: Spotify-ish
               TZ: ${TZ}
