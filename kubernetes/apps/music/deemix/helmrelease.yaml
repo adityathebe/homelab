@@ -38,14 +38,11 @@ spec:
         containers:
           deemix:
             image:
-              repository: registry.gitlab.com/bockiii/deemix-docker
-              tag: 1b6e0e86
+              repository: adityathebe/deemix
+              tag: v1.0.0
               pullPolicy: IfNotPresent
             env:
               TZ: ${TZ}
-              PUID: 1000
-              PGID: 1000
-              UMASK_SET: "022"
               DEEMIX_SINGLE_USER: true
             resources:
               requests:
@@ -77,11 +74,6 @@ spec:
         existingClaim: deemix
         globalMounts:
           - path: /config
-      run:
-        enabled: true
-        type: emptyDir
-        globalMounts:
-          - path: /var/run
     route:
       main:
         hostnames:
