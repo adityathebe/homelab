@@ -30,6 +30,10 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: 'true'
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           homepage:
             image:
@@ -85,6 +89,11 @@ spec:
             path: /app/config/custom.js
           - subPath: custom.css
             path: /app/config/custom.css
+      logs:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /app/config/logs
     route:
       app:
         hostnames:
