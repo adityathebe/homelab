@@ -19,10 +19,6 @@ spec:
     controllers:
       main:
         strategy: Recreate
-        pod:
-          securityContext:
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
         containers:
           nepse:
             image:
@@ -41,9 +37,6 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 1Gi
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
     service:
       main:
         controller: main

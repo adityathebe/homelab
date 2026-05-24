@@ -62,9 +62,6 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 512Mi
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
     service:
       main:
         controller: main
