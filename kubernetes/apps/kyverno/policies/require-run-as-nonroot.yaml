@@ -23,6 +23,26 @@ spec:
         - resources:
             kinds:
               - Pod
+      exclude:
+        any:
+        - resources:
+            namespaces:
+              - storage
+              - metallb-system
+        - resources:
+            namespaces:
+              - kube-system
+            names:
+              - coredns*
+              - kube-vip*
+        - resources:
+            namespaces:
+              - network
+            names:
+              - csi-smb-controller
+              - csi-smb-node
+              - operator
+              - ts-subnet-router-sjxqt
       validate:
         message: >-
           Running as root is not allowed. Either the field spec.securityContext.runAsNonRoot
