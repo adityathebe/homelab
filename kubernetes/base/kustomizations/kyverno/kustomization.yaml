@@ -4,4 +4,3 @@ buildMetadata: [originAnnotations]
 resources:
   - ./kyverno.yaml
   - ./policies.yaml
-  - ./policy-reporter.yaml
