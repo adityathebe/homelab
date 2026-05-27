@@ -24,7 +24,7 @@ spec:
       retries: 3
   values:
     interval: 5m
-    logLevel: debug
+    logLevel: warn
     domainFilters:
       - ${HOMELAB_DOMAIN}
     provider:
@@ -35,7 +35,7 @@ spec:
           tag: v11.0.1
         env:
           - name: LOG_LEVEL
-            value: debug
+            value: warn
           - name: ADGUARD_URL
             valueFrom:
               secretKeyRef:

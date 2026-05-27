@@ -45,6 +45,8 @@ spec:
               - secretRef:
                   name: cloudflared-secret
             args:
+              - --loglevel
+              - warn
               - tunnel
               - --config
               - /etc/cloudflared/config.yaml

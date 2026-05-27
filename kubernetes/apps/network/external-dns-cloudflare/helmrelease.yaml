@@ -24,7 +24,7 @@ spec:
       retries: 3
   values:
     interval: 5m
-    logLevel: info
+    logLevel: warn
     provider:
       name: cloudflare
     env:

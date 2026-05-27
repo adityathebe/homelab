@@ -28,6 +28,9 @@ spec:
       envoyGateway:
         extensionApis:
           enableBackend: true
+        logging:
+          level:
+            default: warn
         provider:
           type: Kubernetes
           kubernetes:

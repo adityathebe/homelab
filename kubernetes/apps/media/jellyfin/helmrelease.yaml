@@ -36,6 +36,7 @@ spec:
               tag: '10.11.8'
             env:
               TZ: Asia/Kathmandu
+              Logging__LogLevel__Default: Warning
             probes:
               liveness: &probes
                 enabled: true

@@ -43,6 +43,7 @@ spec:
       snapshotDataIntegrityImmediateCheckAfterSnapshotCreation: 'true'
       snapshotDataIntegrityCronjob: '0 4 * * *'
       allowCollectingLonghornUsageMetrics: false
+      logLevel: Warn
       v1DataEngine: true
       v2DataEngine: false
     defaultBackupStore:
