@@ -25,6 +25,11 @@ spec:
     keepHistory: false
   values:
     replicas: 1
+    env:
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
     resources:
       requests:
         cpu: 100m

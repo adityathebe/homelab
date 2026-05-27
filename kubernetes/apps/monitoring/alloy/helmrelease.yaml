@@ -30,6 +30,7 @@ spec:
     keepHistory: false
   values:
     alloy:
+      enableReporting: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
