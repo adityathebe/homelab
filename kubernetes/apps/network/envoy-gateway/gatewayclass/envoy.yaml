@@ -33,6 +33,7 @@ spec:
           format:
             type: JSON
             json:
+              message: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT% %REQ(:AUTHORITY)% %REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %RESPONSE_CODE% %RESPONSE_CODE_DETAILS%"
               client_ip: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
               start_time: "%START_TIME%"
               method: "%REQ(:METHOD)%"
