@@ -36,6 +36,8 @@ spec:
         memory: 256Mi
       limits:
         memory: 512Mi
+    plugins:
+      - victoriametrics-logs-datasource 0.26.2
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -46,6 +48,11 @@ spec:
             access: proxy
             url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
             isDefault: true
+          - name: VictoriaLogs
+            type: victoriametrics-logs-datasource
+            uid: victorialogs
+            access: proxy
+            url: http://victoria-logs-server.monitoring.svc.cluster.local:9428
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
