@@ -14,15 +14,6 @@ spec:
         name: envoy-gateway
         namespace: flux-system
       interval: 30m
-  install:
-    crds: CreateReplace
-    remediation:
-      retries: 3
-  upgrade:
-    crds: CreateReplace
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     config:
       envoyGateway:
