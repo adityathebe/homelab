@@ -43,7 +43,7 @@ spec:
               DATABASE_MODE: sqlite
               TMDB_ENABLE_IMAGE_CACHING: '1' # Enable to prevent rate limit issues
               ENV: 'production'
-              LOG_LEVEL: warn
+              LOG_LEVEL: WARNING
               APPLICATION_URL: https://movary.${HOMELAB_DOMAIN}
             resources:
               requests:
