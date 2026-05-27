@@ -202,15 +202,15 @@ data:
               url: http://jellyfin.media.svc:8096
               key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
 
-        - Jellyseerr:
-            icon: jellyseerr.png
-            href: https://jellyseerr.${HOMELAB_DOMAIN}
+        - Seerr:
+            icon: seerr.png
+            href: https://seerr.${HOMELAB_DOMAIN}
             description: Request Managment
             namespace: media
-            app: jellyseerr
+            app: seerr
             widget:
               type: jellyseerr
-              url: http://jellyseerr.media.svc:5055
+              url: http://seerr.media.svc:5055
               key: {{HOMEPAGE_VAR_JELLYSEERR_KEY}}
 
         - Sonarr:
