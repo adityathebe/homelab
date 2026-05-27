@@ -23,11 +23,11 @@ ingress:
     originRequest:
       httpHostHeader: jellyfin.${HOMELAB_DOMAIN}
 
-  # Jellyseerr (movie requests)
+  # Seerr (movie requests)
   - hostname: movie-request.${HOMELAB_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local
     originRequest:
-      httpHostHeader: jellyseerr.${HOMELAB_DOMAIN}
+      httpHostHeader: seerr.${HOMELAB_DOMAIN}
 
   # SilverBullet (notes)
   - hostname: notes.${HOMELAB_DOMAIN}

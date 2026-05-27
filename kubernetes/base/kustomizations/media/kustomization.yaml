@@ -4,7 +4,7 @@ buildMetadata: [originAnnotations]
 resources:
   - ./bazarr.yaml
   - ./jellyfin.yaml
-  - ./jellyseerr.yaml
+  - ./seerr.yaml
   - ./movary.yaml
   - ./prowlarr.yaml
   - ./qbittorrent.yaml

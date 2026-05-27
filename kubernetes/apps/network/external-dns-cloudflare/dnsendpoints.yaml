@@ -23,7 +23,7 @@ spec:
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
 ---
-# Jellyseerr
+# Seerr
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
