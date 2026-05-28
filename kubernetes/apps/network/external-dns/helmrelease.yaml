@@ -16,7 +16,7 @@ spec:
         namespace: flux-system
   values:
     interval: 5m
-    logLevel: warn
+    logLevel: warning
     domainFilters:
       - ${HOMELAB_DOMAIN}
     provider:
