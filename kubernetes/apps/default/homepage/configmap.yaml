@@ -100,6 +100,13 @@ data:
               key: {{HOMEPAGE_VAR_IMMICH_KEY}}
               version: 2
 
+        - Forgejo:
+            icon: forgejo.png
+            namespace: forgejo
+            app: forgejo
+            href: https://git.${HOMELAB_DOMAIN}
+            description: Git hosting
+
     - Management:
         - Grafana:
             icon: grafana.png
@@ -117,6 +124,13 @@ data:
             widget:
               type: prometheus
               url: http://prometheus-operated.monitoring.svc:9090
+
+        - Victoria Logs:
+            icon: victorialogs.png
+            namespace: monitoring
+            app: victoria-logs
+            href: https://victoria-logs.${HOMELAB_DOMAIN}
+            description: Logs
 
         - Alert Manager:
             icon: alertmanager.png
