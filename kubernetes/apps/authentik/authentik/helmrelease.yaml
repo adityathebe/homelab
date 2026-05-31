@@ -1,0 +1,77 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authentik
+  namespace: authentik
+spec:
+  interval: 30m
+  timeout: 10m
+  chartRef:
+    kind: OCIRepository
+    name: authentik
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    global:
+      deploymentStrategy:
+        type: RollingUpdate
+      podAnnotations:
+        secret.reloader.stakater.com/reload: authentik-secret
+      env:
+        - name: TZ
+          value: ${TZ}
+      envFrom:
+        - secretRef:
+            name: authentik-secret
+    authentik:
+      existingSecret:
+        secretName: authentik-secret
+      error_reporting:
+        enabled: false
+    server:
+      replicas: 1
+      initContainers:
+        - name: init-db
+          image: ghcr.io/onedr0p/postgres-init:16
+          envFrom:
+            - secretRef:
+                name: authentik-secret
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          memory: 1Gi
+      metrics:
+        serviceMonitor:
+          enabled: true
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - auth.${HOMELAB_DOMAIN}
+          parentRefs:
+            - name: envoy-internal
+              namespace: network
+              sectionName: https
+    worker:
+      replicas: 1
+      initContainers:
+        - name: init-db
+          image: ghcr.io/onedr0p/postgres-init:16
+          envFrom:
+            - secretRef:
+                name: authentik-secret
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          memory: 1Gi
