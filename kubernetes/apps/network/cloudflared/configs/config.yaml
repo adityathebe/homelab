@@ -29,12 +29,6 @@ ingress:
     originRequest:
       httpHostHeader: jellyseerr.${HOMELAB_DOMAIN}
 
-  # SilverBullet (notes)
-  - hostname: notes.${HOMELAB_DOMAIN}
-    service: http://envoy-external.network.svc.cluster.local
-    originRequest:
-      httpHostHeader: notes.${HOMELAB_DOMAIN}
-
   # Radicale (calendar/contacts)
   - hostname: radicale.${HOMELAB_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local

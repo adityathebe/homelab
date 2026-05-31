@@ -77,13 +77,6 @@ data:
             app: radicale
             href: https://radicale.${HOMELAB_DOMAIN}
         
-        - Silver Bullet:
-            icon: https://silverbullet.md/.client/logo.png
-            namespace: default
-            app: silverbullet
-            href: https://notes.${HOMELAB_DOMAIN}
-            description: Note taking app
-
         - RSS:
             icon: freshrss.png
             namespace: default

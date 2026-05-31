@@ -13,4 +13,3 @@ resources:
   # - paperless.yaml
   - nepse.yaml
   - radicale.yaml
-  - silverbullet.yaml
