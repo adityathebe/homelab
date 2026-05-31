@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - cert-manager.yaml
   - dbms.yaml
+  - forgejo.yaml
   - immich.yaml
   - kyverno.yaml
   - media.yaml

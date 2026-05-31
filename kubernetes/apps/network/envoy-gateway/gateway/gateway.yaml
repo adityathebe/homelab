@@ -24,6 +24,17 @@ spec:
             name: homelab-root-tls-cert
           - kind: Secret
             name: homelab-wildcard-tls-cert
+    - name: ssh
+      protocol: TCP
+      port: 22
+      allowedRoutes:
+        kinds:
+          - kind: TCPRoute
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: forgejo
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
