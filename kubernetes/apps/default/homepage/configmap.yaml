@@ -16,7 +16,6 @@ data:
     ---
   kubernetes.yaml: |
     ---
-    mode: cluster
   proxmox.yaml: |
     ---
   services.yaml: |
@@ -307,20 +306,6 @@ data:
         columns: 5
 
   widgets.yaml: |
-    ---
-    - kubernetes:
-        cluster:
-          cpu: true
-          label: cluster
-          memory: true
-          show: true
-          showLabel: true
-        nodes:
-          cpu: true
-          memory: true
-          show: false
-          showLabel: true
-
     - openweathermap:
         latitude: 27.6503542
         longitude: 85.3507212
