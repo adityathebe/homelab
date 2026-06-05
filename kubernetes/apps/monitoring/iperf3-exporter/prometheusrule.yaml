@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: iperf3-exporter
+spec:
+  groups:
+    - name: iperf3-exporter.rules
+      rules:
+        - alert: Iperf3NasBandwidthLow
+          expr: |
+            (
+              last_over_time(iperf3_sent_bytes{target="10.99.99.151", port="5201"}[75m])
+              /
+              last_over_time(iperf3_sent_seconds{target="10.99.99.151", port="5201"}[75m])
+              * 8
+            ) < 350000000
+            and on(instance, target, port)
+            last_over_time(iperf3_up{target="10.99.99.151", port="5201"}[75m]) == 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: K3s node to UGreen NAS bandwidth is below 350Mbps
+            description: "{{ $labels.instance }} measured {{ printf \"%.2f\" ($value / 1000000) }}Mbps to 10.99.99.151:5201, below the 350Mbps threshold."
+
+        - alert: Iperf3NasProbeFailing
+          expr: |
+            absent_over_time(iperf3_up{target="10.99.99.151", port="5201"}[75m])
+            or max_over_time(iperf3_up{target="10.99.99.151", port="5201"}[75m]) == 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: iperf3 NAS probe is missing or failing
+            description: "No successful iperf3 probe to 10.99.99.151:5201 has been observed in the last 75 minutes."

@@ -6,3 +6,4 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./httproute.yaml
+  - ./iperf3-exporter-dashboard.yaml
