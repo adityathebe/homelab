@@ -17,12 +17,13 @@ spec:
   values:
     controllers:
       iperf3-exporter:
-        type: daemonset
+        type: deployment
+        replicas: 1
         pod:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
-          tolerations:
-            - operator: Exists
+          nodeSelector:
+            kubernetes.io/hostname: alexis
         containers:
           app:
             image:
