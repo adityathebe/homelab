@@ -23,7 +23,7 @@ spec:
             severity: warning
           annotations:
             summary: K3s node to UGreen NAS bandwidth is below 350Mbps
-            description: "{{ $labels.instance }} measured {{ printf \"%.2f\" ($value / 1000000) }}Mbps to 10.99.99.151:5201, below the 350Mbps threshold."
+            description: "{{ $labels.instance }} measured {{ $value | humanize }}bps to 10.99.99.151:5201, below the 350Mbps threshold."
 
         - alert: Iperf3NasProbeFailing
           expr: |
