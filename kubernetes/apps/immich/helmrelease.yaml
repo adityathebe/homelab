@@ -119,7 +119,43 @@ spec:
             capabilities:
               drop:
                 - ALL
+      machine-learning:
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          app:
+            env:
+              TZ: ${TZ}
+              TRANSFORMERS_CACHE: /cache
+              HF_XET_CACHE: /cache/huggingface-xet
+              MPLCONFIGDIR: /cache/matplotlib-config
+            image:
+              repository: ghcr.io/immich-app/immich-machine-learning
+              tag: v2.7.5@sha256:a2501141440f10516d329fdfba2c68082e19eb9ba6016c061ac80d23beadf7f3
+            resources:
+              limits:
+                memory: 2750Mi
+              requests:
+                cpu: 70m
+                memory: 1400Mi
+            securityContext:
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
     service:
+      machine-learning:
+        controller: machine-learning
+        ports:
+          http:
+            port: 3003
       server:
         controller: server
         ports:
@@ -131,20 +167,39 @@ spec:
           redis:
             port: 6379
     persistence:
+      model-cache:
+        existingClaim: immich-model-cache
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /cache
+              - path: /.cache
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /tmp
       library:
         existingClaim: immich-library
-        globalMounts:
-          - path: /usr/src/app/upload
+        advancedMounts:
+          server:
+            app:
+              - path: /usr/src/app/upload
       gopro:
         existingClaim: gopro
-        globalMounts:
-          - path: /mnt/external/gopro
-            readOnly: true
+        advancedMounts:
+          server:
+            app:
+              - path: /mnt/external/gopro
+                readOnly: true
       external-libraries:
         existingClaim: external-libraries
-        globalMounts:
-          - path: /mnt/external/libraries
-            readOnly: true
+        advancedMounts:
+          server:
+            app:
+              - path: /mnt/external/libraries
+                readOnly: true
     route:
       main:
         hostnames:
