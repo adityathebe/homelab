@@ -35,19 +35,7 @@ ingress:
     originRequest:
       httpHostHeader: rss.${HOMELAB_DOMAIN}
 
-  # Vehicle tracker
-  - hostname: vehicle.${HOMELAB_DOMAIN}
-    service: http://envoy-external.network.svc.cluster.local
-    originRequest:
-      httpHostHeader: vehicle.${HOMELAB_DOMAIN}
-
-  # Movary (on public domain)
-  # - hostname: movies.${PUBLIC_DOMAIN}
-  #   service: http://envoy-external.network.svc.cluster.local
-  #   originRequest:
-  #     httpHostHeader: movary.${HOMELAB_DOMAIN}
-
-  # Navidrome (on public domain)
+  # Navidrome
   - hostname: music.${PUBLIC_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local
     originRequest:
