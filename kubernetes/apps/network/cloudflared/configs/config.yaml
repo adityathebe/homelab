@@ -29,12 +29,6 @@ ingress:
     originRequest:
       httpHostHeader: radicale.${HOMELAB_DOMAIN}
 
-  # FreshRSS (rss)
-  - hostname: rss.${HOMELAB_DOMAIN}
-    service: http://envoy-external.network.svc.cluster.local
-    originRequest:
-      httpHostHeader: rss.${HOMELAB_DOMAIN}
-
   # Navidrome
   - hostname: music.${HOMELAB_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local
