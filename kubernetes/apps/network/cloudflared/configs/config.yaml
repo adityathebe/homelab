@@ -5,12 +5,6 @@ originRequest:
   http2Origin: true
 
 ingress:
-  # Root homelab domain
-  - hostname: ${HOMELAB_DOMAIN}
-    service: http://envoy-external.network.svc.cluster.local
-    originRequest:
-      httpHostHeader: ${HOMELAB_DOMAIN}
-
   # NEPSE
   - hostname: nepse.${HOMELAB_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local

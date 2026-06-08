@@ -1,16 +1,4 @@
 ---
-# Root homelab domain
-apiVersion: externaldns.k8s.io/v1alpha1
-kind: DNSEndpoint
-metadata:
-  name: homelab-root
-spec:
-  endpoints:
-    - dnsName: ${HOMELAB_DOMAIN}
-      recordType: CNAME
-      targets:
-        - ${CF_TUNNEL_ID}.cfargotunnel.com
----
 # Jellyfin
 apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
