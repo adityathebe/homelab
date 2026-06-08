@@ -84,7 +84,7 @@ make bootstrap
 
 | Role                            | Provider                | Notes                                                                                                                                                          |
 | ------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Service `LoadBalancer` provider | MetalLB                 | Allocates service external IPs from `first-pool` (`10.99.99.20-10.99.99.30`). The nginx ingress controller currently uses `10.99.99.25`.                       |
+| Service `LoadBalancer` provider | MetalLB                 | Allocates service external IPs from `first-pool` (`10.99.99.20-10.99.99.30`) for services such as Envoy Gateway.                                               |
 | Control plane LB provider       | kube-vip                | Provides the Kubernetes API/control-plane VIP at `10.99.99.222`. kube-vip service load balancing is disabled (`svc_enable=false`).                             |
 | Service traffic                 | K3s embedded kube-proxy | K3s runs kube-proxy inside the `k3s server`/`k3s agent` process, not as a Kubernetes DaemonSet. It handles ClusterIP/NodePort/service NAT using iptables mode. |
 | Pod networking                  | Flannel VXLAN           | K3s built-in flannel provides pod networking via `flannel.1` and `cni0`.                                                                                       |
@@ -101,8 +101,8 @@ This homelab uses a dual ExternalDNS setup to manage both internal (homelab) and
 
 1. **external-dns (AdGuard Home)** - Internal DNS
    - **Provider**: AdGuard Home via webhook
-   - **Sources**: Ingress resources
-   - **Purpose**: Automatically creates A records pointing to nginx-ingress (`10.99.99.25`) for all services
+   - **Sources**: Gateway API HTTPRoute resources
+   - **Purpose**: Automatically creates A records for internal service hostnames pointing to Envoy Gateway
    - **Usage**: Internal homelab DNS resolution
 
 2. **external-dns-cloudflare** - External DNS
@@ -115,17 +115,26 @@ This homelab uses a dual ExternalDNS setup to manage both internal (homelab) and
 
 For a service to be accessible both internally and externally:
 
-1. **Create an Ingress** (automatically managed by AdGuard ExternalDNS)
+1. **Create an HTTPRoute** attached to Envoy Gateway (automatically managed by AdGuard ExternalDNS)
 
    ```yaml
-   ingress:
-     enabled: true
-     className: nginx
-     hosts:
-       - host: "notes.${HOMELAB_DOMAIN}"
+   apiVersion: gateway.networking.k8s.io/v1
+   kind: HTTPRoute
+   metadata:
+     name: notes
+   spec:
+     parentRefs:
+       - name: envoy-internal
+         namespace: network
+     hostnames:
+       - notes.${HOMELAB_DOMAIN}
+     rules:
+       - backendRefs:
+           - name: notes
+             port: 80
    ```
 
-   → AdGuard creates: `notes.example.com → A → 10.99.99.25`
+   → AdGuard creates an internal A record for `notes.example.com` pointing to Envoy Gateway.
 
 2. **Create a DNSEndpoint** in `kubernetes/apps/network/external-dns-cloudflare/dnsendpoints.yaml` (managed by Cloudflare ExternalDNS)
    ```yaml
@@ -142,7 +151,9 @@ For a service to be accessible both internally and externally:
    ```
    → Cloudflare creates: `notes.example.com → CNAME → tunnel`
 
-**Result**: Same DNS name exists in both providers with different targets - internal clients use AdGuard (direct to ingress), external clients use Cloudflare (via tunnel).
+**Result**: Same DNS name exists in both providers with different targets - internal clients use AdGuard (direct to Envoy Gateway), external clients use Cloudflare (via tunnel).
+
+There are no Kubernetes `Ingress` resources in this cluster; routing is handled with Gateway API resources (`Gateway`, `HTTPRoute`, and `TCPRoute`) through Envoy Gateway.
 
 # Kubernetes Backup
 
@@ -156,7 +167,7 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 ## Database Backups
 
 - **Tool**: CloudNative-PG (CNPG) operator with Point-in-Time Recovery
-- **Architecture**: 3-replica PostgreSQL cluster for high availability
+- **Architecture**: 2-replica PostgreSQL clusters for high availability
 - **Backup**: Continuous WAL archiving and base backups to Cloudflare R2
 - **Recovery**: Point-in-Time Recovery (PITR) capability
 - **Covers**: Immich, Movary, Fresh RSS, Vikunja, Speedtest Tracker
