@@ -36,7 +36,6 @@ spec:
     txtPrefix: k8s-
     domainFilters:
       - ${HOMELAB_DOMAIN}
-      - ${PUBLIC_DOMAIN}
     resources:
       requests:
         cpu: 10m

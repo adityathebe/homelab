@@ -36,7 +36,7 @@ ingress:
       httpHostHeader: rss.${HOMELAB_DOMAIN}
 
   # Navidrome
-  - hostname: music.${PUBLIC_DOMAIN}
+  - hostname: music.${HOMELAB_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local
     originRequest:
       httpHostHeader: navidrome.${HOMELAB_DOMAIN}

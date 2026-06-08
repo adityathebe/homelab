@@ -54,7 +54,7 @@ metadata:
   name: public-music
 spec:
   endpoints:
-    - dnsName: music.${PUBLIC_DOMAIN}
+    - dnsName: music.${HOMELAB_DOMAIN}
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
