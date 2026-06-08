@@ -3,7 +3,6 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - actual.yaml
-  - charali.yaml
   - echo-server.yaml
   - fresh-rss.yaml
   - gickup.yaml
