@@ -5,7 +5,7 @@ resources:
   - alertmanager.yaml
   - blackbox-exporter.yaml
   - grafana.yaml
-  - iperf3-exporter.yaml
+  # - iperf3-exporter.yaml
   - kube-prometheus-stack.yaml
   - restic-exporter.yaml
   - speedtest-exporter.yaml
