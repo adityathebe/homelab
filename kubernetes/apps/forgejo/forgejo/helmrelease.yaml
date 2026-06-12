@@ -22,6 +22,8 @@ spec:
       admin:
         username: ""
       config:
+        actions:
+          ENABLED: true
         indexer:
           ISSUE_INDEXER_TYPE: bleve
           REPO_INDEXER_ENABLED: true

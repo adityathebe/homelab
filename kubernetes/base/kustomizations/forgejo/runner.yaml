@@ -1,0 +1,15 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: forgejo-runner
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  dependsOn:
+    - name: forgejo
+  path: ./kubernetes/apps/forgejo/runner
+  targetNamespace: forgejo
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
