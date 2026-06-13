@@ -11,12 +11,12 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "terraform-state-aditya-thebe"
-    dynamodb_table = "terraform-state-lock"
-    encrypt        = true
-    key            = "global/s3/cloudflare.tfstate"
-    profile        = "personal"
-    region         = "us-east-1"
+    bucket       = "terraform-state-aditya-thebe"
+    use_lockfile = true
+    encrypt      = true
+    key          = "global/s3/cloudflare.tfstate"
+    profile      = "personal"
+    region       = "us-east-1"
   }
 }
 
