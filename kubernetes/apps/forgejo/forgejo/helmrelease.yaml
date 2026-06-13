@@ -33,6 +33,8 @@ spec:
           LEVEL: warn
         mailer:
           ENABLED: false
+        packages:
+          ENABLED: true
         repository:
           ROOT: /data/git/repositories
         repository.pull-request:
