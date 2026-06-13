@@ -49,6 +49,7 @@ spec:
                   name: navidrome
             env:
               ND_DEFAULTTHEME: Spotify-ish
+              ND_ENABLEINSIGHTSCOLLECTOR: "false"
               TZ: ${TZ}
             resources:
               requests:
