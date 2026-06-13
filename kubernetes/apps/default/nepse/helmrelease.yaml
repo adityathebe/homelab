@@ -26,8 +26,8 @@ spec:
         containers:
           nepse:
             image:
-              repository: ghcr.io/adityathebe/nepse
-              tag: 0.65.4
+              repository: git.${HOMELAB_DOMAIN}/aditya/nepse
+              tag: v0.65.6
             env:
               BACKUP_PATH: /data/backups
               LOG_LEVEL: debug
