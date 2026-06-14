@@ -1,19 +1,25 @@
 [masters]
 arteta
-wrighty
 
 [workers]
 saliba
 jhapa
 lalitpur
 
-[container]
-media
+[gpu_workers]
+jhapa
+lalitpur
+
+[vm_workers]
+saliba
 
 [pve]
 wilshere
 
-[vms:children]
+[ubuntu:children]
 masters
 workers
-container
+
+[vms:children]
+masters
+vm_workers

@@ -1,16 +1,23 @@
 ---
-- name: ensure $HOME/.vim dir exists
-  file:
-    path: '{{item}}'
-    state: directory
-  become: false
-  loop:
-    - '{{user_home}}/.vim'
-    - '{{user_home}}/.vim/backupf'
-    - '{{user_home}}/.vim/backup'
+- name: install vim
+  apt:
+    name: vim
+    state: present
 
-- name: Copy .vimrc
+- name: ensure vim config directories exist
+  become: false
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0755'
+  loop:
+    - ~/.vim
+    - ~/.vim/backupf
+    - ~/.vim/backup
+
+- name: copy vimrc
   become: false
   copy:
-    src: files/.vimrc
-    dest: '{{user_home}}/.vim/vimrc'
+    src: .vimrc
+    dest: ~/.vim/vimrc
+    mode: '0644'

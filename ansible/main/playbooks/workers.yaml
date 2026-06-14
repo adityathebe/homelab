@@ -3,14 +3,6 @@
   become: true
 
   tasks:
-    - name: 'install ping and dig'
-      apt:
-        name:
-          - iputils-ping
-          - dnsutils
-        update_cache: yes
-        state: present
-
     - name: install nfs-common for longhorn nfs backup # https://longhorn.io/docs/1.9.1/deploy/install/#installing-nfsv4-client
       apt:
         name: nfs-common

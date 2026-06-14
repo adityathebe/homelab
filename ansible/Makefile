@@ -12,17 +12,14 @@ nas:
 nas-node-exporter:
 	cd truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/node-exporter.yaml --ask-become-pass
 
+ubuntu:
+	cd main && ansible-playbook playbooks/ubuntu.yaml
+
 vms:
 	cd main && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/vms.yaml
 
-proxmox:
-	cd main && ansible-playbook playbooks/proxmox.yaml
-
 node-gpu:
 	cd main && ansible-playbook playbooks/node-gpu.yaml
-
-gpu-passthrough:
-	cd main && ansible-playbook playbooks/proxmox-gpu-passthrough.yaml
 
 # Example: make cloud-init-template EXTRA_VARS="-e target_host=ramsey"
 cloud-init-template:
