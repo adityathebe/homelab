@@ -1,5 +1,5 @@
 ---
-- hosts: nodes
+- hosts: workers
   become: true
 
   tasks:
