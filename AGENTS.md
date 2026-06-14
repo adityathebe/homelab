@@ -1,19 +1,6 @@
-# CLAUDE.md
+## Canonical Project Information
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Repository Overview
-
-This is a GitOps-managed homelab infrastructure running a 6-node K3s cluster (3 masters, 3 workers) across 3 Proxmox hosts.
-The entire infrastructure is declaratively managed through FluxCD, with secrets encrypted using SOPS/Age.
-
-## Architecture
-
-- **K3s Kubernetes cluster** v1.34.1 orchestrating 40+ self-hosted applications
-- **FluxCD** for GitOps continuous deployment
-- **Terraform** for infrastructure as code (Cloudflare DNS, AWS S3 backend)
-- **Ansible** for server provisioning (k3s-ansible playbook)
-- **SOPS + Age** for encrypted secrets management
+Read `Readme.md` for current project overview, infrastructure, storage, networking/DNS, backups, setup, and requirements.
 
 ## Project Structure
 
@@ -30,7 +17,7 @@ The entire infrastructure is declaratively managed through FluxCD, with secrets 
 
 ### `/ansible/` - Server Configuration
 
-- Server provisioning and k3s cluster setup using techno-tim's k3s-ansible
+- Server provisioning configuration
 
 ## Development Patterns
 
@@ -54,50 +41,6 @@ The entire infrastructure is declaratively managed through FluxCD, with secrets 
 - All secrets MUST be encrypted with SOPS before committing
 - Use `.sops.yaml` extension for encrypted files
 - Never commit unencrypted secrets
-- Environment variables: `SOPS_AGE_KEY_FILE` and `GITHUB_TOKEN` required
-
-### Storage Patterns
-
-- **Longhorn**: Distributed block storage with volume snapshots and backups to Cloudflare R2
-- **NFS storage class**: For shared persistent volumes across nodes
-
-### Database Patterns
-
-- **CNPG**: CloudNative-PG operator for PostgreSQL clusters with 3 replicas and PITR backups to Cloudflare R2
-
-### DNS Management Patterns
-
-This homelab uses **two ExternalDNS instances** for dual DNS provider management:
-
-1. **external-dns (AdGuard Home)** - Internal DNS
-
-   - Sources: `ingress`
-   - Automatically processes ALL ingresses
-   - Creates A records → `10.99.99.25` (nginx-ingress IP)
-   - No configuration needed on ingresses
-
-2. **external-dns-cloudflare** - External DNS
-   - Sources: `crd` (DNSEndpoint only)
-   - Processes DNSEndpoint CRDs in `kubernetes/apps/network/external-dns-cloudflare/dnsendpoints.yaml`
-   - Creates CNAME records → Cloudflare Tunnel
-   - Requires explicit DNSEndpoint creation for external access
-
-**To expose a service externally:**
-
-- Ingress is automatically handled by AdGuard (internal A record)
-- Add a DNSEndpoint resource for Cloudflare (external CNAME to tunnel)
-- Same DNS name exists in both providers with different targets
-
-**Important:** Do NOT add `external-dns.alpha.kubernetes.io/target` annotations to ingresses - this would cause both ExternalDNS instances to process them incorrectly. Use DNSEndpoint CRDs for Cloudflare.
-
-## Infrastructure Details
-
-**Hardware**: 3 Beelink mini PCs (S12 Pro with N100, S13 with N150, EQ14 with N150) running Proxmox
-
-- Each Proxmox host runs 1 master node (4GB RAM, 2vCPU) and 1 worker node (8GB RAM, 4vCPU)
-
-**Storage**: TrueNAS Scale on Sony VAIO (8GB RAM, Intel i5-3210M) providing NFS and SMB; Ugreen NAS at 10.99.99.151
-**Network**: Cloudflare tunnels for external access, nginx-ingress for internal routing
 
 ## Commands
 
@@ -117,12 +60,9 @@ Proxmox hosts
 - wilshere
   - vm: saliba (k8s worker)
   - vm: arteta (k8s master)
-- ramsey
-  - vm: eze (k8s worker)
+- jhapa (bare metal k8s worker)
 
-## Lan Speed test
+## References
 
-ssh cazorla
-iperf3 -s
-
-iperf3-darwin -c 10.99.99.14 -t 10
+Some homelab repos are present in ~/projects/homeops-repos/
+You can use them as a reference

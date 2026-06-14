@@ -21,7 +21,7 @@ Using GitOps principals and workflow to manage a lightweight <a href="https://k3
 
 # Infrastructure
 
-I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 6 node _(3 masters & 3 workers)_ cluster across 3 Proxmox hosts, with each host running 2 VMs (1 master node with 4GB RAM/2vCPU and 1 worker node with 8GB RAM/4vCPU).
+I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 4 node cluster: one control-plane node and three workers across two Proxmox hosts plus one bare-metal Kubernetes node.
 
 ![Dashboard](.github/images/homepage.png)
 
@@ -29,18 +29,30 @@ I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) 
 
 ### 1. Proxmox Cluster
 
-| Hostname | Model            | CPU        | RAM  | Storage        | Proxmox |
-| -------- | ---------------- | ---------- | ---- | -------------- | ------- |
-| cazorla  | Beelink S12 Pro  | Intel N100 | 16GB | 512GB SATA SSD | 8.4     |
-| ramsey   | Beelink MINI-S13 | Intel N150 | 16GB | 512GB NVMe     | 9.1     |
-| wilshere | Beelink EQ14     | Intel N150 | 16GB | 500GB NVMe     | 8.4     |
+| Hostname | Model           | CPU        | RAM  | Storage        | Proxmox |
+| -------- | --------------- | ---------- | ---- | -------------- | ------- |
+| cazorla  | Beelink S12 Pro | Intel N100 | 16GB | 512GB SATA SSD | 8.4     |
+| wilshere | Beelink EQ14    | Intel N150 | 16GB | 500GB NVMe     | 8.4     |
 
-Each Proxmox host runs:
+### 2. Kubernetes Nodes
 
-- 1x Kubernetes master node (4GB RAM, 2vCPU)
-- 1x Kubernetes worker node (8GB RAM, 4vCPU)
+| Node   | Role          | Host type  | IP          |
+| ------ | ------------- | ---------- | ----------- |
+| arteta | control-plane | Proxmox VM | 10.99.99.11 |
+| alexis | worker        | Proxmox VM | 10.99.99.17 |
+| saliba | worker        | Proxmox VM | 10.99.99.10 |
+| jhapa  | worker        | bare metal | 10.99.99.13 |
 
-### 2. TrueNAS Scale
+### 3. Ugreen NAS DH4300 Plus
+
+| Description | Spec         |
+| ----------- | ------------ |
+| Server      | Ugreen NAS   |
+| IP          | 10.99.99.151 |
+
+### 4. TrueNAS Scale
+
+TrueNAS Scale acts as a backup server only.
 
 | Description | Spec                           |
 | ----------- | ------------------------------ |
@@ -50,12 +62,16 @@ Each Proxmox host runs:
 | SSD (os)    | 128GB                          |
 | SDD         | 1TB                            |
 
-### 3. Ugreen NAS
+## Kubernetes Storage
 
-| Description | Spec         |
-| ----------- | ------------ |
-| Server      | Ugreen NAS   |
-| IP          | 10.99.99.151 |
+| Use case                   | Storage type           | Notes                                                                |
+| -------------------------- | ---------------------- | -------------------------------------------------------------------- |
+| Application PVCs           | Longhorn               | Default distributed block storage for most app data/config volumes.  |
+| Local/single-replica PVCs  | Longhorn variants      | `longhorn-local` and `longhorn-single` for selected workloads.       |
+| Shared RWX PVCs            | SMB CSI                | Used for shared volumes such as Immich libraries and Gickup backups. |
+| Media/music library mounts | Direct NFS pod volumes | Used by media/music apps against Ugreen NAS `10.99.99.151`.          |
+
+There is no NFS `StorageClass` in the cluster. NFS is still used directly in selected HelmReleases for media paths such as `/volume2/media`, `/volume2/media/movies`, `/volume2/media/shows`, and `/volume2/media/music`.
 
 ![Server](.github/images/IMG_9856.jpg)
 _Beelink mini PCs & TrueNAS server_
