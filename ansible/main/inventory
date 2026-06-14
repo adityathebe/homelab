@@ -2,7 +2,7 @@
 arteta
 wrighty
 
-[nodes]
+[workers]
 saliba
 jhapa
 lalitpur
@@ -15,5 +15,5 @@ wilshere
 
 [vms:children]
 masters
-nodes
+workers
 container

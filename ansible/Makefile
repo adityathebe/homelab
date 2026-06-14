@@ -1,9 +1,6 @@
-media:
-	cd main && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/media.yaml
-
-# Setup k8s worker nodes
+# Setup k8s workers
 workers:
-	cd main && ansible-playbook playbooks/nodes.yaml
+	cd main && ansible-playbook playbooks/workers.yaml
 
 nas-vault:
 	cd truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-vault edit --vault-password-file='/bin/cat' host_vars/truenas.yaml
