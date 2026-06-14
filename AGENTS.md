@@ -54,12 +54,10 @@ Available hosts
 
 Proxmox hosts
 
-- cazorla
-  - vm: wrighty(k8s master)
-  - vm: alexis (k8s worker)
 - wilshere
   - vm: saliba (k8s worker)
   - vm: arteta (k8s master)
+- lalitpur (bare metal k8s works)
 - jhapa (bare metal k8s worker)
 
 ## References

@@ -3,17 +3,15 @@ arteta
 wrighty
 
 [nodes]
-eze
 saliba
-alexis
+jhapa
+lalitpur
 
 [container]
 media
 
 [pve]
 wilshere
-ramsey
-cazorla
 
 [vms:children]
 masters
