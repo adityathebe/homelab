@@ -1,6 +1,0 @@
----
-- hosts: truenas
-  become: true
-
-  roles:
-    - geerlingguy.node_exporter

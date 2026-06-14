@@ -2,16 +2,6 @@
 workers:
 	cd main && ansible-playbook playbooks/workers.yaml
 
-nas-vault:
-	cd truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-vault edit --vault-password-file='/bin/cat' host_vars/truenas.yaml
-
-.PHONY: nas
-nas:
-	cd truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/backup.yaml --ask-become-pass
-
-nas-node-exporter:
-	cd truenas && echo "$$ANSIBLE_VAULT_PASS" | ansible-playbook --vault-password-file='/bin/cat' playbooks/node-exporter.yaml --ask-become-pass
-
 ubuntu:
 	cd main && ansible-playbook playbooks/ubuntu.yaml
 
