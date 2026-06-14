@@ -21,27 +21,26 @@ Using GitOps principals and workflow to manage a lightweight <a href="https://k3
 
 # Infrastructure
 
-I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 4 node cluster: one control-plane node and three workers across two Proxmox hosts plus one bare-metal Kubernetes node.
+I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) playbook to deploy a 4 node cluster: one control-plane node and three workers across one Proxmox host plus two bare-metal Kubernetes nodes.
 
 ![Dashboard](.github/images/homepage.png)
 
 ## Servers
 
-### 1. Proxmox Cluster
+### 1. Proxmox Host
 
-| Hostname | Model           | CPU        | RAM  | Storage        | Proxmox |
-| -------- | --------------- | ---------- | ---- | -------------- | ------- |
-| cazorla  | Beelink S12 Pro | Intel N100 | 16GB | 512GB SATA SSD | 8.4     |
-| wilshere | Beelink EQ14    | Intel N150 | 16GB | 500GB NVMe     | 8.4     |
+| Hostname | Model        | CPU        | RAM  | Storage    | Proxmox |
+| -------- | ------------ | ---------- | ---- | ---------- | ------- |
+| wilshere | Beelink EQ14 | Intel N150 | 16GB | 500GB NVMe | 8.4     |
 
 ### 2. Kubernetes Nodes
 
-| Node   | Role          | Host type  | IP          |
-| ------ | ------------- | ---------- | ----------- |
-| arteta | control-plane | Proxmox VM | 10.99.99.11 |
-| alexis | worker        | Proxmox VM | 10.99.99.17 |
-| saliba | worker        | Proxmox VM | 10.99.99.10 |
-| jhapa  | worker        | bare metal | 10.99.99.13 |
+| Node     | Role          | Host type  | IP          |
+| -------- | ------------- | ---------- | ----------- |
+| arteta   | control-plane | Proxmox VM | 10.99.99.11 |
+| saliba   | worker        | Proxmox VM | 10.99.99.10 |
+| jhapa    | worker        | bare metal | 10.99.99.13 |
+| lalitpur | worker        | bare metal | 10.99.99.14 |
 
 ### 3. Ugreen NAS DH4300 Plus
 

@@ -23,7 +23,7 @@ spec:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
           nodeSelector:
-            kubernetes.io/hostname: alexis
+            kubernetes.io/hostname: lalitpur
         containers:
           app:
             image:

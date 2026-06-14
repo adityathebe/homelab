@@ -48,16 +48,16 @@ Read `Readme.md` for current project overview, infrastructure, storage, networki
 
 ## Talk to vms and k8s nodes
 
-You can run commands on the proxmox hosts, and the vms running on them using ssh <hostname>,
+You can run commands on the Proxmox host, VMs, and bare-metal Kubernetes nodes using `ssh <hostname>`.
 
 Available hosts
 
-Proxmox hosts
+Proxmox host
 
 - wilshere
   - vm: saliba (k8s worker)
   - vm: arteta (k8s master)
-- lalitpur (bare metal k8s works)
+- lalitpur (bare metal k8s worker)
 - jhapa (bare metal k8s worker)
 
 ## References
