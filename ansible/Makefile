@@ -14,7 +14,3 @@ node-gpu:
 # Example: make cloud-init-template EXTRA_VARS="-e target_host=ramsey"
 cloud-init-template:
 	cd main && ansible-playbook playbooks/proxmox-cloud-init-template.yaml $(EXTRA_VARS)
-
-galaxy:
-	cd main && ansible-galaxy install -r requirements.yaml --force
-	cd truenas && ansible-galaxy install -r requirements.yaml --force
