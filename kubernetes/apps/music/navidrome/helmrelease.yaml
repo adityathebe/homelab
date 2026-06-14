@@ -43,8 +43,6 @@ spec:
               repository: deluan/navidrome
               tag: 0.61.2
             envFrom:
-              - secretRef:
-                  name: navidrome
               - configMapRef:
                   name: navidrome
             env:
