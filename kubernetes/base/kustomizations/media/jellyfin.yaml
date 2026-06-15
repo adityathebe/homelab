@@ -10,6 +10,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: intel-gpu-resource-driver
+      namespace: flux-system
   path: kubernetes/apps/media/jellyfin
   prune: true
   sourceRef:

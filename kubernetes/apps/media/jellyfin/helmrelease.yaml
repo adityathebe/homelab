@@ -57,6 +57,8 @@ spec:
               runAsUser: 1000
               runAsGroup: 1000
             resources:
+              claims:
+                - name: gpu
               requests:
                 cpu: 100m
                 memory: 500Mi
@@ -70,6 +72,9 @@ spec:
               drop:
                 - ALL
     defaultPodOptions:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: jellyfin-gpu
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -77,7 +82,7 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
-          - 992 # render group for Intel GPU access
+          - 991 # render group for Intel GPU access
     service:
       main:
         controller: main
