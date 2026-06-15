@@ -3,5 +3,6 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - descheduler.yaml
+  - intel-gpu-resource-driver.yaml
   # - metrics-server.yaml  # Disabled: using K3s built-in metrics-server instead
   - node-feature-discovery.yaml
