@@ -16,7 +16,6 @@ resources:
   - kubernetes-sigs-metrics-server-charts.yaml
   - kyverno.yaml
   - longhorn.yaml
-  - node-feature-discovery.yaml
   - prometheus-community.yaml
   - stakater.yaml
   - tailscale.yaml
