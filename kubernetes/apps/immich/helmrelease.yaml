@@ -33,12 +33,17 @@ spec:
         annotations:
           reloader.stakater.com/auto: 'true'
         pod:
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: immich-gpu
           securityContext:
             runAsNonRoot: true
             runAsUser: 3000
             runAsGroup: 3000
             fsGroup: 3000
             fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 991 # render group for Intel GPU access
         containers:
           app:
             image:
@@ -70,6 +75,8 @@ spec:
                     name: immich-postgres
                     key: PASSWORD
             resources:
+              claims:
+                - name: gpu
               requests:
                 cpu: 250m
                 memory: 1000Mi

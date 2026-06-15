@@ -7,6 +7,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
+  dependsOn:
+    - name: intel-gpu-resource-driver
+      namespace: flux-system
   targetNamespace: immich
   path: ./kubernetes/apps/immich
   prune: true

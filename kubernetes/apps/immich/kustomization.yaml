@@ -5,4 +5,5 @@ resources:
   - smb-storage-class.yaml
   - pvc.yaml
   - secret.sops.yaml
+  - resourceclaimtemplate.yaml
   - helmrelease.yaml
