@@ -5,6 +5,7 @@ metadata:
   name: radicale-data
 spec:
   storageClassName: longhorn
+  volumeName: radicale
   accessModes:
     - ReadWriteMany
   resources:
