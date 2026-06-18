@@ -27,3 +27,4 @@ terraform/mcp/
 .DS_Store
 
 gcp
+*.kubeconfig

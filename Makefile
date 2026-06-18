@@ -31,3 +31,13 @@ bootstrap:
     --owner=adityathebe \
     --token-auth \
     --path kubernetes/bootstrap
+
+
+# Create a kubeconfig for the read-only ai-agent service account (scripts/ai-agent.kubeconfig).
+# The ServiceAccount has the built-in "view" ClusterRole attached.
+# Override DURATION env var to set token expiry (default: 8760h = 365d).
+# Usage:
+#   make ai-agent-sa-token
+#   env DURATION=24h make ai-agent-sa-token
+ai-agent-sa-token:
+	bash scripts/ai-agent-sa-token.sh
