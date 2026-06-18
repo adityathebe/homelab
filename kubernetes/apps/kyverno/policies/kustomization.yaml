@@ -7,3 +7,4 @@ resources:
   - ./disallow-privileged-containers.yaml
   - ./require-drop-all.yaml
   - ./require-run-as-nonroot.yaml
+  - ./require-readonly-rootfs.yaml

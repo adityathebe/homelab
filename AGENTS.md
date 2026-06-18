@@ -1,6 +1,7 @@
 ## Canonical Project Information
 
 Read `Readme.md` for current project overview, infrastructure, storage, networking/DNS, backups, setup, and requirements.
+This is a flux managed cluster. Never patch or mutate resources with kubectl.
 
 ## Project Structure
 
