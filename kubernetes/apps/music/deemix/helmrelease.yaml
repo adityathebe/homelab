@@ -44,6 +44,8 @@ spec:
             env:
               TZ: ${TZ}
               DEEMIX_SINGLE_USER: true
+            securityContext:
+              readOnlyRootFilesystem: true
             resources:
               requests:
                 cpu: 50m
