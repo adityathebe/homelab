@@ -41,10 +41,16 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
     service:
       main:
         controller: main

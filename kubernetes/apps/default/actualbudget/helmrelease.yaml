@@ -64,6 +64,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -81,6 +82,10 @@ spec:
           actualbudget:
             app:
               - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
     route:
       app:
         hostnames:

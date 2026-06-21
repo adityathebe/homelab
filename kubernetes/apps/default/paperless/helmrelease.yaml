@@ -79,6 +79,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -101,6 +102,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -123,6 +125,16 @@ spec:
           paperless:
             paperless:
               - path: /data/local
+      redis-data:
+        type: emptyDir
+        advancedMounts:
+          redis:
+            redis:
+              - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
     route:
       app:
         hostnames:

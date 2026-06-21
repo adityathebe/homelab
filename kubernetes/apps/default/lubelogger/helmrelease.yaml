@@ -54,6 +54,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -83,6 +84,10 @@ spec:
           - path: /root/.aspnet/DataProtection-Keys
             subPath: keys
       tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      wwwroot-temp:
         type: emptyDir
         globalMounts:
           - path: /App/wwwroot/temp

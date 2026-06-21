@@ -42,6 +42,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -53,6 +54,14 @@ spec:
           http:
             port: 80
     persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      nginx-log:
+        type: emptyDir
+        globalMounts:
+          - path: /var/log/nginx
       nginx-cache:
         type: emptyDir
         globalMounts:

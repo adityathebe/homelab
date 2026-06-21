@@ -61,6 +61,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -103,6 +104,10 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /app/config/logs
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
     route:
       app:
         hostnames:
