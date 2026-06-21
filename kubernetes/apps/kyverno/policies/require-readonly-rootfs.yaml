@@ -13,7 +13,7 @@ metadata:
       if the container exits. This policy ensures that containers specify
       readOnlyRootFilesystem: true.
 spec:
-  validationFailureAction: Audit
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: require-readonly-rootfs
@@ -22,27 +22,8 @@ spec:
         - resources:
             kinds:
               - Pod
-      exclude:
-        any:
-        - resources:
             namespaces:
-              - storage
-        - resources:
-            namespaces:
-              - metallb-system
-        - resources:
-            namespaces:
-              - kube-system
-            names:
-              - kube-vip-ds*
-        - resources:
-            namespaces:
-              - network
-            names:
-              - csi-smb-controller*
-              - csi-smb-node*
-              - operator*
-              - ts-subnet-router*
+              - default
       validate:
         message: >-
           Containers must use a read-only root filesystem. Set
