@@ -83,6 +83,20 @@ spec:
           main:
             movary:
               - path: /tmp
+      run:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            movary:
+              - path: /run
+      nginx-lib:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            movary:
+              - path: /var/lib/nginx
     route:
       main:
         hostnames:
