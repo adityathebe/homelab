@@ -63,6 +63,9 @@ spec:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
+              add:
+                - CHOWN
+                - FOWNER
               drop:
                 - ALL
     service:
