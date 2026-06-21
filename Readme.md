@@ -202,7 +202,7 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 
 ### Cloud Sync
 
-- **Tool**: Rclone → Backblaze B2
+- **Tool**: Rclone → Google Drive
 - **Schedule**: Every 2 days at 04:30 AM
 
 ## Requirements
