@@ -98,6 +98,12 @@ spec:
         path: /volume2/media
         globalMounts:
           - path: /media
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          main:
+            subcleaner:
+              - path: /tmp
       scripts:
         enabled: true
         type: configMap
