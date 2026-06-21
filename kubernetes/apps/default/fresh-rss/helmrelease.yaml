@@ -65,6 +65,7 @@ spec:
             capabilities:
               add:
                 - CHOWN
+                - DAC_OVERRIDE  # required: root needs this to chmod files owned by www-data (UID 82) on the PVC
                 - FOWNER
               drop:
                 - ALL
