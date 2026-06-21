@@ -44,6 +44,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             runAsUser: 1000
             runAsGroup: 1000
             runAsNonRoot: true
@@ -58,6 +59,10 @@ spec:
           http:
             port: 9999
     persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
       data:
         existingClaim: nepse-data
         globalMounts:

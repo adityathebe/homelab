@@ -60,6 +60,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
@@ -76,6 +77,10 @@ spec:
         existingClaim: freshrss
         globalMounts:
           - path: /var/www/FreshRSS/data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
     route:
       app:
         hostnames:
