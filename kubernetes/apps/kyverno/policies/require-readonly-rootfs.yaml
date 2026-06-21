@@ -24,6 +24,8 @@ spec:
               - Pod
             namespaces:
               - default
+              - media
+              - music
       validate:
         message: >-
           Containers must use a read-only root filesystem. Set
