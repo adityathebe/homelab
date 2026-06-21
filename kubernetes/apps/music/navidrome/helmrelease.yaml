@@ -68,6 +68,7 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
