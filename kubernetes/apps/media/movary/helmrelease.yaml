@@ -76,6 +76,13 @@ spec:
           main:
             movary:
               - path: /app/storage
+      tmp:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            movary:
+              - path: /tmp
     route:
       main:
         hostnames:
