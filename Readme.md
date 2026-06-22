@@ -35,12 +35,12 @@ I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) 
 
 ### 2. Kubernetes Nodes
 
-| Node     | Role          | Host type  | IP          |
-| -------- | ------------- | ---------- | ----------- |
-| arteta   | control-plane | Proxmox VM | 10.99.99.11 |
-| saliba   | worker        | Proxmox VM | 10.99.99.10 |
-| jhapa    | worker        | bare metal | 10.99.99.13 |
-| lalitpur | worker        | bare metal | 10.99.99.14 |
+| Node     | Role          | Host type  | RAM  | IP          |
+| -------- | ------------- | ---------- | ---- | ----------- |
+| arteta   | control-plane | Proxmox VM | 6GB  | 10.99.99.11 |
+| saliba   | worker        | Proxmox VM | 6GB  | 10.99.99.10 |
+| jhapa    | worker        | bare metal | 16GB | 10.99.99.13 |
+| lalitpur | worker        | bare metal | 16GB | 10.99.99.14 |
 
 ### 3. Ugreen NAS DH4300 Plus
 
