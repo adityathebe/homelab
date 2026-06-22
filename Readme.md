@@ -31,7 +31,7 @@ I've used Techno Tim's [k3s-ansible](https://github.com/techno-tim/k3s-ansible) 
 
 | Hostname | Model        | CPU        | RAM  | Storage    | Proxmox |
 | -------- | ------------ | ---------- | ---- | ---------- | ------- |
-| wilshere | Beelink EQ14 | Intel N150 | 16GB | 500GB NVMe | 8.4     |
+| wilshere | Beelink EQ14 | Intel N150 | 16GB | 500GB NVMe | 9.2.3   |
 
 ### 2. Kubernetes Nodes
 
