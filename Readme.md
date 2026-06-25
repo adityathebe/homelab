@@ -59,7 +59,7 @@ TrueNAS Scale acts as a backup server only.
 | RAM         | 8GB _(maxed out)_              |
 | CPU         | Intel i5-3210M                 |
 | SSD (os)    | 128GB                          |
-| SDD         | 1TB                            |
+| SSD         | 1TB                            |
 
 ## Kubernetes Storage
 
