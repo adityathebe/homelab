@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-Using GitOps principals and workflow to manage a lightweight <a href="https://k3s.io">k3s</a> cluster.
+Using GitOps principles and workflow to manage a lightweight <a href="https://k3s.io">k3s</a> cluster.
 </p>
 
 # Infrastructure
