@@ -43,6 +43,8 @@ spec:
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
+            runAsUser: 65532
+            runAsGroup: 65532
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             allowPrivilegeEscalation: false
