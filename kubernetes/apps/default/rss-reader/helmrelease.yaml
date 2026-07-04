@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: rss-reader
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-helm-charts
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        strategy: Recreate
+        pod:
+          securityContext:
+            fsGroup: 65532
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          rss-reader:
+            image:
+              repository: git.${HOMELAB_DOMAIN}/aditya/rss-reader
+              tag: latest
+            env:
+              ADDR: :8181
+              ARTICLE_CACHE_DIR: /app/data/cache
+              POLL_INTERVAL: 15m
+              TZ: ${TZ}
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 8181
+    persistence:
+      data:
+        existingClaim: rss-reader-data
+        globalMounts:
+          - path: /app/data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+    route:
+      main:
+        hostnames:
+          - 'rss-reader.${HOMELAB_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+          - name: envoy-external
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: main
+                port: http

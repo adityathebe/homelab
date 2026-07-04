@@ -12,3 +12,4 @@ resources:
   # - paperless.yaml
   - nepse.yaml
   - radicale.yaml
+  - rss-reader.yaml
