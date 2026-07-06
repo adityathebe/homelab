@@ -71,7 +71,7 @@ spec:
             port: 8181
     persistence:
       data:
-        existingClaim: rss-reader-data
+        existingClaim: rss-reader-cache
         globalMounts:
           - path: /app/data/cache
       tmp:
