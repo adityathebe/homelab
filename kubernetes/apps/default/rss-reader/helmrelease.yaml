@@ -24,6 +24,14 @@ spec:
           securityContext:
             fsGroup: 65532
             fsGroupChangePolicy: OnRootMismatch
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: rss-reader
         containers:
           rss-reader:
             image:
@@ -32,8 +40,12 @@ spec:
             env:
               ADDR: :8181
               ARTICLE_CACHE_DIR: /app/data/cache
+              DB_DRIVER: postgres
               POLL_INTERVAL: 15m
+              PUBLIC_BASE_URL: 'https://rss-reader.${HOMELAB_DOMAIN}'
+              REGISTRATION_MODE: disabled
               TZ: ${TZ}
+            envFrom: *envFrom
             resources:
               requests:
                 cpu: 50m
@@ -61,7 +73,7 @@ spec:
       data:
         existingClaim: rss-reader-data
         globalMounts:
-          - path: /app/data
+          - path: /app/data/cache
       tmp:
         type: emptyDir
         globalMounts:
