@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: rss-reader-data
+  name: rss-reader-cache
 spec:
   storageClassName: longhorn
   accessModes:
