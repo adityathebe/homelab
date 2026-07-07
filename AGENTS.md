@@ -2,6 +2,7 @@
 
 Read `Readme.md` for current project overview, infrastructure, storage, networking/DNS, backups, setup, and requirements.
 This is a flux managed cluster. Never patch or mutate resources with kubectl.
+Never expose applications over plain HTTP. Gateway/HTTPRoute backends should bind to HTTPS listeners only; HTTP listeners should be absent or used only for redirects to HTTPS.
 
 ## Project Structure
 
