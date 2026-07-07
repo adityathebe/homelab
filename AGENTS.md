@@ -61,6 +61,10 @@ Proxmox host
 - lalitpur (bare metal k8s worker)
 - jhapa (bare metal k8s worker)
 
+## Operational Runbooks
+
+- Pod stuck `Terminating`, possible node/runtime reset: `docs/runbooks/pod-stuck-terminating-node-runtime.md`
+
 ## References
 
 Some homelab repos are present in ~/projects/homeops-repos/
