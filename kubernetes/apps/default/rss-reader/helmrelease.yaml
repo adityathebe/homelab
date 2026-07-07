@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: rss-reader
+  name: fernrss
   namespace: default
 spec:
   interval: 30m
@@ -33,16 +33,16 @@ spec:
               - secretRef:
                   name: rss-reader
         containers:
-          rss-reader:
+          fern:
             image:
-              repository: git.${HOMELAB_DOMAIN}/aditya/rss-reader
+              repository: git.${HOMELAB_DOMAIN}/aditya/fern
               tag: latest
             env:
               ADDR: :8181
               ARTICLE_CACHE_DIR: /app/data/cache
               DB_DRIVER: postgres
               POLL_INTERVAL: 15m
-              PUBLIC_BASE_URL: 'https://rss-reader.${HOMELAB_DOMAIN}'
+              PUBLIC_BASE_URL: "https://fern.${HOMELAB_DOMAIN}"
               REGISTRATION_MODE: disabled
               TZ: ${TZ}
             envFrom: *envFrom
@@ -71,7 +71,7 @@ spec:
             port: 8181
     persistence:
       data:
-        existingClaim: rss-reader-cache
+        existingClaim: fernrss-cache
         globalMounts:
           - path: /app/data/cache
       tmp:
@@ -81,7 +81,7 @@ spec:
     route:
       main:
         hostnames:
-          - 'rss-reader.${HOMELAB_DOMAIN}'
+          - "fern.${HOMELAB_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
