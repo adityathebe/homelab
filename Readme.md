@@ -185,7 +185,7 @@ This homelab implements a comprehensive three-tier backup strategy covering data
 - **Architecture**: 2-replica PostgreSQL clusters for high availability
 - **Backup**: Continuous WAL archiving and base backups to Cloudflare R2
 - **Recovery**: Point-in-Time Recovery (PITR) capability
-- **Covers**: Immich, Movary, Fresh RSS, Vikunja, Speedtest Tracker
+- **Covers**: Immich, Movary, Vikunja, Speedtest Tracker
 
 ## Volume Backups (Longhorn)
 

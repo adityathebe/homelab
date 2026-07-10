@@ -83,17 +83,6 @@ data:
             app: radicale
             href: https://radicale.${HOMELAB_DOMAIN}
         
-        - RSS:
-            icon: freshrss.png
-            namespace: default
-            app: freshrss
-            href: https://rss.${HOMELAB_DOMAIN}
-            widget:
-              type: freshrss
-              url: https://rss.${HOMELAB_DOMAIN}
-              username: adityathebe
-              password: {{HOMEPAGE_VAR_FRESH_RSS_PASSWORD}}
-
         - Immich:
             icon: immich.png
             href: https://photos.${HOMELAB_DOMAIN}
