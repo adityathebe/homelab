@@ -26,13 +26,6 @@ spec:
               - default
               - media
               - music
-      exclude:
-        any:
-        - resources:
-            namespaces:
-              - default
-            names:
-              - freshrss-*
       validate:
         message: >-
           Containers must use a read-only root filesystem. Set
