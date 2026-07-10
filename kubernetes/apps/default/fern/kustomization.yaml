@@ -6,3 +6,4 @@ resources:
   - pvc.yaml
   - secret.sops.yaml
   - app-secret.sops.yaml
+  - admin-secret.sops.yaml
