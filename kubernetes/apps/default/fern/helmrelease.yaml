@@ -116,8 +116,10 @@ spec:
     persistence:
       data:
         existingClaim: fernrss-cache
-        globalMounts:
-          - path: /app/data/cache
+        advancedMounts:
+          main:
+            fern:
+              - path: /app/data/cache
       tmp:
         type: emptyDir
         globalMounts:
