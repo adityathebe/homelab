@@ -9,7 +9,6 @@ resources:
   - homepage.yaml
   - ittools.yaml
   - lubelogger.yaml
-  # - paperless.yaml
   - nepse.yaml
   - radicale.yaml
-  - rss-reader.yaml
+  - fern.yaml
