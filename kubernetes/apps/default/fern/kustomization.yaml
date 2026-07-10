@@ -5,4 +5,4 @@ resources:
   - helmrelease.yaml
   - pvc.yaml
   - secret.sops.yaml
-  - kubernetes/apps/default/fern/app-secret.sops.yaml
+  - app-secret.sops.yaml
