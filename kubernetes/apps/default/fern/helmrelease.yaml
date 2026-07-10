@@ -19,6 +19,7 @@ spec:
   values:
     controllers:
       main:
+        forceRename: '{{ .Release.Name }}'
         strategy: Recreate
         pod:
           securityContext:
@@ -67,7 +68,7 @@ spec:
             capabilities:
               drop:
                 - ALL
-      fern-admin:
+      admin:
         strategy: Recreate
         containers:
           fern-admin:
@@ -102,12 +103,13 @@ spec:
                 - ALL
     service:
       main:
+        forceRename: '{{ .Release.Name }}'
         controller: main
         ports:
           http:
             port: 8181
-      fern-admin:
-        controller: fern-admin
+      admin:
+        controller: admin
         ports:
           http:
             port: 8182
@@ -122,6 +124,7 @@ spec:
           - path: /tmp
     route:
       main:
+        forceRename: '{{ .Release.Name }}'
         hostnames:
           - 'fern.${HOMELAB_DOMAIN}'
         parentRefs:
@@ -136,7 +139,7 @@ spec:
             backendRefs:
               - identifier: main
                 port: http
-      fern-admin:
+      admin:
         hostnames:
           - 'fern-admin.${HOMELAB_DOMAIN}'
         parentRefs:
@@ -149,5 +152,5 @@ spec:
                   type: PathPrefix
                   value: /
             backendRefs:
-              - identifier: fern-admin
+              - identifier: admin
                 port: http
