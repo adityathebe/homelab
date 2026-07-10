@@ -56,6 +56,28 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 512Mi
+      fern-admin:
+        strategy: Recreate
+        containers:
+          fern-admin:
+            image:
+              repository: git.${HOMELAB_DOMAIN}/aditya/fern-admin
+              tag: latest
+            env:
+              ADMIN_ADDR: :8182
+              ADMIN_ALLOWED_HOSTS: 'fern-admin.${HOMELAB_DOMAIN}'
+              TZ: ${TZ}
+            envFrom:
+              - secretRef:
+                  name: fern-admin
+              - secretRef:
+                  name: fern-db
+            resources:
+              requests:
+                cpu: 25m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
@@ -73,6 +95,11 @@ spec:
         ports:
           http:
             port: 8181
+      fern-admin:
+        controller: fern-admin
+        ports:
+          http:
+            port: 8182
     persistence:
       data:
         existingClaim: fernrss-cache
@@ -97,4 +124,19 @@ spec:
                   value: /
             backendRefs:
               - identifier: main
+                port: http
+      fern-admin:
+        hostnames:
+          - 'fern-admin.${HOMELAB_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: fern-admin
                 port: http
