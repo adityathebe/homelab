@@ -7,3 +7,4 @@ resources:
   - secret.sops.yaml
   - app-secret.sops.yaml
   - admin-secret.sops.yaml
+  - paddle-secret.sops.yaml
