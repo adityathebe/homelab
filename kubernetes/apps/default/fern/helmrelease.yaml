@@ -19,7 +19,7 @@ spec:
   values:
     controllers:
       main:
-        forceRename: '{{ .Release.Name }}'
+        forceRename: "{{ .Release.Name }}"
         strategy: Recreate
         pod:
           securityContext:
@@ -43,7 +43,7 @@ spec:
               ARTICLE_CACHE_DIR: /app/data/cache
               DB_DRIVER: postgres
               POLL_INTERVAL: 15m
-              PUBLIC_BASE_URL: 'https://fern.${HOMELAB_DOMAIN}'
+              PUBLIC_BASE_URL: "https://fern.${HOMELAB_DOMAIN}"
               REGISTRATION_MODE: disabled
               TZ: ${TZ}
             envFrom:
@@ -77,7 +77,7 @@ spec:
               tag: latest
             env:
               ADMIN_ADDR: :8182
-              ADMIN_ALLOWED_HOSTS: 'fern-admin.${HOMELAB_DOMAIN}'
+              ADMIN_ALLOWED_HOSTS: "fern-admin.${HOMELAB_DOMAIN}"
               TZ: ${TZ}
             envFrom:
               - secretRef:
@@ -107,7 +107,7 @@ spec:
           riverui:
             image:
               repository: ghcr.io/riverqueue/riverui
-              tag: v0.16.0
+              tag: 0.16.0
             env:
               - name: DATABASE_URL
                 valueFrom:
@@ -133,7 +133,7 @@ spec:
                 - ALL
     service:
       main:
-        forceRename: '{{ .Release.Name }}'
+        forceRename: "{{ .Release.Name }}"
         controller: main
         ports:
           http:
@@ -161,9 +161,9 @@ spec:
           - path: /tmp
     route:
       main:
-        forceRename: '{{ .Release.Name }}'
+        forceRename: "{{ .Release.Name }}"
         hostnames:
-          - 'fern.${HOMELAB_DOMAIN}'
+          - "fern.${HOMELAB_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -178,7 +178,7 @@ spec:
                 port: http
       admin:
         hostnames:
-          - 'fern-admin.${HOMELAB_DOMAIN}'
+          - "fern-admin.${HOMELAB_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -193,7 +193,7 @@ spec:
                 port: http
       riverui:
         hostnames:
-          - 'fernjobs.${HOMELAB_DOMAIN}'
+          - "fernjobs.${HOMELAB_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
