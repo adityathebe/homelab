@@ -5,6 +5,12 @@ originRequest:
   http2Origin: true
 
 ingress:
+  # Fern
+  - hostname: fern.${HOMELAB_DOMAIN}
+    service: http://envoy-external.network.svc.cluster.local
+    originRequest:
+      httpHostHeader: fern.${HOMELAB_DOMAIN}
+
   # NEPSE
   - hostname: nepse.${HOMELAB_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local

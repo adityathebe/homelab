@@ -170,6 +170,8 @@ spec:
           - name: envoy-internal
             namespace: network
             sectionName: https
+          - name: envoy-external
+            namespace: network
         rules:
           - matches:
               - path:
