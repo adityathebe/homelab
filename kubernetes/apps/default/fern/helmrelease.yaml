@@ -101,6 +101,36 @@ spec:
             capabilities:
               drop:
                 - ALL
+      riverui:
+        strategy: Recreate
+        containers:
+          riverui:
+            image:
+              repository: ghcr.io/riverqueue/riverui
+              tag: v0.16.0
+            env:
+              - name: DATABASE_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: fern-db
+                    key: DATABASE_URL
+            resources:
+              requests:
+                cpu: 25m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            runAsUser: 65532
+            runAsGroup: 65532
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
     service:
       main:
         forceRename: '{{ .Release.Name }}'
@@ -113,6 +143,11 @@ spec:
         ports:
           http:
             port: 8182
+      riverui:
+        controller: riverui
+        ports:
+          http:
+            port: 8080
     persistence:
       data:
         existingClaim: fernrss-cache
@@ -155,4 +190,19 @@ spec:
                   value: /
             backendRefs:
               - identifier: admin
+                port: http
+      riverui:
+        hostnames:
+          - 'fernjobs.${HOMELAB_DOMAIN}'
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: riverui
                 port: http
