@@ -40,11 +40,8 @@ spec:
               tag: latest
             env:
               ADDR: :8181
-              ARTICLE_CACHE_DIR: /app/data/cache
               DB_DRIVER: postgres
-              POLL_INTERVAL: 15m
               PUBLIC_BASE_URL: 'https://fern.${HOMELAB_DOMAIN}'
-              REGISTRATION_MODE: disabled
               TZ: ${TZ}
             envFrom:
               - secretRef:
@@ -111,6 +108,8 @@ spec:
               repository: ghcr.io/riverqueue/riverui
               tag: 0.16.0
             env:
+              - name: PGOPTIONS
+                value: '-c search_path=river'
               - name: DATABASE_URL
                 valueFrom:
                   secretKeyRef:
@@ -151,12 +150,6 @@ spec:
           http:
             port: 8080
     persistence:
-      data:
-        existingClaim: fernrss-cache
-        advancedMounts:
-          main:
-            fern:
-              - path: /app/data/cache
       tmp:
         type: emptyDir
         globalMounts:
