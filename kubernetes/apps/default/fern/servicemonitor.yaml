@@ -1,0 +1,15 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: fern
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: fern
+      app.kubernetes.io/service: main
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 1m
+      scrapeTimeout: 10s
