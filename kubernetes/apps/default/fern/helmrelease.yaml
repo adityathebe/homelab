@@ -19,7 +19,7 @@ spec:
   values:
     controllers:
       main:
-        forceRename: '{{ .Release.Name }}'
+        forceRename: "{{ .Release.Name }}"
         strategy: Recreate
         pod:
           securityContext:
@@ -41,7 +41,44 @@ spec:
             env:
               ADDR: :8181
               DB_DRIVER: postgres
-              PUBLIC_BASE_URL: 'https://fern.${HOMELAB_DOMAIN}'
+              PUBLIC_BASE_URL: "https://fern.${HOMELAB_DOMAIN}"
+              TZ: ${TZ}
+            envFrom:
+              - secretRef:
+                  name: fern
+              - secretRef:
+                  name: fern-db
+              - secretRef:
+                  name: fern-paddle
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            runAsUser: 65532
+            runAsGroup: 65532
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      worker:
+        replicas: 3
+        strategy: Recreate
+        containers:
+          worker:
+            image:
+              repository: git.${HOMELAB_DOMAIN}/aditya/fern
+              tag: latest
+            command:
+              - /worker
+            env:
+              DB_DRIVER: postgres
               TZ: ${TZ}
             envFrom:
               - secretRef:
@@ -76,7 +113,7 @@ spec:
               tag: latest
             env:
               ADMIN_ADDR: :8182
-              ADMIN_ALLOWED_HOSTS: 'fern-admin.${HOMELAB_DOMAIN}'
+              ADMIN_ALLOWED_HOSTS: "fern-admin.${HOMELAB_DOMAIN}"
               TZ: ${TZ}
             envFrom:
               - secretRef:
@@ -109,7 +146,7 @@ spec:
               tag: 0.16.0
             env:
               - name: PGOPTIONS
-                value: '-c search_path=river'
+                value: "-c search_path=river"
               - name: DATABASE_URL
                 valueFrom:
                   secretKeyRef:
@@ -134,7 +171,7 @@ spec:
                 - ALL
     service:
       main:
-        forceRename: '{{ .Release.Name }}'
+        forceRename: "{{ .Release.Name }}"
         controller: main
         ports:
           http:
@@ -158,9 +195,9 @@ spec:
           - path: /tmp
     route:
       main:
-        forceRename: '{{ .Release.Name }}'
+        forceRename: "{{ .Release.Name }}"
         hostnames:
-          - 'fern.${HOMELAB_DOMAIN}'
+          - "fern.${HOMELAB_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -177,7 +214,7 @@ spec:
                 port: http
       admin:
         hostnames:
-          - 'fern-admin.${HOMELAB_DOMAIN}'
+          - "fern-admin.${HOMELAB_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -192,7 +229,7 @@ spec:
                 port: http
       riverui:
         hostnames:
-          - 'fernjobs.${HOMELAB_DOMAIN}'
+          - "fernjobs.${HOMELAB_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
