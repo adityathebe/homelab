@@ -80,6 +80,10 @@ spec:
           http:
             port: 4533
     persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
       music:
         enabled: true
         type: nfs
