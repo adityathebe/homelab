@@ -51,9 +51,11 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: agent
-          image: adityathebe/pi-agent-sandbox:v2
+          image: adityathebe/pi-agent-sandbox:v3
           imagePullPolicy: IfNotPresent
           env:
+            - name: HOME
+              value: /home/node
             - name: OPENROUTER_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -70,11 +72,10 @@ spec:
             limits:
               memory: 4Gi
           securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
+            # Passwordless sudo needs its setuid binary to transition from UID 1000
+            # to UID 0; false enables no_new_privs and makes sudo fail.
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault

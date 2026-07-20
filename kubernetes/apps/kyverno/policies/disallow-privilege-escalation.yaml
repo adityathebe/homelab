@@ -28,6 +28,7 @@ spec:
             namespaces:
               - storage
               - metallb-system
+              - agent-sandbox-system
         - resources:
             namespaces:
               - kube-system

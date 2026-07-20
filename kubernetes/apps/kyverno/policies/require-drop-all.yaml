@@ -31,6 +31,7 @@ spec:
               - Pod
             namespaces:
               - storage
+              - agent-sandbox-system
       preconditions:
         all:
         - key: "{{ request.operation || 'BACKGROUND' }}"

@@ -26,6 +26,11 @@ spec:
               - default
               - media
               - music
+      exclude:
+        any:
+        - resources:
+            namespaces:
+              - agent-sandbox-system
       validate:
         message: >-
           Containers must use a read-only root filesystem. Set
