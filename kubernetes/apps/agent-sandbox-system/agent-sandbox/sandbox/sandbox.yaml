@@ -9,14 +9,18 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: agent
-          image: adityathebe/pi-coding-agent:latest
+          image: adityathebe/pi-agent-sandbox:v1
           imagePullPolicy: IfNotPresent
+          ports:
+            - name: runtime
+              containerPort: 8888
+              protocol: TCP
           resources:
             requests:
               cpu: 5m
-              memory: 16Mi
+              memory: 1Gi
             limits:
-              memory: 32Mi
+              memory: 4Gi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -26,9 +30,27 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
+          volumeMounts:
+            - name: home
+              mountPath: /home/node
+            - name: workspace
+              mountPath: /workspace
+            - name: tmp
+              mountPath: /tmp
       restartPolicy: Never
       securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
         runAsNonRoot: true
+        runAsGroup: 1000
+        runAsUser: 1000
         seccompProfile:
           type: RuntimeDefault
       terminationGracePeriodSeconds: 5
+      volumes:
+        - name: home
+          emptyDir: {}
+        - name: workspace
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
