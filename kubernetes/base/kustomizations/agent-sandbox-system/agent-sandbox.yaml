@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: agent-sandbox-controller
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: agent-sandbox-system
+  path: ./kubernetes/apps/agent-sandbox-system/agent-sandbox/controller
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: agent-sandbox
+      namespace: agent-sandbox-system
+  wait: false
+  timeout: 10m
