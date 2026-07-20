@@ -9,7 +9,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: agent
-          image: adityathebe/pi-coding-agent:latest
+          image: adityathebe/pi-agent-sandbox:v1
           imagePullPolicy: IfNotPresent
           resources:
             requests:
