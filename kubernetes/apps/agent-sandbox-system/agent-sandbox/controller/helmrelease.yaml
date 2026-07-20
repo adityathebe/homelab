@@ -47,7 +47,7 @@ spec:
     image:
       tag: v0.5.2
     controller:
-      extensions: false
+      extensions: true
     resources:
       requests:
         cpu: 10m

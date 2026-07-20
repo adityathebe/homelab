@@ -1,0 +1,91 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sandbox-router-svc
+  labels:
+    app: sandbox-router
+spec:
+  type: ClusterIP
+  selector:
+    app: sandbox-router
+  ports:
+    - name: proxy
+      port: 8080
+      protocol: TCP
+      targetPort: proxy
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sandbox-router
+  labels:
+    app: sandbox-router
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sandbox-router
+  template:
+    metadata:
+      labels:
+        app: sandbox-router
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: sandbox-router
+          image: us-central1-docker.pkg.dev/k8s-staging-images/agent-sandbox/sandbox-router-go@sha256:fd6f972942f00e159b87c59ae9137bfa40accba60c6f76c025a76f639d98e01f
+          imagePullPolicy: IfNotPresent
+          args:
+            - --http-bind-address=:8080
+            - --metrics-bind-address=:9090
+            - --health-probe-bind-address=:8081
+            - --cluster-domain=cluster.local
+            - --proxy-timeout=180s
+            - --upstream-max-retries=3
+            - --cache-enabled=false
+            - --authz-mode=allow-all
+          ports:
+            - name: proxy
+              containerPort: 8080
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+            - name: healthz
+              containerPort: 8081
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+            initialDelaySeconds: 1
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+      securityContext:
+        runAsGroup: 65532
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
