@@ -17,3 +17,7 @@ spec:
     - name: agent-sandbox-controller
   wait: true
   timeout: 10m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

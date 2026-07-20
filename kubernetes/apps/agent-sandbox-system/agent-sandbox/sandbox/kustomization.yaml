@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - router.yaml
   - template.yaml
+  - secret.sops.yaml

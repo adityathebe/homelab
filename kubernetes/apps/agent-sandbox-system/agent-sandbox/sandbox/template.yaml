@@ -53,6 +53,12 @@ spec:
         - name: agent
           image: adityathebe/pi-agent-sandbox:v2
           imagePullPolicy: IfNotPresent
+          env:
+            - name: OPENROUTER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: OPENROUTER_API_KEY
           ports:
             - name: runtime
               containerPort: 8888
