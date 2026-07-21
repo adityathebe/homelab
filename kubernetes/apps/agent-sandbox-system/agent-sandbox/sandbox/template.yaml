@@ -51,8 +51,8 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: agent
-          image: adityathebe/pi-agent-sandbox:v3
-          imagePullPolicy: IfNotPresent
+          image: adityathebe/pi-agent-sandbox:latest
+          imagePullPolicy: Always
           env:
             - name: HOME
               value: /home/node
