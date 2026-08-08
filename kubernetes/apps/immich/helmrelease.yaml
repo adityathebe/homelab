@@ -83,7 +83,18 @@ spec:
               limits:
                 memory: 4000Mi
             probes:
-              liveness: &probes
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: 2283
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness:
                 enabled: true
                 custom: true
                 spec:
@@ -94,7 +105,17 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
-              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: 2283
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 30
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
