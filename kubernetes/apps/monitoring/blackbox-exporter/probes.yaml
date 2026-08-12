@@ -48,5 +48,4 @@ spec:
   targets:
     staticConfig:
       static:
-        - https://one.one.one.one
         - https://adityathebe.com
