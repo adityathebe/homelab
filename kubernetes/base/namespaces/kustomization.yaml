@@ -10,6 +10,7 @@ resources:
   - forgejo.yaml
   - immich.yaml
   - kyverno.yaml
+  - mc.yaml
   - media.yaml
   - monitoring.yaml
   - music.yaml

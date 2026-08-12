@@ -12,6 +12,7 @@ resources:
   - immich
   - kube-system
   - kyverno
+  - mc
   - media
   - monitoring
   - music
