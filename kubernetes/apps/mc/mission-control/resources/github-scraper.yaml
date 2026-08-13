@@ -1,0 +1,11 @@
+apiVersion: configs.flanksource.com/v1
+kind: ScrapeConfig
+metadata:
+  name: adityathebe-github
+  namespace: mc
+spec:
+  schedule: '@every 5m'
+  github:
+    - repositories:
+        - owner: adityathebe
+          repo: '*'
