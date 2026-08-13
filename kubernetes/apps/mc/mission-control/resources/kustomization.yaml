@@ -5,3 +5,4 @@ namespace: mc
 resources:
   - github-scraper.yaml
   - k8s-scraper.yaml
+  - secret.sops.yaml

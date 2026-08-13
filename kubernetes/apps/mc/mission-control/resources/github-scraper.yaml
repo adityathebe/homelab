@@ -6,6 +6,11 @@ metadata:
 spec:
   schedule: '@every 5m'
   github:
-    - repositories:
+    - personalAccessToken:
+        valueFrom:
+          secretKeyRef:
+            name: aditya-gh-token
+            key: GH_TOKEN
+      repositories:
         - owner: adityathebe
           repo: '*'
