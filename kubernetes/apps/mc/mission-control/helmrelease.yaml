@@ -32,9 +32,21 @@ spec:
         host: mission-control.${HOMELAB_DOMAIN}
 
     db:
-      create: true
-      storageClass: longhorn
-      storage: 20Gi
+      create: false
+      secretKeyRef:
+        name: incident-commander-postgres
+        key: DB_URL
+
+    canary-checker:
+      db:
+        embedded:
+          persist: false
+        external:
+          enabled: true
+          create: false
+          secretKeyRef:
+            name: incident-commander-postgres
+            key: DB_URL
 
     config-db:
       db:
@@ -54,3 +66,12 @@ spec:
       oryKratosURL: https://mission-control.${HOMELAB_DOMAIN}/api/.ory
       ingress:
         enabled: false
+
+    kratos:
+      deployment:
+        extraEnv:
+          - name: DSN
+            valueFrom:
+              secretKeyRef:
+                name: incident-commander-postgres
+                key: DB_URL
