@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: mission-control
-      version: 0.1.328
+      version: 0.1.329-beta.6
       sourceRef:
         kind: HelmRepository
         name: flanksource
@@ -37,6 +37,14 @@ spec:
         name: incident-commander-postgres
         key: DB_URL
 
+    resources:
+      requests:
+        cpu: 100m
+        memory: 768Mi
+      limits:
+        cpu: 500m
+        memory: 2Gi
+
     canary-checker:
       db:
         embedded:
@@ -49,6 +57,13 @@ spec:
             key: DB_URL
 
     config-db:
+      resources:
+        requests:
+          cpu: 200m
+          memory: 1Gi
+        limits:
+          cpu: 500m
+          memory: 3Gi
       db:
         embedded:
           persist: false
