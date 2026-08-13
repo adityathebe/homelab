@@ -9,7 +9,7 @@ spec:
     - personalAccessToken:
         valueFrom:
           secretKeyRef:
-            name: aditya-gh-token
+            name: mc-secrets
             key: GH_TOKEN
       repositories:
         - owner: adityathebe

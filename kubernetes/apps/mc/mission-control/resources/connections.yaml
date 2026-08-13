@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/flanksource/mission-control/main/config/schemas/connection.schema.json
+apiVersion: mission-control.flanksource.com/v1
+kind: Connection
+metadata:
+  name: openai
+  namespace: mc
+spec:
+  openai:
+    apiKey:
+      valueFrom:
+        secretKeyRef:
+          key: OPENAI_API_KEY
+          name: mc-secrets
+    model: gpt-5.6-luna

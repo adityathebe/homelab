@@ -77,6 +77,8 @@ spec:
     ingress:
       enabled: false
 
+    llmConnection: connection://mc/openai
+
     flanksource-ui:
       oryKratosURL: https://mission-control.${HOMELAB_DOMAIN}/api/.ory
       ingress:
