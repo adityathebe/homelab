@@ -5,3 +5,4 @@ namespace: mc
 resources:
   - helmrelease.yaml
   - httproute.yaml
+  - secret.sops.yaml
