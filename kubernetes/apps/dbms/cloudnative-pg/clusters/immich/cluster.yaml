@@ -10,6 +10,17 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16-0.4.2
   primaryUpdateStrategy: unsupervised
 
+  # saliba is flaky; keep postgres instances off it
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - saliba
+
   bootstrap:
     initdb:
       database: immich

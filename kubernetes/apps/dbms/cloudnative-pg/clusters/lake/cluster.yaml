@@ -9,6 +9,17 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17
   primaryUpdateStrategy: unsupervised
 
+  # saliba is flaky; keep postgres instances off it
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - saliba
+
   storage:
     size: 8Gi
     storageClass: longhorn-local
