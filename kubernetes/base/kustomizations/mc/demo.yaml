@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: mc-demo
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: mc
+  path: ./kubernetes/apps/mc/demo
+  prune: true
+  dependsOn:
+    - name: mission-control
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  timeout: 15m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

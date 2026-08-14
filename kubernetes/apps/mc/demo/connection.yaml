@@ -1,0 +1,17 @@
+apiVersion: mission-control.flanksource.com/v1
+kind: Connection
+metadata:
+  name: mc-pg
+spec:
+  postgres:
+    username:
+      value: mc_demo
+    password:
+      valueFrom:
+        secretKeyRef:
+          name: demo-dbms
+          key: password
+    host:
+      value: lake-rw.dbms.svc.cluster.local:5432
+    database:
+      value: mc_demo

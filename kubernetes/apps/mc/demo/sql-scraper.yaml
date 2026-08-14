@@ -1,0 +1,89 @@
+apiVersion: configs.flanksource.com/v1
+kind: ScrapeConfig
+metadata:
+  name: demo-sql
+  namespace: mc
+spec:
+  schedule: '@every 60s'
+  full: true
+  sql:
+    # ── 1. The database itself as a config item ──────────────────────────
+    - connection: connection://mc/mc-pg
+      type: Postgres::Database
+      class: Database
+      id: demoapp
+      name: demoapp
+      query: |
+        SELECT json_build_object(
+          'config', json_build_object(
+            'name', current_database(),
+            'version', version(),
+            'goose_version', (SELECT max(version_id) FROM goose_db_version WHERE is_applied),
+            'tables', (SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public')
+          )
+        ) AS db
+      transform:
+        relationship:
+          # Database → the repo that owns its migrations
+          - type:
+              value: GitHub::Repository
+            name:
+              value: adityathebe/mc-demo
+            scope:
+              value: all
+
+    # ── 2. Each table's schema as a config item (diff changes come free) ─
+    - connection: connection://mc/mc-pg
+      type: Postgres::Table
+      class: DatabaseTable
+      id: $.config.table # attribute JSONPaths run before the 'config' wrapper is stripped
+      name: $.config.table
+      query: |
+        SELECT json_build_object(
+          'config', json_build_object(
+            'table', c.table_name,
+            'columns', json_agg(
+              json_build_object(
+                'name', c.column_name,
+                'type', c.data_type,
+                'nullable', c.is_nullable = 'YES',
+                'default', c.column_default
+              ) ORDER BY c.ordinal_position
+            )
+          )
+        ) AS tbl
+        FROM information_schema.columns c
+        WHERE c.table_schema = 'public'
+          AND c.table_name <> 'goose_db_version'
+        GROUP BY c.table_name
+      transform:
+        relationship:
+          # Tables nest under the database (proper parent, not just "related")
+          - parent: true
+            type:
+              value: Postgres::Database
+            name:
+              value: demoapp
+
+    # ── 3. Goose migration log → backdated MigrationApplied changes ──────
+    - connection: connection://mc/mc-pg
+      id: None
+      type: None
+      query: |
+        SELECT json_build_object(
+          'changes', json_build_array(
+            json_build_object(
+              'external_change_id', 'goose-' || id,
+              'change_type', 'MigrationApplied',
+              'external_id', 'demoapp',
+              'config_type', 'Postgres::Database',
+              'created_at', to_char(tstamp AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),
+              'source', 'goose',
+              'severity', 'info',
+              'summary', 'goose migration ' || version_id ||
+                         CASE WHEN is_applied THEN ' applied' ELSE ' rolled back' END,
+              'details', json_build_object('version_id', version_id, 'is_applied', is_applied)
+            )
+          )
+        ) AS change
+        FROM goose_db_version
