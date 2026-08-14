@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: mission-control
-      version: 0.1.329-beta.12
+      version: 0.1.329-beta.14
       sourceRef:
         kind: HelmRepository
         name: flanksource
