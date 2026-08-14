@@ -4,3 +4,4 @@ kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
   - mission-control.yaml
+  - mission-control-resources.yaml

@@ -6,4 +6,3 @@ resources:
   - helmrelease.yaml
   - httproute.yaml
   - secret.sops.yaml
-  - resources
