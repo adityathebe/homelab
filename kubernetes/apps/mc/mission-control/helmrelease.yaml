@@ -81,8 +81,6 @@ spec:
     ingress:
       enabled: false
 
-    oidc: true
-
     llmConnection: connection://mc/openai
 
     flanksource-ui:
@@ -98,3 +96,12 @@ spec:
               secretKeyRef:
                 name: incident-commander-postgres
                 key: DB_URL
+
+    mission-control-kubernetes-view:
+      views:
+        namespace:
+          ingress:
+            enabled: false
+
+        ingress:
+          enabled: false
