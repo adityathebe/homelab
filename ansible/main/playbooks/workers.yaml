@@ -21,23 +21,29 @@
         enabled: yes
         state: started
 
+    # systemd >= 258 (ubuntu 26.04) no longer reads /etc/sysctl.conf, which is
+    # the ansible sysctl module's default target. write to a sysctl.d drop-in
+    # instead — read by every systemd version, and 99- sorts last so it wins.
     - name: 'increase inotify user watches'
       sysctl:
         name: fs.inotify.max_user_watches
         value: 524288
         state: present
+        sysctl_file: /etc/sysctl.d/99-k8s.conf
 
     - name: 'increase inotify user instances'
       sysctl:
         name: fs.inotify.max_user_instances
         value: 524288
         state: present
+        sysctl_file: /etc/sysctl.d/99-k8s.conf
 
     - name: 'increase inotify queued events'
       sysctl:
         name: fs.inotify.max_queued_events
         value: 2099999999
         state: present
+        sysctl_file: /etc/sysctl.d/99-k8s.conf
 
     - name: 'disable multipath service (conflicts with longhorn)'
       systemd:
