@@ -4,7 +4,7 @@ metadata:
   name: adityathebe-github
   namespace: mc
 spec:
-  schedule: '@every 5m'
+  schedule: '@every 30m'
   github:
     - personalAccessToken:
         valueFrom:
@@ -14,3 +14,6 @@ spec:
       repositories:
         - owner: adityathebe
           repo: '*'
+      commits:
+        enabled: true
+        maxAge: 14d
