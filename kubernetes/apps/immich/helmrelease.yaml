@@ -7,7 +7,9 @@ metadata:
   namespace: immich
 spec:
   interval: 30m
-  timeout: 10m
+  # Must outlast the startup schema migration; a timeout here triggers
+  # remediation, which would roll the image back onto an already-migrated DB.
+  timeout: 30m
   chart:
     spec:
       chart: app-template
@@ -49,7 +51,7 @@ spec:
             image:
               # renovate: datasource=github-releases depName=immich-app/immich
               repository: ghcr.io/immich-app/immich-server
-              tag: 'v2.7.5'
+              tag: 'v3.0.0'
             env:
               TZ: ${TZ}
               IMMICH_MEDIA_LOCATION: /usr/src/app/upload
@@ -115,7 +117,10 @@ spec:
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
-                  failureThreshold: 30
+                  # Schema migrations run on startup before the API serves
+                  # traffic. v3.0.0 rewrites the whole `asset` table (duration
+                  # varchar -> integer), so allow 15m instead of 5m.
+                  failureThreshold: 90
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
@@ -165,7 +170,7 @@ spec:
               MPLCONFIGDIR: /cache/matplotlib-config
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.7.5@sha256:a2501141440f10516d329fdfba2c68082e19eb9ba6016c061ac80d23beadf7f3
+              tag: v3.0.0@sha256:5b480e92a2b77618d9ccae8c8110b0eae144ec9daf86715d246ec6d39cb7a553
             resources:
               limits:
                 memory: 2750Mi
