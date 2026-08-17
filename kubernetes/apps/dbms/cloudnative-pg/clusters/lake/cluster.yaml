@@ -53,6 +53,7 @@ spec:
       serverName: lake-v1
       data:
         compression: bzip2
+        immediateCheckpoint: true
       wal:
         compression: bzip2
         maxParallel: 8
