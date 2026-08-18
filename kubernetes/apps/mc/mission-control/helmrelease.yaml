@@ -35,6 +35,8 @@ spec:
       api:
         host: mission-control.${HOMELAB_DOMAIN}
 
+    artifactConnection: connection://mc/artifactstore
+
     db:
       create: false
       secretKeyRef:

@@ -32,3 +32,29 @@ spec:
         secretKeyRef:
           name: aws-personal
           key: AWS_SECRET_ACCESS_KEY
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/flanksource/mission-control/main/config/schemas/connection.schema.json
+apiVersion: mission-control.flanksource.com/v1
+kind: Connection
+metadata:
+  name: artifactstore
+  namespace: mc
+spec:
+  s3:
+    bucket: mission-control
+    region: us-east-1
+    url:
+      valueFrom:
+        secretKeyRef:
+          name: mc-secrets
+          key: VERSITY_ENDPOINT
+    accessKey:
+      valueFrom:
+        secretKeyRef:
+          name: mc-secrets
+          key: VERSITY_ACCESS_KEY_ID
+    secretKey:
+      valueFrom:
+        secretKeyRef:
+          name: mc-secrets
+          key: VERSITY_SECRET_ACCESS_KEY
