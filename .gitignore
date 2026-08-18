@@ -28,3 +28,5 @@ terraform/mcp/
 
 gcp
 *.kubeconfig
+
+.amp/portals/

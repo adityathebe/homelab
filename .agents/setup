@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly SOPS_VERSION="3.13.3"
+readonly FLUX_VERSION="2.9.4"
+readonly GITLEAKS_VERSION="8.30.1"
+readonly TERRAFORM_VERSION="1.15.8"
+readonly KUBECTL_VERSION="1.34.10"
+
+started_at=$SECONDS
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "$tmp_dir"' EXIT
+
+log() {
+    printf '[orb setup +%ss] %s\n' "$((SECONDS - started_at))" "$*"
+}
+
+download() {
+    local url=$1
+    local checksum=$2
+    local destination=$3
+
+    curl --fail --location --silent --show-error \
+        --retry 3 --retry-all-errors --connect-timeout 10 \
+        "$url" --output "$destination"
+    printf '%s  %s\n' "$checksum" "$destination" | sha256sum --check --status
+}
+
+install_apt_packages() {
+    local packages=(ca-certificates curl unzip age ansible-core pre-commit)
+    local missing=()
+    local package
+
+    for package in "${packages[@]}"; do
+        if ! dpkg-query --show --showformat='${db:Status-Status}' "$package" 2>/dev/null | grep -qx installed; then
+            missing+=("$package")
+        fi
+    done
+
+    if ((${#missing[@]} == 0)); then
+        log "Debian packages are already installed"
+        return
+    fi
+
+    log "Installing Debian packages: ${missing[*]}"
+    sudo apt-get update -qq
+    sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${missing[@]}"
+}
+
+install_sops() {
+    if command -v sops >/dev/null && sops --version 2>&1 | grep -Fq "sops ${SOPS_VERSION}"; then
+        return
+    fi
+
+    log "Installing SOPS ${SOPS_VERSION}"
+    local asset="sops-v${SOPS_VERSION}.linux.amd64"
+    download \
+        "https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/${asset}" \
+        "e5bec3346a873ae91d871550f3e698c1aad962aff462a080e40f25fde17fef6b" \
+        "$tmp_dir/$asset"
+    sudo install -m 0755 "$tmp_dir/$asset" /usr/local/bin/sops
+}
+
+install_flux() {
+    if command -v flux >/dev/null && flux --version 2>&1 | grep -Fq "flux version ${FLUX_VERSION}"; then
+        return
+    fi
+
+    log "Installing Flux ${FLUX_VERSION}"
+    local asset="flux_${FLUX_VERSION}_linux_amd64.tar.gz"
+    download \
+        "https://github.com/fluxcd/flux2/releases/download/v${FLUX_VERSION}/${asset}" \
+        "c2c397a52930f52d2005c01d276116b059d062de379386d58e98115380a766a2" \
+        "$tmp_dir/$asset"
+    tar -xzf "$tmp_dir/$asset" -C "$tmp_dir" flux
+    sudo install -m 0755 "$tmp_dir/flux" /usr/local/bin/flux
+}
+
+install_gitleaks() {
+    if command -v gitleaks >/dev/null && gitleaks version 2>&1 | grep -Fq "$GITLEAKS_VERSION"; then
+        return
+    fi
+
+    log "Installing gitleaks ${GITLEAKS_VERSION}"
+    local asset="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+    download \
+        "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${asset}" \
+        "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb" \
+        "$tmp_dir/$asset"
+    tar -xzf "$tmp_dir/$asset" -C "$tmp_dir" gitleaks
+    sudo install -m 0755 "$tmp_dir/gitleaks" /usr/local/bin/gitleaks
+}
+
+install_terraform() {
+    if command -v terraform >/dev/null && terraform version 2>&1 | grep -Fq "Terraform v${TERRAFORM_VERSION}"; then
+        return
+    fi
+
+    log "Installing Terraform ${TERRAFORM_VERSION}"
+    local asset="terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
+    download \
+        "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${asset}" \
+        "d25ce7b6902013ad905db3d2eab0be4cd905887fe88b81a6171b8d5503c31f3d" \
+        "$tmp_dir/$asset"
+    unzip -q "$tmp_dir/$asset" -d "$tmp_dir/terraform"
+    sudo install -m 0755 "$tmp_dir/terraform/terraform" /usr/local/bin/terraform
+}
+
+install_kubectl() {
+    if command -v kubectl >/dev/null && kubectl version --client 2>&1 | grep -Fq "Client Version: v${KUBECTL_VERSION}"; then
+        return
+    fi
+
+    log "Installing kubectl ${KUBECTL_VERSION}"
+    download \
+        "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl" \
+        "95bd70842bd11a524d24acd5b68726899e3488e153e45e2b4ae846545beda050" \
+        "$tmp_dir/kubectl"
+    sudo install -m 0755 "$tmp_dir/kubectl" /usr/local/bin/kubectl
+}
+
+if [[ "$(uname -m)" != "x86_64" ]]; then
+    printf 'Unsupported orb architecture: %s\n' "$(uname -m)" >&2
+    exit 1
+fi
+
+cd "$(dirname "$0")/.."
+
+install_apt_packages
+install_sops
+install_flux
+install_gitleaks
+install_terraform
+install_kubectl
+
+log "Installing pre-commit hook environments"
+pre-commit install --install-hooks
+
+log "Initializing Terraform providers"
+mkdir -p "$HOME/.cache/terraform/plugin-cache"
+for terraform_dir in terraform/aws terraform/cloudflare; do
+    TF_PLUGIN_CACHE_DIR="$HOME/.cache/terraform/plugin-cache" \
+        terraform -chdir="$terraform_dir" init -backend=false -input=false -lockfile=readonly -no-color
+done
+
+log "Setup complete"
