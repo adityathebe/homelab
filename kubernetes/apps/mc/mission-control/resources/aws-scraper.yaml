@@ -7,6 +7,7 @@ spec:
   aws:
     - connection: connection://mc/aws-personal
       region:
+        - us-east-1
         - eu-west-2
       exclude:
         - trusted_advisor
