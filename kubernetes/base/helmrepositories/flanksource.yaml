@@ -7,4 +7,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 2h
+  timeout: 5m
   url: https://flanksource.github.io/charts
