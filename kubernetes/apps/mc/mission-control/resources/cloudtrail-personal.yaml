@@ -1,0 +1,111 @@
+---
+apiVersion: configs.flanksource.com/v1
+kind: ScrapeConfig
+metadata:
+  name: clickhouse-cloudtrail
+spec:
+  full: true
+  logLevel: trace
+  schedule: '@every 15m'
+  clickhouse:
+    - awsS3:
+        connection: connection://mc/aws-personal
+        region:
+          - us-east-1 # region of the CloudTrail bucket
+        bucket: cloudtrail-logs-830064254263
+        path: AWSLogs/*/CloudTrail/{eu-west-1,us-east-1}/*/*/*/*.json.gz
+        format: JSONAsString
+        structure: json String
+      query: |
+        WITH
+          JSONExtractString(event, 'eventSource') AS src
+        SELECT
+          JSONExtractString(event, 'eventID')            AS event_id,
+          JSONExtractString(event, 'eventName')          AS event_name,
+          JSONExtractString(event, 'eventTime')          AS event_time,
+          JSONExtractString(event, 'awsRegion')          AS aws_region,
+          JSONExtractString(event, 'recipientAccountId') AS account_id,
+          tupleElement(ref, 1)                           AS resource_name,
+          tupleElement(ref, 2)                           AS resource_type,
+          event                                          AS event_json
+        FROM (
+          SELECT
+            event,
+            arrayDistinct(arrayFilter(t -> tupleElement(t, 1) != '' AND tupleElement(t, 2) != '', arrayConcat(
+              -- resources[] as recorded in the raw event (IAM, STS, KMS, ...);
+              -- ResourceName == last ARN segment, e.g. role/MyRole -> MyRole
+              arrayMap(r -> (arrayElement(splitByRegexp('[:/]', JSONExtractString(r, 'ARN')), -1),
+                            JSONExtractString(r, 'type')),
+                      JSONExtractArrayRaw(event, 'resources')),
+              -- EC2 instances (RunInstances, TerminateInstances, Stop/Start, ...)
+              arrayMap(i -> (JSONExtractString(i, 'instanceId'), 'AWS::EC2::Instance'),
+                      arrayConcat(
+                        JSONExtractArrayRaw(event, 'responseElements', 'instancesSet', 'items'),
+                        JSONExtractArrayRaw(event, 'requestParameters', 'instancesSet', 'items'))),
+              if(src = 'ec2.amazonaws.com', [
+                (JSONExtractString(event, 'requestParameters', 'volumeId'),           'AWS::EBS::Volume'),
+                (JSONExtractString(event, 'responseElements',  'volumeId'),           'AWS::EBS::Volume'),
+                (JSONExtractString(event, 'requestParameters', 'groupId'),            'AWS::EC2::SecurityGroup'),
+                (JSONExtractString(event, 'responseElements',  'groupId'),            'AWS::EC2::SecurityGroup'),
+                (JSONExtractString(event, 'requestParameters', 'vpcId'),              'AWS::EC2::VPC'),
+                (JSONExtractString(event, 'responseElements',  'vpc', 'vpcId'),       'AWS::EC2::VPC'),
+                (JSONExtractString(event, 'requestParameters', 'subnetId'),           'AWS::EC2::Subnet'),
+                (JSONExtractString(event, 'responseElements',  'subnet', 'subnetId'), 'AWS::EC2::Subnet'),
+                (JSONExtractString(event, 'requestParameters', 'imageId'),            'AWS::EC2::AMI')
+              ], []),
+              if(src = 's3.amazonaws.com', [
+                (JSONExtractString(event, 'requestParameters', 'bucketName'), 'AWS::S3::Bucket')
+              ], []),
+              if(src = 'iam.amazonaws.com', [
+                (JSONExtractString(event, 'requestParameters', 'roleName'),            'AWS::IAM::Role'),
+                (JSONExtractString(event, 'requestParameters', 'userName'),            'AWS::IAM::User'),
+                (JSONExtractString(event, 'requestParameters', 'instanceProfileName'), 'AWS::IAM::InstanceProfile')
+              ], []),
+              if(src = 'rds.amazonaws.com', [
+                (JSONExtractString(event, 'requestParameters', 'dBInstanceIdentifier'), 'AWS::RDS::DBInstance'),
+                (JSONExtractString(event, 'requestParameters', 'dbInstanceIdentifier'), 'AWS::RDS::DBInstance')
+              ], []),
+              if(src = 'eks.amazonaws.com', [
+                (JSONExtractString(event, 'requestParameters', 'name'), 'AWS::EKS::Cluster')
+              ], []),
+              if(src = 'elasticloadbalancing.amazonaws.com', [
+                (JSONExtractString(event, 'requestParameters', 'loadBalancerName'), 'AWS::ElasticLoadBalancing::LoadBalancer')
+              ], [])
+            ))) AS refs
+          FROM scrape_table
+          ARRAY JOIN JSONExtractArrayRaw(json, 'Records') AS event
+          WHERE (
+              _path LIKE concat('%/', formatDateTime(today(),     '%Y/%m/%d'), '/%')
+            OR _path LIKE concat('%/', formatDateTime(today() - 1, '%Y/%m/%d'), '/%')
+            OR _path LIKE concat('%/', formatDateTime(today() - 2, '%Y/%m/%d'), '/%')
+          )
+            AND parseDateTimeBestEffort(JSONExtractString(event, 'eventTime')) >= now() - INTERVAL 36 HOUR
+            AND NOT JSONExtractBool(event, 'readOnly')
+            AND (JSONExtractBool(event, 'managementEvent') OR NOT JSONHas(event, 'managementEvent'))
+            AND NOT startsWith(JSONExtractString(event, 'eventName'), 'AssumeRole')
+        )
+        ARRAY JOIN refs AS ref
+      id: None
+      type: None
+      transform:
+        expr: |
+          [{
+            "changes": [{
+              "external_id": config.resource_name,
+              "config_type": config.resource_type,
+              "external_change_id": config.event_id,
+              "change_type": config.event_name,
+              "created_at": config.event_time,
+              "source": "AWS::CloudTrail::" + config.aws_region + ":" + config.account_id,
+              "details": config.event_json.JSON().merge({"Event": config.event_json})
+            }]
+          }].toJSON()
+        changes:
+          exclude:
+            - change_type in ['AttachNetworkInterface', 'CreateNetworkInterface',
+              'DeregisterInstancesFromLoadBalancer',
+              'RegisterInstancesWithLoadBalancer']
+          mapping:
+            - action: delete
+              filter: change.change_type == 'TerminateInstances'
+
