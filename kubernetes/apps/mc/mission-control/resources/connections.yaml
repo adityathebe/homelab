@@ -13,3 +13,22 @@ spec:
           key: OPENAI_API_KEY
           name: mc-secrets
     model: gpt-5.6-terra
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/flanksource/mission-control/main/config/schemas/connection.schema.json
+apiVersion: mission-control.flanksource.com/v1
+kind: Connection
+metadata:
+  name: aws-personal
+  namespace: mc
+spec:
+  aws:
+    accessKey:
+      valueFrom:
+        secretKeyRef:
+          name: aws-personal
+          key: AWS_ACCESS_KEY_ID
+    secretKey:
+      valueFrom:
+        secretKeyRef:
+          name: aws-personal
+          key: AWS_SECRET_ACCESS_KEY

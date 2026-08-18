@@ -1,0 +1,13 @@
+apiVersion: configs.flanksource.com/v1
+kind: ScrapeConfig
+metadata:
+  name: aws-personal
+spec:
+  schedule: '@every 15m'
+  aws:
+    - connection: connection://mc/aws-personal
+      region:
+        - eu-west-2
+      exclude:
+        - trusted_advisor
+        - cloudtrail
