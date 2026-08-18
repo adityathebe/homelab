@@ -61,6 +61,8 @@ spec:
             key: DB_URL
 
     config-db:
+      clickhouse:
+        enabled: true
       resources:
         requests:
           cpu: 200m
