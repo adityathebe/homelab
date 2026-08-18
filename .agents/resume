@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+required_commands=(age ansible-playbook flux gitleaks kubectl pre-commit sops terraform)
+missing_commands=()
+
+for command in "${required_commands[@]}"; do
+    if ! command -v "$command" >/dev/null; then
+        missing_commands+=("$command")
+    fi
+done
+
+if ((${#missing_commands[@]})); then
+    printf 'Orb toolchain is incomplete; rerun .agents/setup (missing: %s)\n' "${missing_commands[*]}" >&2
+    exit 1
+fi
+
+printf 'Orb toolchain is ready; no persistent services need resuming.\n'
