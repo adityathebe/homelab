@@ -6,6 +6,7 @@ readonly FLUX_VERSION="2.9.4"
 readonly GITLEAKS_VERSION="8.30.1"
 readonly TERRAFORM_VERSION="1.15.8"
 readonly KUBECTL_VERSION="1.34.10"
+readonly TAILSCALE_VERSION="1.102.2"
 
 started_at=$SECONDS
 tmp_dir="$(mktemp -d)"
@@ -119,6 +120,41 @@ install_kubectl() {
     sudo install -m 0755 "$tmp_dir/kubectl" /usr/local/bin/kubectl
 }
 
+install_tailscale() {
+    if command -v tailscale >/dev/null && tailscale version 2>&1 | sed -n '1p' | grep -Fxq "$TAILSCALE_VERSION"; then
+        return
+    fi
+
+    log "Installing Tailscale ${TAILSCALE_VERSION}"
+    sudo install -m 0755 -d /usr/share/keyrings /etc/apt/sources.list.d
+    curl --fail --location --silent --show-error \
+        --retry 3 --retry-all-errors --connect-timeout 10 \
+        https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg \
+        --output "$tmp_dir/tailscale-archive-keyring.gpg"
+    curl --fail --location --silent --show-error \
+        --retry 3 --retry-all-errors --connect-timeout 10 \
+        https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list \
+        --output "$tmp_dir/tailscale.list"
+    sudo install -m 0644 "$tmp_dir/tailscale-archive-keyring.gpg" \
+        /usr/share/keyrings/tailscale-archive-keyring.gpg
+    sudo install -m 0644 "$tmp_dir/tailscale.list" /etc/apt/sources.list.d/tailscale.list
+    sudo apt-get update -qq
+    sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        "tailscale=${TAILSCALE_VERSION}"
+}
+
+configure_tailscale() {
+    log "Configuring Tailscale for the Orb network"
+    sudo install -m 0755 -d /etc/systemd/system/tailscaled.service.d
+    sudo tee /etc/systemd/system/tailscaled.service.d/amp-orb.conf >/dev/null <<'EOF'
+[Service]
+Environment=TS_ASSUME_NETWORK_UP_FOR_TEST=true
+EOF
+    sudo systemctl daemon-reload
+    sudo systemctl enable tailscaled
+    sudo systemctl restart tailscaled
+}
+
 if [[ "$(uname -m)" != "x86_64" ]]; then
     printf 'Unsupported orb architecture: %s\n' "$(uname -m)" >&2
     exit 1
@@ -132,6 +168,8 @@ install_flux
 install_gitleaks
 install_terraform
 install_kubectl
+install_tailscale
+configure_tailscale
 
 log "Installing pre-commit hook environments"
 pre-commit install --install-hooks
@@ -142,5 +180,8 @@ for terraform_dir in terraform/aws terraform/cloudflare; do
     TF_PLUGIN_CACHE_DIR="$HOME/.cache/terraform/plugin-cache" \
         terraform -chdir="$terraform_dir" init -backend=false -input=false -lockfile=readonly -no-color
 done
+
+log "Connecting the Orb to Tailscale"
+./.agents/resume
 
 log "Setup complete"

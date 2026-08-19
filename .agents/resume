@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-required_commands=(age ansible-playbook aws flux gitleaks kubectl pre-commit sops terraform)
+required_commands=(age ansible-playbook aws flux gitleaks kubectl pre-commit sops tailscale terraform)
 missing_commands=()
 
 for command in "${required_commands[@]}"; do
@@ -15,4 +15,27 @@ if ((${#missing_commands[@]})); then
     exit 1
 fi
 
-printf 'Orb toolchain is ready; no persistent services need resuming.\n'
+: "${AMP_THREAD_ID:?AMP_THREAD_ID is required in an Amp Orb}"
+: "${TAILSCALE_CLIENT_ID:?Set TAILSCALE_CLIENT_ID in the Amp project environment}"
+: "${TAILSCALE_AUDIENCE:?Set TAILSCALE_AUDIENCE in the Amp project environment}"
+
+sudo systemctl start tailscaled
+
+token_file="$(mktemp)"
+trap 'rm -f "$token_file"' EXIT
+chmod 600 "$token_file"
+amp orb id-token --audience "$TAILSCALE_AUDIENCE" >"$token_file"
+
+sudo tailscale up \
+    --client-id="${TAILSCALE_CLIENT_ID}?ephemeral=true&preauthorized=true" \
+    --id-token="file:$token_file" \
+    --advertise-tags=tag:amp-orb \
+    --hostname="amp-${AMP_THREAD_ID#T-}" \
+    --timeout=20s
+
+rm -f "$token_file"
+trap - EXIT
+
+tailscale configure kubeconfig tailscale-operator
+
+printf 'Orb toolchain and Tailscale connection are ready.\n'
