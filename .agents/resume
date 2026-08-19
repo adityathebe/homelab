@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-required_commands=(age ansible-playbook aws flux gitleaks kubectl pre-commit sops tailscale terraform)
+required_commands=(age ansible-playbook aws flux gitleaks kubectl pre-commit python3 sops tailscale terraform)
 missing_commands=()
 
 for command in "${required_commands[@]}"; do
@@ -15,7 +15,6 @@ if ((${#missing_commands[@]})); then
     exit 1
 fi
 
-: "${AMP_THREAD_ID:?AMP_THREAD_ID is required in an Amp Orb}"
 : "${TAILSCALE_CLIENT_ID:?Set TAILSCALE_CLIENT_ID in the Amp project environment}"
 : "${TAILSCALE_AUDIENCE:?Set TAILSCALE_AUDIENCE in the Amp project environment}"
 
@@ -26,11 +25,23 @@ trap 'rm -f "$token_file"' EXIT
 chmod 600 "$token_file"
 amp orb id-token --audience "$TAILSCALE_AUDIENCE" >"$token_file"
 
+thread_id="$(TOKEN_FILE="$token_file" python3 - <<'PY'
+import base64
+import json
+import os
+
+token = open(os.environ["TOKEN_FILE"], encoding="utf-8").read().strip()
+payload = token.split(".")[1]
+payload += "=" * (-len(payload) % 4)
+print(json.loads(base64.urlsafe_b64decode(payload))["thread_id"])
+PY
+)"
+
 sudo tailscale up \
     --client-id="${TAILSCALE_CLIENT_ID}?ephemeral=true&preauthorized=true" \
     --id-token="file:$token_file" \
     --advertise-tags=tag:amp-orb \
-    --hostname="amp-${AMP_THREAD_ID#T-}" \
+    --hostname="amp-${thread_id#T-}" \
     --timeout=20s
 
 rm -f "$token_file"
