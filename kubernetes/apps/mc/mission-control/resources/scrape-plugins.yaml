@@ -30,3 +30,239 @@ spec:
       type:
         value: CNPG::Cluster
       parent: true
+---
+apiVersion: configs.flanksource.com/v1
+kind: ScrapePlugin
+metadata:
+  name: longhorn
+spec:
+  configs:
+    mapping:
+      - match: >-
+          config_type.startsWith("Kubernetes::") &&
+          has(config.apiVersion) &&
+          config.apiVersion.startsWith("longhorn.io/") &&
+          has(config.kind)
+        type:
+          expr: '"Longhorn::" + config.kind'
+
+  relationship:
+    - filter: 'config_type == "Longhorn::BackingImageDataSource"'
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/BackingImage/" + tags.namespace + "/" + name).lowerAscii()'
+      type:
+        value: Longhorn::BackingImage
+      parent: true
+
+    - filter: >-
+        config_type in [
+          "Longhorn::BackupBackingImage",
+          "Longhorn::BackupVolume"
+        ] &&
+        has(config.spec.backupTargetName) &&
+        config.spec.backupTargetName != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/BackupTarget/" + tags.namespace + "/" + config.spec.backupTargetName).lowerAscii()'
+      type:
+        value: Longhorn::BackupTarget
+      parent: true
+
+    # BackupVolume names include a target-specific hash, so the owner reference is
+    # the only stable way to resolve the exact parent from a Backup.
+    - filter: >-
+        config_type == "Longhorn::Backup" &&
+        has(config.metadata.ownerReferences)
+      expr: |
+        config.metadata.ownerReferences.
+          filter(owner, owner.apiVersion.startsWith("longhorn.io/") && owner.kind == "BackupVolume").
+          map(owner, {
+            "type": "Longhorn::BackupVolume",
+            "external_id": ("Kubernetes/" + tags.cluster + "/BackupVolume/" + tags.namespace + "/" + owner.name).lowerAscii()
+          }).
+          toJSON()
+      parent: true
+
+    - filter: >-
+        config_type in [
+          "Longhorn::EngineFrontend",
+          "Longhorn::Engine",
+          "Longhorn::Replica"
+        ] &&
+        has(config.spec.volumeName) &&
+        config.spec.volumeName != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Volume/" + tags.namespace + "/" + config.spec.volumeName).lowerAscii()'
+      type:
+        value: Longhorn::Volume
+      parent: true
+
+    - filter: 'config_type == "Longhorn::ShareManager"'
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Volume/" + tags.namespace + "/" + name).lowerAscii()'
+      type:
+        value: Longhorn::Volume
+      parent: true
+
+    - filter: >-
+        config_type == "Longhorn::Snapshot" &&
+        has(config.spec.volume) &&
+        config.spec.volume != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Volume/" + tags.namespace + "/" + config.spec.volume).lowerAscii()'
+      type:
+        value: Longhorn::Volume
+      parent: true
+
+    - filter: >-
+        config_type == "Longhorn::VolumeAttachment" &&
+        has(config.spec.volume) &&
+        config.spec.volume != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Volume/" + tags.namespace + "/" + config.spec.volume).lowerAscii()'
+      type:
+        value: Longhorn::Volume
+      parent: true
+
+    - filter: >-
+        config_type in [
+          "Longhorn::BackingImageManager",
+          "Longhorn::InstanceManager",
+          "Longhorn::Orphan",
+          "Longhorn::SupportBundle"
+        ] &&
+        has(config.spec.nodeID) &&
+        config.spec.nodeID != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Node/" + tags.namespace + "/" + config.spec.nodeID).lowerAscii()'
+      type:
+        value: Longhorn::Node
+      parent: true
+
+    - filter: 'config_type == "Longhorn::Node"'
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Node//" + name).lowerAscii()'
+      type:
+        value: Kubernetes::Node
+      parent: true
+
+    - filter: >-
+        config_type == "Longhorn::SystemRestore" &&
+        has(config.spec.systemBackup) &&
+        config.spec.systemBackup != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/SystemBackup/" + tags.namespace + "/" + config.spec.systemBackup).lowerAscii()'
+      type:
+        value: Longhorn::SystemBackup
+      parent: true
+
+    - filter: >-
+        config_type in [
+          "Longhorn::BackingImageDataSource",
+          "Longhorn::EngineFrontend",
+          "Longhorn::Engine",
+          "Longhorn::Replica",
+          "Longhorn::Volume"
+        ] &&
+        has(config.spec.nodeID) &&
+        config.spec.nodeID != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Node/" + tags.namespace + "/" + config.spec.nodeID).lowerAscii()'
+      type:
+        value: Longhorn::Node
+
+    - filter: >-
+        config_type in [
+          "Longhorn::BackupBackingImage",
+          "Longhorn::Replica",
+          "Longhorn::Volume"
+        ] &&
+        has(config.spec.backingImage) &&
+        config.spec.backingImage != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/BackingImage/" + tags.namespace + "/" + config.spec.backingImage).lowerAscii()'
+      type:
+        value: Longhorn::BackingImage
+
+    - filter: >-
+        config_type == "Longhorn::BackupVolume" &&
+        has(config.spec.volumeName) &&
+        config.spec.volumeName != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Volume/" + tags.namespace + "/" + config.spec.volumeName).lowerAscii()'
+      type:
+        value: Longhorn::Volume
+
+    - filter: >-
+        config_type == "Longhorn::Backup" &&
+        has(config.spec.snapshotName) &&
+        config.spec.snapshotName != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Snapshot/" + tags.namespace + "/" + config.spec.snapshotName).lowerAscii()'
+      type:
+        value: Longhorn::Snapshot
+
+    - filter: >-
+        config_type == "Longhorn::Backup" &&
+        has(config.status.volumeName) &&
+        config.status.volumeName != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Volume/" + tags.namespace + "/" + config.status.volumeName).lowerAscii()'
+      type:
+        value: Longhorn::Volume
+
+    - filter: >-
+        config_type == "Longhorn::Backup" &&
+        has(config.status.backupTargetName) &&
+        config.status.backupTargetName != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/BackupTarget/" + tags.namespace + "/" + config.status.backupTargetName).lowerAscii()'
+      type:
+        value: Longhorn::BackupTarget
+
+    - filter: >-
+        config_type in [
+          "Longhorn::EngineFrontend",
+          "Longhorn::Replica"
+        ] &&
+        has(config.spec.engineName) &&
+        config.spec.engineName != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/Engine/" + tags.namespace + "/" + config.spec.engineName).lowerAscii()'
+      type:
+        value: Longhorn::Engine
+
+    - filter: >-
+        config_type == "Longhorn::Volume" &&
+        has(config.spec.backupTargetName) &&
+        config.spec.backupTargetName != ""
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/BackupTarget/" + tags.namespace + "/" + config.spec.backupTargetName).lowerAscii()'
+      type:
+        value: Longhorn::BackupTarget
+
+    # Ignore stale Kubernetes bindings retained after a PVC has been deleted.
+    - filter: >-
+        config_type == "Longhorn::Volume" &&
+        has(config.status.kubernetesStatus) &&
+        has(config.status.kubernetesStatus.pvName) &&
+        config.status.kubernetesStatus.pvName != "" &&
+        (!has(config.status.kubernetesStatus.lastPVCRefAt) ||
+          config.status.kubernetesStatus.lastPVCRefAt == "")
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/PersistentVolume//" + config.status.kubernetesStatus.pvName).lowerAscii()'
+      type:
+        value: Kubernetes::PersistentVolume
+
+    - filter: >-
+        config_type == "Longhorn::Volume" &&
+        has(config.status.kubernetesStatus) &&
+        has(config.status.kubernetesStatus.pvcName) &&
+        config.status.kubernetesStatus.pvcName != "" &&
+        has(config.status.kubernetesStatus.namespace) &&
+        config.status.kubernetesStatus.namespace != "" &&
+        (!has(config.status.kubernetesStatus.lastPVCRefAt) ||
+          config.status.kubernetesStatus.lastPVCRefAt == "")
+      external_id:
+        expr: '("Kubernetes/" + tags.cluster + "/PersistentVolumeClaim/" + config.status.kubernetesStatus.namespace + "/" + config.status.kubernetesStatus.pvcName).lowerAscii()'
+      type:
+        value: Kubernetes::PersistentVolumeClaim

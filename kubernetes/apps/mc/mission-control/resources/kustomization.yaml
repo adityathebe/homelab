@@ -9,4 +9,5 @@ resources:
   - connections.yaml
   - github-scraper.yaml
   - k8s-scraper.yaml
+  - scrape-plugins.yaml
   - secret.sops.yaml
