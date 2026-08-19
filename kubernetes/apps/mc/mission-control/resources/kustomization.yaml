@@ -5,6 +5,7 @@ namespace: mc
 resources:
   - aws-personal.secret.sops.yaml
   - aws-scraper.yaml
+  - cloudtrail-personal.yaml
   - connections.yaml
   - github-scraper.yaml
   - k8s-scraper.yaml
