@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-required_commands=(age ansible-playbook flux gitleaks kubectl pre-commit sops terraform)
+required_commands=(age ansible-playbook aws flux gitleaks kubectl pre-commit sops terraform)
 missing_commands=()
 
 for command in "${required_commands[@]}"; do

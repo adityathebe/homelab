@@ -27,7 +27,7 @@ download() {
 }
 
 install_apt_packages() {
-    local packages=(ca-certificates curl unzip age ansible-core pre-commit)
+    local packages=(ca-certificates curl unzip age ansible-core awscli pre-commit)
     local missing=()
     local package
 
