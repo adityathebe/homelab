@@ -1,3 +1,5 @@
+data "aws_partition" "current" {}
+
 resource "aws_iam_user" "ampcode" {
   name = "ampcode"
 }
