@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_path="$(readlink -f "$0")"
+repo_root="$(cd "$(dirname "$script_path")/.." && pwd)"
+
+if ! tailscale ip -4 >/dev/null 2>&1 || \
+    ! /usr/local/bin/kubectl.real config current-context >/dev/null 2>&1; then
+    "$repo_root/.agents/resume" >&2
+fi
+
+if ! tailscale ip -4 >/dev/null 2>&1 || \
+    ! /usr/local/bin/kubectl.real config current-context >/dev/null 2>&1; then
+    printf 'Unable to initialize Tailscale Kubernetes access.\n' >&2
+    exit 1
+fi
+
+exec /usr/local/bin/kubectl.real "$@"

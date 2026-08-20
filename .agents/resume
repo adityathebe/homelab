@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-required_commands=(age ansible-playbook aws flux gitleaks kubectl pre-commit python3 sops tailscale terraform)
-missing_commands=()
-
-for command in "${required_commands[@]}"; do
-    if ! command -v "$command" >/dev/null; then
-        missing_commands+=("$command")
-    fi
-done
-
-if ((${#missing_commands[@]})); then
-    printf 'Orb toolchain is incomplete; rerun .agents/setup (missing: %s)\n' "${missing_commands[*]}" >&2
+if ! command -v tailscale >/dev/null || [[ ! -x /usr/local/bin/kubectl.real ]]; then
+    printf 'Tailscale or kubectl is missing; rerun .agents/setup.\n' >&2
     exit 1
 fi
 
@@ -20,10 +11,19 @@ fi
 
 sudo systemctl start tailscaled
 
+if tailscale ip -4 >/dev/null 2>&1 && \
+    /usr/local/bin/kubectl.real config current-context >/dev/null 2>&1; then
+    printf 'Tailscale Kubernetes access is ready.\n'
+    exit 0
+fi
+
 token_file="$(mktemp)"
 trap 'rm -f "$token_file"' EXIT
 chmod 600 "$token_file"
-amp orb id-token --audience "$TAILSCALE_AUDIENCE" >"$token_file"
+if ! amp orb id-token --audience "$TAILSCALE_AUDIENCE" >"$token_file"; then
+    printf 'Amp OIDC is not available yet; deferring Tailscale connection.\n' >&2
+    exit 0
+fi
 
 thread_id="$(TOKEN_FILE="$token_file" python3 - <<'PY'
 import base64
