@@ -6,6 +6,7 @@ namespace: storage
 resources:
   - helmrelease.yaml
   - httproute.yaml
+  - networkpolicy.yaml
   - secret.sops.yaml
   - storage-class.yaml
   - recurring-jobs.yaml
