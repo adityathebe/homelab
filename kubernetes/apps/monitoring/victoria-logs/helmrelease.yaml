@@ -24,8 +24,10 @@ spec:
         grafana_dashboard: "1"
     fullnameOverride: victoria-logs
     server:
+      enabled: true
       persistentVolume:
         enabled: true
+        existingClaim: victoria-logs-restored
         storageClassName: longhorn
         size: 20Gi
       resources:
