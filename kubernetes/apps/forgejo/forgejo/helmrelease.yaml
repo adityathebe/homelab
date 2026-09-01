@@ -70,6 +70,9 @@ spec:
       tag: 15.0.2-rootless
     containerSecurityContext:
       allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
     persistence:
       enabled: true
       create: false

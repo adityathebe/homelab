@@ -15,7 +15,7 @@ metadata:
       ability. Note that this policy also illustrates how to cover drop entries in any
       case although this may not strictly conform to the Pod Security Standards.
 spec:
-  validationFailureAction: Audit
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: require-drop-all
@@ -27,11 +27,43 @@ spec:
       exclude:
         any:
         - resources:
-            kinds:
-              - Pod
+            namespaces:
+              - agent-sandbox-system
+            selector:
+              matchExpressions:
+                - key: agents.x-k8s.io/sandbox-name-hash
+                  operator: Exists
+        - resources:
             namespaces:
               - storage
-              - agent-sandbox-system
+            names:
+              - csi-attacher*
+              - csi-provisioner*
+              - csi-resizer*
+              - csi-snapshotter*
+              - engine-image-*
+              - instance-manager-*
+              - longhorn-csi-plugin*
+              - longhorn-manager*
+              - share-manager-*
+        - resources:
+            namespaces:
+              - storage
+            selector:
+              matchExpressions:
+                - key: longhorn.io/managed-by
+                  operator: Exists
+        - resources:
+            namespaces:
+              - kube-system
+            names:
+              - kube-vip*
+              - metrics-server*
+        - resources:
+            namespaces:
+              - network
+            names:
+              - ts-subnet-router-*
       preconditions:
         all:
         - key: "{{ request.operation || 'BACKGROUND' }}"

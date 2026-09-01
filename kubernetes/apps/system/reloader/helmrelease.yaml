@@ -28,6 +28,9 @@ spec:
       deployment:
         containerSecurityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
             cpu: 5m

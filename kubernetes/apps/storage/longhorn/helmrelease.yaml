@@ -42,10 +42,16 @@ spec:
                       - name: wait-longhorn-manager
                         securityContext:
                           allowPrivilegeEscalation: false
+                          capabilities:
+                            drop:
+                              - ALL
                     containers:
                       - name: longhorn-driver-deployer
                         securityContext:
                           allowPrivilegeEscalation: false
+                          capabilities:
+                            drop:
+                              - ALL
           - target:
               group: apps
               version: v1
@@ -63,6 +69,9 @@ spec:
                       - name: longhorn-ui
                         securityContext:
                           allowPrivilegeEscalation: false
+                          capabilities:
+                            drop:
+                              - ALL
           - target:
               group: batch
               version: v1
@@ -80,6 +89,9 @@ spec:
                       - name: longhorn-pre-upgrade
                         securityContext:
                           allowPrivilegeEscalation: false
+                          capabilities:
+                            drop:
+                              - ALL
           - target:
               group: batch
               version: v1
@@ -97,6 +109,9 @@ spec:
                       - name: longhorn-post-upgrade
                         securityContext:
                           allowPrivilegeEscalation: false
+                          capabilities:
+                            drop:
+                              - ALL
           - target:
               group: batch
               version: v1
@@ -114,6 +129,9 @@ spec:
                       - name: longhorn-uninstall
                         securityContext:
                           allowPrivilegeEscalation: false
+                          capabilities:
+                            drop:
+                              - ALL
   values:
     csi:
       attacherReplicaCount: 2

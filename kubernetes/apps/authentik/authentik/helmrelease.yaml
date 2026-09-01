@@ -42,11 +42,17 @@ spec:
           image: ghcr.io/onedr0p/postgres-init:16
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           envFrom:
             - secretRef:
                 name: authentik-secret
       containerSecurityContext:
         allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
       resources:
         requests:
           cpu: 100m
@@ -72,11 +78,17 @@ spec:
           image: ghcr.io/onedr0p/postgres-init:16
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           envFrom:
             - secretRef:
                 name: authentik-secret
       containerSecurityContext:
         allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
       resources:
         requests:
           cpu: 100m

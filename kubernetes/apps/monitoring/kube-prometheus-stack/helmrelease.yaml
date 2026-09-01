@@ -88,6 +88,9 @@ spec:
     prometheus-node-exporter:
       containerSecurityContext:
         allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
       resources:
         requests:
           cpu: 50m
