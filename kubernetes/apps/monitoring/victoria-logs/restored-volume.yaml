@@ -24,6 +24,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: victoria-logs-restored
   namespace: monitoring
+  labels:
+    recurring-job.longhorn.io/source: enabled
+    recurring-job-group.longhorn.io/r2: enabled
 spec:
   accessModes:
     - ReadWriteOnce
