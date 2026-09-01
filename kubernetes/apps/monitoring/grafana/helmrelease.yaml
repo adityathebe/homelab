@@ -27,6 +27,9 @@ spec:
     replicas: 1
     containerSecurityContext:
       readOnlyRootFilesystem: true
+    extraEmptyDirMounts:
+      - name: tmp
+        mountPath: /tmp
     env:
       GF_ANALYTICS_REPORTING_ENABLED: "false"
       GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
