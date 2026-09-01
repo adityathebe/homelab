@@ -13,7 +13,7 @@ metadata:
       Privileged mode disables most security mechanisms and must not be allowed. This policy
       ensures Pods do not call for privileged mode.
 spec:
-  validationFailureAction: Audit
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: privileged-containers
@@ -25,10 +25,26 @@ spec:
       exclude:
         any:
         - resources:
-            kinds:
-              - Pod
             namespaces:
               - storage
+            names:
+              - engine-image-*
+              - instance-manager-*
+              - longhorn-csi-plugin*
+              - longhorn-manager*
+              - share-manager-*
+        - resources:
+            namespaces:
+              - kube-system
+            names:
+              - intel-gpu-resource-driver-kubelet-plugin*
+        - resources:
+            namespaces:
+              - network
+            names:
+              - csi-smb-controller*
+              - csi-smb-node*
+              - ts-subnet-router-*
       validate:
         message: >-
           Privileged mode is disallowed. The fields spec.containers[*].securityContext.privileged,
