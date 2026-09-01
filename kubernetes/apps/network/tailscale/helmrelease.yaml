@@ -20,6 +20,8 @@ spec:
       hostname: tailscale-operator
       defaultTags:
         - tag:k8s
+      securityContext:
+        allowPrivilegeEscalation: false
       resources:
         requests:
           cpu: 100m

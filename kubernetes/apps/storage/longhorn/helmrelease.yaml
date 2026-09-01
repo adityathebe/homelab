@@ -22,6 +22,98 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+              name: longhorn-driver-deployer
+            patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: longhorn-driver-deployer
+              spec:
+                template:
+                  spec:
+                    initContainers:
+                      - name: wait-longhorn-manager
+                        securityContext:
+                          allowPrivilegeEscalation: false
+                    containers:
+                      - name: longhorn-driver-deployer
+                        securityContext:
+                          allowPrivilegeEscalation: false
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+              name: longhorn-ui
+            patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: longhorn-ui
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: longhorn-ui
+                        securityContext:
+                          allowPrivilegeEscalation: false
+          - target:
+              group: batch
+              version: v1
+              kind: Job
+              name: longhorn-pre-upgrade
+            patch: |-
+              apiVersion: batch/v1
+              kind: Job
+              metadata:
+                name: longhorn-pre-upgrade
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: longhorn-pre-upgrade
+                        securityContext:
+                          allowPrivilegeEscalation: false
+          - target:
+              group: batch
+              version: v1
+              kind: Job
+              name: longhorn-post-upgrade
+            patch: |-
+              apiVersion: batch/v1
+              kind: Job
+              metadata:
+                name: longhorn-post-upgrade
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: longhorn-post-upgrade
+                        securityContext:
+                          allowPrivilegeEscalation: false
+          - target:
+              group: batch
+              version: v1
+              kind: Job
+              name: longhorn-uninstall
+            patch: |-
+              apiVersion: batch/v1
+              kind: Job
+              metadata:
+                name: longhorn-uninstall
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: longhorn-uninstall
+                        securityContext:
+                          allowPrivilegeEscalation: false
   values:
     csi:
       attacherReplicaCount: 2

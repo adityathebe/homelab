@@ -68,6 +68,8 @@ spec:
       registry: code.forgejo.org
       repository: forgejo/forgejo
       tag: 15.0.2-rootless
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
     persistence:
       enabled: true
       create: false

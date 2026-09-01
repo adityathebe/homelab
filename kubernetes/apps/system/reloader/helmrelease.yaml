@@ -26,6 +26,8 @@ spec:
       reloadStrategy: annotations
 
       deployment:
+        containerSecurityContext:
+          allowPrivilegeEscalation: false
         resources:
           requests:
             cpu: 5m

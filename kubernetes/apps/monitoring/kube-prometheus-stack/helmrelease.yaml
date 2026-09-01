@@ -86,6 +86,8 @@ spec:
         limits:
           memory: 256Mi
     prometheus-node-exporter:
+      containerSecurityContext:
+        allowPrivilegeEscalation: false
       resources:
         requests:
           cpu: 50m

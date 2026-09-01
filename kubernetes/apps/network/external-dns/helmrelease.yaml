@@ -25,6 +25,8 @@ spec:
         image:
           repository: ghcr.io/muhlba91/external-dns-provider-adguard
           tag: v11.0.1
+        securityContext:
+          allowPrivilegeEscalation: false
         env:
           - name: LOG_LEVEL
             value: warn

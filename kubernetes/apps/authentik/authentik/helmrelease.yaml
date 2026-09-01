@@ -40,9 +40,13 @@ spec:
       initContainers:
         - name: init-db
           image: ghcr.io/onedr0p/postgres-init:16
+          securityContext:
+            allowPrivilegeEscalation: false
           envFrom:
             - secretRef:
                 name: authentik-secret
+      containerSecurityContext:
+        allowPrivilegeEscalation: false
       resources:
         requests:
           cpu: 100m
@@ -66,9 +70,13 @@ spec:
       initContainers:
         - name: init-db
           image: ghcr.io/onedr0p/postgres-init:16
+          securityContext:
+            allowPrivilegeEscalation: false
           envFrom:
             - secretRef:
                 name: authentik-secret
+      containerSecurityContext:
+        allowPrivilegeEscalation: false
       resources:
         requests:
           cpu: 100m
