@@ -21,6 +21,8 @@ spec:
       podMonitor:
         enabled: true
 
+      readOnlyRootFileSystem: true
+
       reloadStrategy: annotations
 
       deployment:

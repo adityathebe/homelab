@@ -22,15 +22,56 @@ spec:
         - resources:
             kinds:
               - Pod
-            namespaces:
-              - default
-              - media
-              - music
       exclude:
         any:
         - resources:
             namespaces:
               - agent-sandbox-system
+              - storage
+        - resources:
+            namespaces:
+              - authentik
+            names:
+              - authentik-server*
+              - authentik-worker*
+        - resources:
+            namespaces:
+              - forgejo
+            selector:
+              matchLabels:
+                app.kubernetes.io/name: forgejo
+        - resources:
+            namespaces:
+              - immich
+            names:
+              - immich-server*
+              - immich-valkey*
+        - resources:
+            namespaces:
+              - kube-system
+            names:
+              - kube-vip*
+        - resources:
+            namespaces:
+              - mc
+            names:
+              - canary-checker*
+              - config-db*
+              - incident-manager-ui*
+              - mission-control*
+              - postgrest-mission-control*
+        - resources:
+            namespaces:
+              - network
+            names:
+              - csi-smb-controller*
+              - csi-smb-node*
+              - envoy-external*
+              - envoy-gateway*
+              - envoy-internal*
+              - external-dns*
+              - operator*
+              - ts-subnet-router*
       validate:
         message: >-
           Containers must use a read-only root filesystem. Set
