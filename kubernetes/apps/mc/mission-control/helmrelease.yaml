@@ -51,6 +51,9 @@ spec:
                           capabilities:
                             drop:
                               - ALL
+                          runAsGroup: 1000
+                          runAsNonRoot: true
+                          runAsUser: 1000
           - target:
               group: apps
               version: v1
@@ -71,6 +74,9 @@ spec:
                           capabilities:
                             drop:
                               - ALL
+                          runAsGroup: 1000
+                          runAsNonRoot: true
+                          runAsUser: 1000
           - target:
               group: apps
               version: v1
@@ -91,6 +97,9 @@ spec:
                           capabilities:
                             drop:
                               - ALL
+                          runAsGroup: 1001
+                          runAsNonRoot: true
+                          runAsUser: 1001
           - target:
               group: apps
               version: v1
@@ -111,6 +120,9 @@ spec:
                           capabilities:
                             drop:
                               - ALL
+                          runAsGroup: 1000
+                          runAsNonRoot: true
+                          runAsUser: 1000
           - target:
               group: apps
               version: v1
@@ -131,6 +143,9 @@ spec:
                           capabilities:
                             drop:
                               - ALL
+                          runAsGroup: 65532
+                          runAsNonRoot: true
+                          runAsUser: 65532
   values:
     global:
       ui:

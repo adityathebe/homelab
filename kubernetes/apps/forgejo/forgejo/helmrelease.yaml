@@ -73,6 +73,9 @@ spec:
       capabilities:
         drop:
           - ALL
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
     persistence:
       enabled: true
       create: false

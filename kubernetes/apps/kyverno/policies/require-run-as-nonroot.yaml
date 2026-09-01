@@ -14,7 +14,7 @@ metadata:
       `runAsNonRoot` is set to `true`. A known issue prevents a policy such as this
       using `anyPattern` from being persisted properly in Kubernetes 1.23.0-1.23.2.
 spec:
-  validationFailureAction: Audit
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: run-as-non-root
@@ -28,21 +28,46 @@ spec:
         - resources:
             namespaces:
               - storage
+            names:
+              - csi-attacher*
+              - csi-provisioner*
+              - csi-resizer*
+              - csi-snapshotter*
+              - engine-image-*
+              - instance-manager-*
+              - longhorn-*
+              - share-manager-*
+        - resources:
+            namespaces:
+              - storage
+            selector:
+              matchExpressions:
+                - key: longhorn.io/managed-by
+                  operator: Exists
+        - resources:
+            namespaces:
               - metallb-system
+            names:
+              - speaker*
         - resources:
             namespaces:
               - kube-system
             names:
               - coredns*
               - kube-vip*
+              - intel-gpu-resource-driver-kubelet-plugin*
+        - resources:
+            namespaces:
+              - monitoring
+            names:
+              - victoria-logs-collector*
         - resources:
             namespaces:
               - network
             names:
-              - csi-smb-controller
-              - csi-smb-node
-              - operator
-              - ts-subnet-router-sjxqt
+              - csi-smb-controller*
+              - csi-smb-node*
+              - ts-subnet-router-*
       validate:
         message: >-
           Running as root is not allowed. Either the field spec.securityContext.runAsNonRoot

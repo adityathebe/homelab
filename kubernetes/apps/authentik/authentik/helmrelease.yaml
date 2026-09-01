@@ -45,6 +45,9 @@ spec:
             capabilities:
               drop:
                 - ALL
+            runAsGroup: 65533
+            runAsNonRoot: true
+            runAsUser: 65534
           envFrom:
             - secretRef:
                 name: authentik-secret
@@ -53,6 +56,9 @@ spec:
         capabilities:
           drop:
             - ALL
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
       resources:
         requests:
           cpu: 100m
@@ -81,6 +87,9 @@ spec:
             capabilities:
               drop:
                 - ALL
+            runAsGroup: 65533
+            runAsNonRoot: true
+            runAsUser: 65534
           envFrom:
             - secretRef:
                 name: authentik-secret
@@ -89,6 +98,9 @@ spec:
         capabilities:
           drop:
             - ALL
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
       resources:
         requests:
           cpu: 100m
