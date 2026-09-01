@@ -67,7 +67,6 @@ spec:
             names:
               - csi-smb-controller*
               - csi-smb-node*
-              - operator*
               - ts-subnet-router-*
       validate:
         message: >-

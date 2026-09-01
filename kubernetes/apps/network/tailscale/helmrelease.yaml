@@ -25,6 +25,12 @@ spec:
         capabilities:
           drop:
             - ALL
+        runAsGroup: 65532
+        runAsNonRoot: true
+        runAsUser: 65532
+      extraEnv:
+        - name: XDG_CONFIG_HOME
+          value: /tmp
       resources:
         requests:
           cpu: 100m
