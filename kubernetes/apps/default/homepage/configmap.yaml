@@ -42,13 +42,6 @@ data:
             description: Deezer music downlader
 
     - Applications:
-        - Authentik:
-            icon: authentik.png
-            namespace: authentik
-            app: authentik
-            href: https://auth.${HOMELAB_DOMAIN}
-            description: Identity provider
-
         - Actual:
             icon: actual-budget.png
             namespace: default

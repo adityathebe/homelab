@@ -29,12 +29,6 @@ spec:
               - storage
         - resources:
             namespaces:
-              - authentik
-            names:
-              - authentik-server*
-              - authentik-worker*
-        - resources:
-            namespaces:
               - forgejo
             selector:
               matchLabels:
