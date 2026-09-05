@@ -26,13 +26,6 @@ spec:
         any:
         - resources:
             namespaces:
-              - agent-sandbox-system
-            selector:
-              matchExpressions:
-                - key: agents.x-k8s.io/sandbox-name-hash
-                  operator: Exists
-        - resources:
-            namespaces:
               - storage
             names:
               - csi-attacher*

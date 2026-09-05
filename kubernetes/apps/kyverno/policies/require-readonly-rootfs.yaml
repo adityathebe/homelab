@@ -26,7 +26,6 @@ spec:
         any:
         - resources:
             namespaces:
-              - agent-sandbox-system
               - storage
         - resources:
             namespaces:
