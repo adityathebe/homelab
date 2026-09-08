@@ -13,7 +13,6 @@ resources:
   - flanksource.yaml
   - grafana.yaml
   - immich.yaml
-  - kubernetes-sigs-metrics-server-charts.yaml
   - kyverno.yaml
   - longhorn.yaml
   - prometheus-community.yaml

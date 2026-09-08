@@ -42,13 +42,6 @@ data:
             description: Deezer music downlader
 
     - Applications:
-        - Actual:
-            icon: actual-budget.png
-            namespace: default
-            app: actualbudget
-            href: https://actual.${HOMELAB_DOMAIN}
-            description: Budget
-
         - IT Tools:
             icon: it-tools.png
             namespace: default
@@ -63,13 +56,6 @@ data:
             href: https://vehicle.${HOMELAB_DOMAIN}
             description: Vehicle maintenance log
 
-        # - Paperless:
-        #     icon: paperless.png
-        #     namespace: default
-        #     app: paperless
-        #     href: https://paperless.${HOMELAB_DOMAIN}
-        #     description: Documents management
-        
         - Radicale:
             icon: radicale.png
             namespace: default
