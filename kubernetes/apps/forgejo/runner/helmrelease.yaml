@@ -51,65 +51,41 @@ spec:
                 - ubuntu-latest:k8s:/config/podspec-default.yaml
                 - ubuntu-24.04:k8spod:/config/podspec-default.yaml
                 - default:k8s:/config/podspec-default.yaml
-                - docker:k8s:/config/podspec-dind.yaml
               timeout: 3h
           podspec-default.yaml: |-
+            automountServiceAccountToken: false
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
+              seccompProfile:
+                type: RuntimeDefault
             containers:
               - env:
                   - name: DEBIAN_FRONTEND
                     value: noninteractive
+                  - name: HOME
+                    value: /home/ubuntu
+                  - name: USER
+                    value: ubuntu
+                  - name: RUNNER_USER
+                    value: ubuntu
+                  - name: AGENT_TOOLSDIRECTORY
+                    value: /shared/toolcache
+                  - name: RUN_TOOL_CACHE
+                    value: /shared/toolcache
                 image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:4288050ddd71ac2e5f42465c474aec8b838792dec85bb284405db7c180138580
                 imagePullPolicy: IfNotPresent
                 name: main
-                resources:
-                  limits:
-                    memory: 2Gi
-                  requests:
-                    cpu: 100m
-                    memory: 256Mi
-            restartPolicy: Never
-          podspec-dind.yaml: |-
-            initContainers:
-              - name: dind
-                image: docker:29-dind
                 securityContext:
-                  privileged: true
-                restartPolicy: Always
-                env:
-                  - name: DOCKER_TLS_CERTDIR
-                    value: /certs
-                resources:
-                  requests:
-                    cpu: 100m
-                    memory: 256Mi
-                  limits:
-                    memory: 4Gi
-                volumeMounts:
-                  - name: docker-storage
-                    mountPath: /var/lib/docker
-                  - name: docker-certs
-                    mountPath: /certs
-                readinessProbe:
-                  exec:
-                    command:
-                      - sh
-                      - -c
-                      - test -f /certs/client/ca.pem && test -f /certs/client/cert.pem && test -f /certs/client/key.pem
-                  initialDelaySeconds: 2
-                  periodSeconds: 1
-            containers:
-              - env:
-                  - name: DEBIAN_FRONTEND
-                    value: noninteractive
-                  - name: DOCKER_HOST
-                    value: tcp://localhost:2376
-                  - name: DOCKER_TLS_VERIFY
-                    value: "1"
-                  - name: DOCKER_CERT_PATH
-                    value: /certs/client
-                image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:4288050ddd71ac2e5f42465c474aec8b838792dec85bb284405db7c180138580
-                imagePullPolicy: IfNotPresent
-                name: main
+                  allowPrivilegeEscalation: false
+                  privileged: false
+                  readOnlyRootFilesystem: true
+                  capabilities:
+                    drop:
+                      - ALL
                 resources:
                   limits:
                     memory: 2Gi
@@ -117,14 +93,20 @@ spec:
                     cpu: 100m
                     memory: 256Mi
                 volumeMounts:
-                  - name: docker-certs
-                    mountPath: /certs
-                    readOnly: true
+                  - name: home
+                    mountPath: /home/ubuntu
+                  - name: tmp
+                    mountPath: /tmp
+                  - name: shared
+                    mountPath: /shared
             volumes:
-              - name: docker-storage
+              - name: home
                 emptyDir: {}
-              - name: docker-certs
+              - name: tmp
                 emptyDir: {}
+              - name: shared
+                emptyDir:
+                  sizeLimit: 10Gi
             restartPolicy: Never
     controllers:
       forgejo-runner:
