@@ -77,7 +77,7 @@ spec:
                     value: /shared/toolcache
                   - name: RUN_TOOL_CACHE
                     value: /shared/toolcache
-                image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:4288050ddd71ac2e5f42465c474aec8b838792dec85bb284405db7c180138580
+                image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:d3f142f768c72e6f54443a07275889ee5b6c1e6560613be12a903744d6835c53
                 imagePullPolicy: IfNotPresent
                 name: main
                 securityContext:
@@ -155,7 +155,7 @@ spec:
                     mountPath: /shared
             containers:
               - name: main
-                image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:4288050ddd71ac2e5f42465c474aec8b838792dec85bb284405db7c180138580
+                image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:d3f142f768c72e6f54443a07275889ee5b6c1e6560613be12a903744d6835c53
                 imagePullPolicy: IfNotPresent
                 env:
                   - name: DEBIAN_FRONTEND
