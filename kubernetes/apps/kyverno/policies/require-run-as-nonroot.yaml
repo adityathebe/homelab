@@ -74,26 +74,22 @@ spec:
           must be set to `true`, or the fields spec.containers[*].securityContext.runAsNonRoot,
           spec.initContainers[*].securityContext.runAsNonRoot, and spec.ephemeralContainers[*].securityContext.runAsNonRoot
           must be set to `true`.
-        anyPattern:
-        - spec:
-            securityContext:
-              runAsNonRoot: "true"
-            =(ephemeralContainers):
-            - =(securityContext):
-                =(runAsNonRoot): "true"
-            =(initContainers):
-            - =(securityContext):
-                =(runAsNonRoot): "true"
-            containers:
-            - =(securityContext):
-                =(runAsNonRoot): "true"
-        - spec:
-            =(ephemeralContainers):
-            - securityContext:
-                runAsNonRoot: "true"
-            =(initContainers):
-            - securityContext:
-                runAsNonRoot: "true"
-            containers:
-            - securityContext:
-                runAsNonRoot: "true"
+        foreach:
+          - list: request.object.spec.[ephemeralContainers, initContainers, containers][]
+            preconditions:
+              all:
+                - key: >-
+                    {{ request.object.metadata.namespace == 'forgejo' &&
+                    request.object.spec.serviceAccountName == 'forgejo-runner-docker-task' &&
+                    request.object.spec.automountServiceAccountToken == `false` &&
+                    contains(request.object.spec.initContainers[].name || `[]`, element.name) &&
+                    element.name == 'dind' && element.image == 'docker:29-dind' &&
+                    element.restartPolicy == 'Always' }}
+                  operator: NotEquals
+                  value: true
+            deny:
+              conditions:
+                all:
+                  - key: "{{ not_null(element.securityContext.runAsNonRoot, request.object.spec.securityContext.runAsNonRoot, `false`) }}"
+                    operator: NotEquals
+                    value: true

@@ -49,14 +49,19 @@ spec:
         message: >-
           Privileged mode is disallowed. The fields spec.containers[*].securityContext.privileged,
           spec.initContainers[*].securityContext.privileged, and spec.ephemeralContainers[*].securityContext.privileged must be unset or set to `false`.
-        pattern:
-          spec:
-            =(ephemeralContainers):
-              - =(securityContext):
-                  =(privileged): "false"
-            =(initContainers):
-              - =(securityContext):
-                  =(privileged): "false"
-            containers:
-              - =(securityContext):
-                  =(privileged): "false"
+        foreach:
+          - list: request.object.spec.[ephemeralContainers, initContainers, containers][]
+            preconditions:
+              all:
+                - key: >-
+                    {{ request.object.metadata.namespace == 'forgejo' &&
+                    request.object.spec.serviceAccountName == 'forgejo-runner-docker-task' &&
+                    request.object.spec.automountServiceAccountToken == `false` &&
+                    contains(request.object.spec.initContainers[].name || `[]`, element.name) &&
+                    element.name == 'dind' && element.image == 'docker:29-dind' &&
+                    element.restartPolicy == 'Always' }}
+                  operator: NotEquals
+                  value: true
+            pattern:
+              =(securityContext):
+                =(privileged): "false"
