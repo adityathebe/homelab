@@ -27,7 +27,7 @@ spec:
           nepse:
             image:
               repository: git.${HOMELAB_DOMAIN}/aditya/nepse
-              tag: 0.71.1
+              tag: 0.71.2
             env:
               BACKUP_PATH: /data/backups
               LOG_LEVEL: debug
