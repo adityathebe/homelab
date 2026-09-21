@@ -33,6 +33,11 @@
     {
       "matchUpdateTypes": ["minor", "major"],
       "minimumReleaseAge": "7 days"
+    },
+    {
+      "description": "Schedule Valkey and kube-prometheus-stack updates every two months",
+      "matchPackageNames": ["docker.io/valkey/valkey", "kube-prometheus-stack"],
+      "schedule": ["* * 1 */2 *"]
     }
   ],
   "internalChecksFilter": "strict",
