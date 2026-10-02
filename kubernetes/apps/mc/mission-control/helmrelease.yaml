@@ -155,6 +155,9 @@ spec:
 
     artifactConnection: connection://mc/artifactstore
 
+    properties:
+      rls.enable: true
+
     db:
       create: false
       secretKeyRef:
