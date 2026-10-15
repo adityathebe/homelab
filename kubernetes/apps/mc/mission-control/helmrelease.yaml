@@ -158,6 +158,13 @@ spec:
     properties:
       rls.enable: true
 
+    # skip the chart's built-in Roles/RoleBindings; grants are managed explicitly
+    permissions:
+      playbooks: true
+      connections: true
+      mcp: true
+      configs: true
+
     db:
       create: false
       secretKeyRef:
