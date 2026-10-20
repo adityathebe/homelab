@@ -1,0 +1,43 @@
+# Bindings select teams by name, and a Team's name is its displayName when set,
+# so displayName is left out to keep the name equal to metadata.name.
+# Members are added from the UI.
+# Don't put a dbms-operators member in another team: the other teams are denied
+# databases, and a deny wins over every grant.
+---
+# The CNPG clusters in dbms and the databases on them. The only team that can
+# see them.
+apiVersion: mission-control.flanksource.com/v1
+kind: Team
+metadata:
+  name: dbms-operators
+  namespace: mc
+spec:
+  icon: postgres
+---
+# Prometheus, Alertmanager, Grafana and VictoriaLogs in monitoring.
+apiVersion: mission-control.flanksource.com/v1
+kind: Team
+metadata:
+  name: observability
+  namespace: mc
+spec:
+  icon: prometheus
+---
+# The cluster itself: Flux, networking, storage, certificates, policies,
+# Forgejo, and Mission Control.
+apiVersion: mission-control.flanksource.com/v1
+kind: Team
+metadata:
+  name: platform
+  namespace: mc
+spec:
+  icon: kubernetes
+---
+# Jellyfin and the arr stack, Navidrome, and Immich.
+apiVersion: mission-control.flanksource.com/v1
+kind: Team
+metadata:
+  name: media
+  namespace: mc
+spec:
+  icon: media

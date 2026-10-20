@@ -1,0 +1,162 @@
+# Roles are kept small and grouped by the Scopes they share, so one broken
+# Scope doesn't silence unrelated rules (roles.md, Section 6.1).
+---
+# Every team gets this, constrained to the configs it owns. Invoking a plugin
+# operation also checks read on the config.
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: workload-owner
+  namespace: mc
+spec:
+  rules:
+    - name: read-configs
+      action: read
+      resource:
+        scopeRef: mission-control-builtin/all-configs
+    - name: list-pods
+      action: invoke:kubernetes-logs:list-pods
+      resource:
+        scopeRef: kubernetes-workloads
+    - name: logs
+      action: invoke:kubernetes-logs:logs
+      resource:
+        scopeRef: kubernetes-workloads
+    - name: current-metrics
+      action: invoke:kubernetes-metrics:current
+      resource:
+        scopeRef: kubernetes-workloads
+    - name: metrics-history
+      action: invoke:kubernetes-metrics:history
+      resource:
+        scopeRef: kubernetes-workloads
+---
+# Every team gets this, with its configs as the target constraint.
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: logs-playbook-runner
+  namespace: mc
+spec:
+  rules:
+    - name: run
+      action: playbook:run
+      resource:
+        scopeRef: logs-playbook
+      target:
+        scopeRef: kubernetes-workloads
+    - name: cancel
+      action: playbook:cancel
+      resource:
+        scopeRef: logs-playbook
+      target:
+        scopeRef: kubernetes-workloads
+---
+# Reading a playbook takes no target, so it can't go in logs-playbook-runner:
+# a target constraint would leave it un-narrowed, and it wouldn't apply.
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: logs-playbook-reader
+  namespace: mc
+spec:
+  rules:
+    - name: read
+      action: read
+      resource:
+        scopeRef: logs-playbook
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: postgres-operator
+  namespace: mc
+spec:
+  rules:
+    - name: read
+      action: read
+      resource:
+        scopeRef: postgres-playbooks
+    - name: run
+      action: playbook:run
+      resource:
+        scopeRef: postgres-playbooks
+      target:
+        scopeRef: postgres-clusters
+    - name: cancel
+      action: playbook:cancel
+      resource:
+        scopeRef: postgres-playbooks
+      target:
+        scopeRef: postgres-clusters
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: prometheus-playbook-runner
+  namespace: mc
+spec:
+  rules:
+    - name: read
+      action: read
+      resource:
+        scopeRef: prometheus-playbooks
+    - name: run
+      action: playbook:run
+      resource:
+        scopeRef: prometheus-playbooks
+    - name: cancel
+      action: playbook:cancel
+      resource:
+        scopeRef: prometheus-playbooks
+---
+# Only bound with deny: true.
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: database-reader
+  namespace: mc
+spec:
+  rules:
+    - name: read
+      action: read
+      resource:
+        scopeRef: databases
+---
+# The following are bound to plugins and playbooks, whose connection lookups
+# are checked as themselves.
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: connection-reader
+  namespace: mc
+spec:
+  rules:
+    - name: read
+      action: read
+      resource:
+        scopeRef: mission-control-builtin/all-connections
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: lake-connection-user
+  namespace: mc
+spec:
+  rules:
+    - name: use
+      action: connection:use
+      resource:
+        scopeRef: lake-connection
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Role
+metadata:
+  name: prometheus-connection-user
+  namespace: mc
+spec:
+  rules:
+    - name: use
+      action: connection:use
+      resource:
+        scopeRef: prometheus-connection

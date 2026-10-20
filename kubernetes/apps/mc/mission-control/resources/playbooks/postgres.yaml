@@ -1,0 +1,60 @@
+# Read-only queries against the lake cluster, through the mc-pg connection.
+# The playbooks use the connection as themselves (rbac/rolebindings.yaml,
+# postgres-playbooks-lake); running them takes postgres-operator.
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Playbook
+metadata:
+  name: postgres-activity
+  namespace: mc
+spec:
+  title: Postgres Activity
+  description: Sessions that aren't idle, longest running first
+  category: Database
+  icon: postgres
+  configs:
+    - types:
+        - CNPG::Cluster
+      name: lake
+  actions:
+    - name: Active sessions
+      sql:
+        connection: connection://mc/mc-pg
+        driver: postgres
+        query: |
+          SELECT pid, usename, datname, application_name, state,
+                 wait_event_type, wait_event,
+                 now() - query_start AS running_for,
+                 left(query, 200) AS query
+          FROM pg_stat_activity
+          WHERE state IS DISTINCT FROM 'idle' AND pid <> pg_backend_pid()
+          ORDER BY query_start NULLS LAST
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Playbook
+metadata:
+  name: postgres-database-sizes
+  namespace: mc
+spec:
+  title: Postgres Database Sizes
+  description: Size and connection count of every database, largest first
+  category: Database
+  icon: postgres
+  configs:
+    - types:
+        - CNPG::Cluster
+      name: lake
+  actions:
+    - name: Database sizes
+      sql:
+        connection: connection://mc/mc-pg
+        driver: postgres
+        query: |
+          SELECT d.datname,
+                 pg_size_pretty(pg_database_size(d.datname)) AS size,
+                 count(a.pid) AS connections
+          FROM pg_database d
+          LEFT JOIN pg_stat_activity a ON a.datname = d.datname
+          WHERE NOT d.datistemplate
+          GROUP BY d.datname
+          ORDER BY pg_database_size(d.datname) DESC

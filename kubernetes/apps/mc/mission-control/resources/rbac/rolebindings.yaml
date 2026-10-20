@@ -1,0 +1,185 @@
+# dbms-operators  the dbms namespace and every Postgres database, the postgres
+#                 playbooks. Nobody else can read databases.
+# observability   monitoring, the prometheus playbook
+# platform        cluster infrastructure, Forgejo and Mission Control
+# media           media, music and immich
+#
+# Teams are treated as contractors: each gets read, logs and metrics on its own
+# configs, and reads and runs only its own playbooks. Nothing grants a whole
+# type of a resource that isn't the team's own, e.g. people, teams, connections
+# or notifications. Teams other than dbms-operators also get the logs playbook
+# on their own workloads.
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: dbms-operators-workloads
+  namespace: mc
+spec:
+  role: workload-owner
+  subjects:
+    teams: [dbms-operators]
+  constraint:
+    resource:
+      scopeRef: databases
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: logs-playbook-readers
+  namespace: mc
+spec:
+  role: logs-playbook-reader
+  subjects:
+    teams: [observability, platform, media]
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: observability-workloads
+  namespace: mc
+spec:
+  role: workload-owner
+  subjects:
+    teams: [observability]
+  constraint:
+    resource:
+      scopeRef: monitoring-configs
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: observability-logs-playbook
+  namespace: mc
+spec:
+  role: logs-playbook-runner
+  subjects:
+    teams: [observability]
+  constraint:
+    target:
+      scopeRef: monitoring-configs
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: platform-workloads
+  namespace: mc
+spec:
+  role: workload-owner
+  subjects:
+    teams: [platform]
+  constraint:
+    resource:
+      scopeRef: platform-configs
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: platform-logs-playbook
+  namespace: mc
+spec:
+  role: logs-playbook-runner
+  subjects:
+    teams: [platform]
+  constraint:
+    target:
+      scopeRef: platform-configs
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: media-workloads
+  namespace: mc
+spec:
+  role: workload-owner
+  subjects:
+    teams: [media]
+  constraint:
+    resource:
+      scopeRef: media-configs
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: media-logs-playbook
+  namespace: mc
+spec:
+  role: logs-playbook-runner
+  subjects:
+    teams: [media]
+  constraint:
+    target:
+      scopeRef: media-configs
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: dbms-operators-postgres
+  namespace: mc
+spec:
+  role: postgres-operator
+  subjects:
+    teams: [dbms-operators]
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: observability-prometheus
+  namespace: mc
+spec:
+  role: prometheus-playbook-runner
+  subjects:
+    teams: [observability]
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: databases-for-dbms-operators-only
+  namespace: mc
+spec:
+  description: No team but dbms-operators reads databases, whatever is bound to it later
+  role: database-reader
+  subjects:
+    teams: [observability, platform, media]
+  deny: true
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: plugin-connections
+  namespace: mc
+spec:
+  description: Replaces the plugins' Permissions, which no longer grant anything
+  role: connection-reader
+  subjects:
+    plugins:
+      - namespace: mc
+        name: kubernetes-logs
+      - namespace: mc
+        name: kubernetes-metrics
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: postgres-playbooks-lake
+  namespace: mc
+spec:
+  role: lake-connection-user
+  subjects:
+    playbooks:
+      - namespace: mc
+        name: postgres-activity
+      - namespace: mc
+        name: postgres-database-sizes
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: RoleBinding
+metadata:
+  name: prometheus-playbooks-prometheus
+  namespace: mc
+spec:
+  role: prometheus-connection-user
+  subjects:
+    playbooks:
+      - namespace: mc
+        name: prometheus-health

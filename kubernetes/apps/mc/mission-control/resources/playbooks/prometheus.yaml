@@ -1,0 +1,22 @@
+# Uses the prometheus connection as itself (rbac/rolebindings.yaml,
+# prometheus-playbooks-prometheus); running it takes prometheus-playbook-runner.
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Playbook
+metadata:
+  name: prometheus-health
+  namespace: mc
+spec:
+  title: Prometheus Health
+  description: Scrape targets that are down, and alerts that are firing
+  category: Monitoring
+  icon: prometheus
+  actions:
+    - name: Targets down
+      prometheus:
+        connection: connection://mc/prometheus
+        query: up == 0
+    - name: Firing alerts
+      prometheus:
+        connection: connection://mc/prometheus
+        query: ALERTS{alertstate="firing"}

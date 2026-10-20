@@ -1,0 +1,162 @@
+# Whole-type Scopes come from mission-control-builtin (all-configs, all-playbooks, ...).
+#
+# Each team has one Scope of the configs it owns. Its bindings use it as a
+# constraint, so shared Roles grant only within it.
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: databases
+  namespace: mc
+spec:
+  description: The dbms namespace, and every Postgres database and table
+  targets:
+    - config:
+        tagSelector: namespace=dbms
+    - config:
+        types:
+          - Postgres::Database
+          - Postgres::Table
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: monitoring-configs
+  namespace: mc
+spec:
+  description: The monitoring namespace
+  targets:
+    - config:
+        tagSelector: namespace=monitoring
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: platform-configs
+  namespace: mc
+spec:
+  description: Cluster infrastructure, Forgejo and Mission Control
+  targets:
+    - config:
+        tagSelector: namespace=flux-system
+    - config:
+        tagSelector: namespace=kube-system
+    - config:
+        tagSelector: namespace=network
+    - config:
+        tagSelector: namespace=storage
+    - config:
+        tagSelector: namespace=cert-manager
+    - config:
+        tagSelector: namespace=metallb-system
+    - config:
+        tagSelector: namespace=kyverno
+    - config:
+        tagSelector: namespace=system
+    - config:
+        tagSelector: namespace=forgejo
+    - config:
+        tagSelector: namespace=mc
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: media-configs
+  namespace: mc
+spec:
+  description: The media, music and immich namespaces
+  targets:
+    - config:
+        tagSelector: namespace=media
+    - config:
+        tagSelector: namespace=music
+    - config:
+        tagSelector: namespace=immich
+---
+# What the logs and metrics plugins and the logs playbook operate on.
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: kubernetes-workloads
+  namespace: mc
+spec:
+  description: Kubernetes pods, deployments, statefulsets and daemonsets
+  targets:
+    - config:
+        types:
+          - Kubernetes::Pod
+          - Kubernetes::Deployment
+          - Kubernetes::StatefulSet
+          - Kubernetes::DaemonSet
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: postgres-clusters
+  namespace: mc
+spec:
+  description: CloudNativePG clusters
+  targets:
+    - config:
+        types:
+          - CNPG::Cluster
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: logs-playbook
+  namespace: mc
+spec:
+  description: The kubernetes-logs playbook
+  targets:
+    - playbook:
+        namespace: mc
+        name: kubernetes-logs
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: postgres-playbooks
+  namespace: mc
+spec:
+  description: The playbooks that query Postgres
+  targets:
+    - playbook:
+        namespace: mc
+        name: postgres-*
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: prometheus-playbooks
+  namespace: mc
+spec:
+  description: The playbooks that query Prometheus
+  targets:
+    - playbook:
+        namespace: mc
+        name: prometheus-*
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: lake-connection
+  namespace: mc
+spec:
+  description: The connection to the lake Postgres cluster
+  targets:
+    - connection:
+        namespace: mc
+        name: mc-pg
+---
+apiVersion: mission-control.flanksource.com/v1
+kind: Scope
+metadata:
+  name: prometheus-connection
+  namespace: mc
+spec:
+  description: The connection to Prometheus
+  targets:
+    - connection:
+        namespace: mc
+        name: prometheus
