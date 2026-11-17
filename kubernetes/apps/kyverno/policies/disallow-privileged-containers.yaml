@@ -51,17 +51,6 @@ spec:
           spec.initContainers[*].securityContext.privileged, and spec.ephemeralContainers[*].securityContext.privileged must be unset or set to `false`.
         foreach:
           - list: request.object.spec.[ephemeralContainers, initContainers, containers][]
-            preconditions:
-              all:
-                - key: >-
-                    {{ request.object.metadata.namespace == 'forgejo' &&
-                    request.object.spec.serviceAccountName == 'forgejo-runner-docker-task' &&
-                    request.object.spec.automountServiceAccountToken == `false` &&
-                    contains(request.object.spec.initContainers[].name || `[]`, element.name) &&
-                    element.name == 'dind' && element.image == 'docker:29-dind' &&
-                    element.restartPolicy == 'Always' }}
-                  operator: NotEquals
-                  value: true
             pattern:
               =(securityContext):
                 =(privileged): "false"
