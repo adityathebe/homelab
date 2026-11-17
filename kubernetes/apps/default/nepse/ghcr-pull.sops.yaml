@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: ghcr-pull
+type: kubernetes.io/dockerconfigjson
+stringData:
+    .dockerconfigjson: ENC[AES256_GCM,data:pnqVy6hRl01LmOFgsl7d/rV/N43jPl7upidu/nTqggQxje321V0jt9bc99t6ewBZhUnpsMmuMnUrPicuYNyNmGFLfoGsNjyKFT9o0DsxUjLmdpkdM8zjPkU7pwtXWWFGVPp23rSDljWRy/jCGduLljjCElqSs8IylYIjr8zJFphgvIq/kKW+uUp0BdYNymeWWFNRq/RkJekQjRjXDRowlf6T4MIHR0DtbIpEq1EKokCsW0a9VFiFrA==,iv:/s4PZP7yv/b/Y08iFdbtczFMa1Fkkscb/v5Ol2lsglI=,tag:5KAoWkgDBfniznbZxvCAng==,type:str]
+sops:
+    age:
+        - recipient: age1nk8j4vujprxg5ep7vlgektc8wndmywh9lx4yl5k3flfxdnf9t4xqlu745k
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBYOGllZVNNU3p6V0ZKdXVC
+            czdkdFhBbkVCdVpaUVA3bE5CZXZINVNZclRRCk0zVndTbHVhYzd6WmIrc01Ud2pV
+            d0psS0UzcHNPdmF4OXEyYTA1bXovd0UKLS0tIEdzdGkxeVhkdHRjc25LV3lLQ3F6
+            Vzh3OWZjdzVZZWhZNG9abWlJZXdmWXMKmoXwxDv6sNmyAyN8jLoJ9g+Vh9FsEaG9
+            +nhoeCQEAnUbQDjIaz81i0Xo28M40OYyPRfHOaijBDIQnpqCvPcH/g==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-11-17T10:50:34Z"
+    mac: ENC[AES256_GCM,data:LZ+qcMpsKRHDVZgcDC8xSL8J4WDi5V2yFalPpUFY3OEIYcstdONOEdUvpKQ2UM+ikQ4psz84Z7Xx1Ty8n5x01tzRpot+p08kHJ96ZgNATPM0ic69KbNc33aGOWHXwPPiv3xcGxCppwsdxC36bPycsV9TRhHO+DaZN3h7bL1lnHw=,iv:F7g41IMLHDdpJfWiFBtGphs7mKZACTp7AZxkJKdV5mI=,tag:nQGET1LAT1MmJ8NR9tgk7g==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.12.2
