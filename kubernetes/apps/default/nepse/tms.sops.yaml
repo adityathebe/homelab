@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: nepse-tms
+type: Opaque
+stringData:
+    TMS_USERNAME: ENC[AES256_GCM,data:PhYZ7VM9yB4k+Cc=,iv:YD1a94iDu0eKzx7Kk6i3LMEdK9jdeF/4uyZcigZnNZ0=,tag:1qJGlJ+RWM24gMI+ESuTSQ==,type:str]
+    TMS_PASSWORD: ENC[AES256_GCM,data:wEWHPYNyODJW5sSTGdI=,iv:AlPLWnUtQx02LZV/Hwdu4A2aufsYr8vMORNTOhgegg8=,tag:XY6kzZV9VXZfYo06a43sKA==,type:str]
+    TMS_BROKER: ENC[AES256_GCM,data:mVA=,iv:5Nb6sxMsgBavb+Eyu/2tezuSWuaYalPKZ/vOj9O3ATs=,tag:jnarD3rwGZM0JltNzVs+Lg==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBEd2oyTlFwN3BSUzc5cFBE
+            RzB5M0x1anByRDNFN0lzLzhEeFpEaldWS2ljCkdTSzBnTjdreXluc2hoOFhRT01o
+            N0NJTWN6d1dRYXdqeXN0T1N2cFQ1VkEKLS0tIDR6eU9XTkN6dER2NitmdXRiWXJ5
+            NXA0VnM1U00rd3pXVEswVmRFTEY4RVUKBDbsCDfYFMYk3P2OHPTrxGWUT/QutDZ5
+            moZoXlz1mqBK1b3IOba/ds2WZGjnVHcsRAyQVwllDvphD9EGcllsWA==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1nk8j4vujprxg5ep7vlgektc8wndmywh9lx4yl5k3flfxdnf9t4xqlu745k
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-11-19T06:57:28Z"
+    mac: ENC[AES256_GCM,data:7IoLejdSMZPoJW2PQFwmzPpLy8B/GJUyB3B4hsZkdNDFolMim0xq3TGhA2iYWaX8gr/GsXUZkkKE2UJcQO/Q05hGWlw11CCgT8/y/tO8So6So58jThIGBrI6ZkY7yeJH3xZ+gV1cjf6aLDbrP754LZln7IgwOS2Yzxa8PJT9LC8=,iv:znGnTK1YpY57X3QOCb2jqS8J8NZLV4UaHSfBaA/J4Zo=,tag:vHxP8+xMXOqlXxx1ltRw0g==,type:str]
+    version: 3.13.3

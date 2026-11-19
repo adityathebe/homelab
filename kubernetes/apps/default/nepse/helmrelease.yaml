@@ -37,6 +37,8 @@ spec:
             envFrom:
               - secretRef:
                   name: nepse
+              - secretRef:
+                  name: nepse-tms
             resources:
               requests:
                 cpu: 250m

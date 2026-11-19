@@ -6,4 +6,5 @@ resources:
   - pvc.yaml
   - helmrelease.yaml
   - secret.sops.yaml
+  - tms.sops.yaml
   - ghcr-pull.sops.yaml
