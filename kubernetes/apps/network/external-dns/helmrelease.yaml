@@ -17,6 +17,7 @@ spec:
   values:
     interval: 5m
     logLevel: warning
+    policy: upsert-only
     domainFilters:
       - ${HOMELAB_DOMAIN}
     provider:
