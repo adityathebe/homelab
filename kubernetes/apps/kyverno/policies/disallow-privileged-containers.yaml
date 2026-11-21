@@ -1,5 +1,5 @@
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
 metadata:
   name: disallow-privileged-containers
   annotations:
@@ -7,50 +7,39 @@ metadata:
     policies.kyverno.io/category: Pod Security Standards (Baseline)
     policies.kyverno.io/severity: medium
     policies.kyverno.io/subject: Pod
-    kyverno.io/kyverno-version: 1.6.0
-    kyverno.io/kubernetes-version: "1.22-1.23"
     policies.kyverno.io/description: >-
       Privileged mode disables most security mechanisms and must not be allowed. This policy
       ensures Pods do not call for privileged mode.
 spec:
-  validationFailureAction: Enforce
-  background: true
-  rules:
-    - name: privileged-containers
-      match:
-        any:
-        - resources:
-            kinds:
-              - Pod
-      exclude:
-        any:
-        - resources:
-            namespaces:
-              - storage
-            names:
-              - engine-image-*
-              - instance-manager-*
-              - longhorn-csi-plugin*
-              - longhorn-manager*
-              - share-manager-*
-        - resources:
-            namespaces:
-              - kube-system
-            names:
-              - intel-gpu-resource-driver-kubelet-plugin*
-        - resources:
-            namespaces:
-              - network
-            names:
-              - csi-smb-controller*
-              - csi-smb-node*
-              - ts-subnet-router-*
-      validate:
-        message: >-
-          Privileged mode is disallowed. The fields spec.containers[*].securityContext.privileged,
-          spec.initContainers[*].securityContext.privileged, and spec.ephemeralContainers[*].securityContext.privileged must be unset or set to `false`.
-        foreach:
-          - list: request.object.spec.[ephemeralContainers, initContainers, containers][]
-            pattern:
-              =(securityContext):
-                =(privileged): "false"
+  validationActions: [Deny]
+  evaluation:
+    background:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [pods]
+  matchConditions:
+    - name: exclude
+      expression: >-
+        !(
+          (object.metadata.namespace == 'storage' &&
+            ['engine-image-', 'instance-manager-', 'longhorn-csi-plugin', 'longhorn-manager', 'share-manager-'].exists(p, object.metadata.name.startsWith(p))) ||
+          (object.metadata.namespace == 'kube-system' && object.metadata.name.startsWith('intel-gpu-resource-driver-kubelet-plugin')) ||
+          (object.metadata.namespace == 'network' &&
+            ['csi-smb-controller', 'csi-smb-node', 'ts-subnet-router-'].exists(p, object.metadata.name.startsWith(p)))
+        )
+  variables:
+    - name: allContainers
+      expression: >-
+        object.spec.containers +
+        object.spec.?initContainers.orValue([]) +
+        object.spec.?ephemeralContainers.orValue([])
+  validations:
+    - expression: >-
+        variables.allContainers.all(c, c.?securityContext.?privileged.orValue(false) == false)
+      message: >-
+        Privileged mode is disallowed. The fields spec.containers[*].securityContext.privileged,
+        spec.initContainers[*].securityContext.privileged, and spec.ephemeralContainers[*].securityContext.privileged must be unset or set to `false`.

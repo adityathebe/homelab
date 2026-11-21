@@ -1,75 +1,48 @@
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
 metadata:
   name: drop-all-capabilities
   annotations:
     policies.kyverno.io/title: Drop All Capabilities
     policies.kyverno.io/category: Best Practices
     policies.kyverno.io/severity: medium
-    policies.kyverno.io/minversion: 1.6.0
     policies.kyverno.io/subject: Pod
     policies.kyverno.io/description: >-
       Capabilities permit privileged actions without giving full root access. All
       capabilities should be dropped from a Pod, with only those required added back.
       This policy ensures that all containers explicitly specify the `drop: ["ALL"]`
-      ability. Note that this policy also illustrates how to cover drop entries in any
-      case although this may not strictly conform to the Pod Security Standards.
+      ability, in any case.
 spec:
-  validationFailureAction: Enforce
-  background: true
-  rules:
-    - name: require-drop-all
-      match:
-        any:
-        - resources:
-            kinds:
-              - Pod
-      exclude:
-        any:
-        - resources:
-            namespaces:
-              - storage
-            names:
-              - csi-attacher*
-              - csi-provisioner*
-              - csi-resizer*
-              - csi-snapshotter*
-              - engine-image-*
-              - instance-manager-*
-              - longhorn-csi-plugin*
-              - longhorn-manager*
-              - share-manager-*
-        - resources:
-            namespaces:
-              - storage
-            selector:
-              matchExpressions:
-                - key: longhorn.io/managed-by
-                  operator: Exists
-        - resources:
-            namespaces:
-              - kube-system
-            names:
-              - kube-vip*
-              - metrics-server*
-        - resources:
-            namespaces:
-              - network
-            names:
-              - ts-subnet-router-*
-      preconditions:
-        all:
-        - key: "{{ request.operation || 'BACKGROUND' }}"
-          operator: NotEquals
-          value: DELETE
-      validate:
-        message: >-
-          Containers must drop `ALL` capabilities.
-        foreach:
-          - list: request.object.spec.[ephemeralContainers, initContainers, containers][]
-            deny:
-              conditions:
-                all:
-                - key: ALL
-                  operator: AnyNotIn
-                  value: "{{ element.securityContext.capabilities.drop[].to_upper(@) || `[]` }}"
+  validationActions: [Deny]
+  evaluation:
+    background:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [pods]
+  matchConditions:
+    - name: exclude
+      expression: >-
+        !(
+          (object.metadata.namespace == 'storage' && (
+            ['csi-attacher', 'csi-provisioner', 'csi-resizer', 'csi-snapshotter', 'engine-image-', 'instance-manager-',
+             'longhorn-csi-plugin', 'longhorn-manager', 'share-manager-'].exists(p, object.metadata.name.startsWith(p)) ||
+            'longhorn.io/managed-by' in object.metadata.?labels.orValue({}))) ||
+          (object.metadata.namespace == 'kube-system' &&
+            ['kube-vip', 'metrics-server'].exists(p, object.metadata.name.startsWith(p))) ||
+          (object.metadata.namespace == 'network' && object.metadata.name.startsWith('ts-subnet-router-'))
+        )
+  variables:
+    - name: allContainers
+      expression: >-
+        object.spec.containers +
+        object.spec.?initContainers.orValue([]) +
+        object.spec.?ephemeralContainers.orValue([])
+  validations:
+    - expression: >-
+        variables.allContainers.all(c,
+          c.?securityContext.?capabilities.?drop.orValue([]).exists(cap, cap.upperAscii() == 'ALL'))
+      message: Containers must drop `ALL` capabilities.

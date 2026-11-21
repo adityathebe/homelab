@@ -1,5 +1,5 @@
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
 metadata:
   name: require-run-as-nonroot
   annotations:
@@ -7,78 +7,47 @@ metadata:
     policies.kyverno.io/category: Pod Security Standards (Restricted)
     policies.kyverno.io/severity: medium
     policies.kyverno.io/subject: Pod
-    kyverno.io/kyverno-version: 1.6.0
-    kyverno.io/kubernetes-version: "1.22-1.23"
     policies.kyverno.io/description: >-
       Containers must be required to run as non-root users. This policy ensures
-      `runAsNonRoot` is set to `true`. A known issue prevents a policy such as this
-      using `anyPattern` from being persisted properly in Kubernetes 1.23.0-1.23.2.
+      `runAsNonRoot` is set to `true`.
 spec:
-  validationFailureAction: Enforce
-  background: true
-  rules:
-    - name: run-as-non-root
-      match:
-        any:
-        - resources:
-            kinds:
-              - Pod
-      exclude:
-        any:
-        - resources:
-            namespaces:
-              - storage
-            names:
-              - csi-attacher*
-              - csi-provisioner*
-              - csi-resizer*
-              - csi-snapshotter*
-              - engine-image-*
-              - instance-manager-*
-              - longhorn-*
-              - share-manager-*
-        - resources:
-            namespaces:
-              - storage
-            selector:
-              matchExpressions:
-                - key: longhorn.io/managed-by
-                  operator: Exists
-        - resources:
-            namespaces:
-              - metallb-system
-            names:
-              - speaker*
-        - resources:
-            namespaces:
-              - kube-system
-            names:
-              - coredns*
-              - kube-vip*
-              - intel-gpu-resource-driver-kubelet-plugin*
-        - resources:
-            namespaces:
-              - monitoring
-            names:
-              - victoria-logs-collector*
-        - resources:
-            namespaces:
-              - network
-            names:
-              - csi-smb-controller*
-              - csi-smb-node*
-              - ts-subnet-router-*
-      validate:
-        message: >-
-          Running as root is not allowed. Either the field spec.securityContext.runAsNonRoot
-          must be set to `true`, or the fields spec.containers[*].securityContext.runAsNonRoot,
-          spec.initContainers[*].securityContext.runAsNonRoot, and spec.ephemeralContainers[*].securityContext.runAsNonRoot
-          must be set to `true`.
-        foreach:
-          - list: request.object.spec.[ephemeralContainers, initContainers, containers][]
-            deny:
-              conditions:
-                all:
-                  - key: "{{ not_null(element.securityContext.runAsNonRoot, request.object.spec.securityContext.runAsNonRoot, `false`) }}"
-                    operator: NotEquals
-                    value: true
+  validationActions: [Deny]
+  evaluation:
+    background:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [pods]
+  matchConditions:
+    - name: exclude
+      expression: >-
+        !(
+          (object.metadata.namespace == 'storage' && (
+            ['csi-attacher', 'csi-provisioner', 'csi-resizer', 'csi-snapshotter', 'engine-image-', 'instance-manager-',
+             'longhorn-', 'share-manager-'].exists(p, object.metadata.name.startsWith(p)) ||
+            'longhorn.io/managed-by' in object.metadata.?labels.orValue({}))) ||
+          (object.metadata.namespace == 'metallb-system' && object.metadata.name.startsWith('speaker')) ||
+          (object.metadata.namespace == 'kube-system' &&
+            ['coredns', 'kube-vip', 'intel-gpu-resource-driver-kubelet-plugin'].exists(p, object.metadata.name.startsWith(p))) ||
+          (object.metadata.namespace == 'monitoring' && object.metadata.name.startsWith('victoria-logs-collector')) ||
+          (object.metadata.namespace == 'network' &&
+            ['csi-smb-controller', 'csi-smb-node', 'ts-subnet-router-'].exists(p, object.metadata.name.startsWith(p)))
+        )
+  variables:
+    - name: allContainers
+      expression: >-
+        object.spec.containers +
+        object.spec.?initContainers.orValue([]) +
+        object.spec.?ephemeralContainers.orValue([])
+  validations:
+    - expression: >-
+        variables.allContainers.all(c,
+          c.?securityContext.?runAsNonRoot.orValue(object.spec.?securityContext.?runAsNonRoot.orValue(false)) == true)
+      message: >-
+        Running as root is not allowed. Either the field spec.securityContext.runAsNonRoot
+        must be set to `true`, or the fields spec.containers[*].securityContext.runAsNonRoot,
+        spec.initContainers[*].securityContext.runAsNonRoot, and spec.ephemeralContainers[*].securityContext.runAsNonRoot
+        must be set to `true`.

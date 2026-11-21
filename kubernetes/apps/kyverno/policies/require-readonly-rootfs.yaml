@@ -1,5 +1,5 @@
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
 metadata:
   name: require-readonly-rootfs
   annotations:
@@ -13,64 +13,35 @@ metadata:
       if the container exits. This policy ensures that containers specify
       readOnlyRootFilesystem: true.
 spec:
-  validationFailureAction: Enforce
-  background: true
-  rules:
-    - name: require-readonly-rootfs
-      match:
-        any:
-        - resources:
-            kinds:
-              - Pod
-      exclude:
-        any:
-        - resources:
-            namespaces:
-              - storage
-        - resources:
-            namespaces:
-              - forgejo
-            selector:
-              matchLabels:
-                app.kubernetes.io/name: forgejo
-        - resources:
-            namespaces:
-              - immich
-            names:
-              - immich-server*
-              - immich-valkey*
-        - resources:
-            namespaces:
-              - kube-system
-            names:
-              - kube-vip*
-        - resources:
-            namespaces:
-              - mc
-            names:
-              - canary-checker*
-              - config-db*
-              - incident-manager-ui*
-              - mission-control*
-              - postgrest-mission-control*
-        - resources:
-            namespaces:
-              - network
-            names:
-              - csi-smb-controller*
-              - csi-smb-node*
-              - envoy-external*
-              - envoy-gateway*
-              - envoy-internal*
-              - external-dns*
-              - operator*
-              - ts-subnet-router*
-      validate:
-        message: >-
-          Containers must use a read-only root filesystem. Set
-          spec.containers[*].securityContext.readOnlyRootFilesystem to `true`.
-        pattern:
-          spec:
-            containers:
-            - securityContext:
-                readOnlyRootFilesystem: "true"
+  validationActions: [Deny]
+  evaluation:
+    background:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [pods]
+  matchConditions:
+    - name: exclude
+      expression: >-
+        !(
+          object.metadata.namespace == 'storage' ||
+          (object.metadata.namespace == 'forgejo' &&
+            object.metadata.?labels.orValue({})[?'app.kubernetes.io/name'].orValue('') == 'forgejo') ||
+          (object.metadata.namespace == 'immich' &&
+            ['immich-server', 'immich-valkey'].exists(p, object.metadata.name.startsWith(p))) ||
+          (object.metadata.namespace == 'kube-system' && object.metadata.name.startsWith('kube-vip')) ||
+          (object.metadata.namespace == 'mc' &&
+            ['canary-checker', 'config-db', 'incident-manager-ui', 'mission-control', 'postgrest-mission-control'].exists(p, object.metadata.name.startsWith(p))) ||
+          (object.metadata.namespace == 'network' &&
+            ['csi-smb-controller', 'csi-smb-node', 'envoy-external', 'envoy-gateway', 'envoy-internal', 'external-dns',
+             'operator', 'ts-subnet-router'].exists(p, object.metadata.name.startsWith(p)))
+        )
+  validations:
+    - expression: >-
+        object.spec.containers.all(c, c.?securityContext.?readOnlyRootFilesystem.orValue(false) == true)
+      message: >-
+        Containers must use a read-only root filesystem. Set
+        spec.containers[*].securityContext.readOnlyRootFilesystem to `true`.

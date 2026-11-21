@@ -1,13 +1,11 @@
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
 metadata:
   name: disallow-host-namespaces
   annotations:
     policies.kyverno.io/title: Disallow Host Namespaces
     policies.kyverno.io/category: Pod Security Standards (Baseline)
     policies.kyverno.io/severity: medium
-    kyverno.io/kyverno-version: 1.6.0
-    kyverno.io/kubernetes-version: "1.22-1.23"
     policies.kyverno.io/subject: Pod
     policies.kyverno.io/description: >-
       Host namespaces (Process ID namespace, Inter-Process Communication namespace, and
@@ -15,57 +13,31 @@ metadata:
       privileges. Pods should not be allowed access to host namespaces. This policy ensures
       fields which make use of these host namespaces are unset or set to `false`.
 spec:
-  validationFailureAction: Enforce
-  background: true
-  rules:
-    - name: host-namespaces
-      match:
-        any:
-        - resources:
-            kinds:
-              - Pod
-      exclude:
-        any:
-        - resources:
-            kinds:
-              - Pod
-            namespaces:
-              - kube-system
-            names:
-              - kube-vip-ds*
-        - resources:
-            kinds:
-              - Pod
-            namespaces:
-              - metallb-system
-            names:
-              - speaker*
-        - resources:
-            kinds:
-              - Pod
-            namespaces:
-              - monitoring
-            names:
-              - kube-prometheus-stack-prometheus-node-exporter*
-        - resources:
-            kinds:
-              - Pod
-            namespaces:
-              - network
-            names:
-              - csi-smb-controller*
-              - csi-smb-node*
-        - resources:
-            kinds:
-              - Pod
-            namespaces:
-              - storage
-      validate:
-        message: >-
-          Sharing the host namespaces is disallowed. The fields spec.hostNetwork,
-          spec.hostIPC, and spec.hostPID must be unset or set to `false`.
-        pattern:
-          spec:
-            =(hostPID): "false"
-            =(hostIPC): "false"
-            =(hostNetwork): "false"
+  validationActions: [Deny]
+  evaluation:
+    background:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [pods]
+  matchConditions:
+    - name: exclude
+      expression: >-
+        !(
+          object.metadata.namespace == 'storage' ||
+          (object.metadata.namespace == 'kube-system' && object.metadata.name.startsWith('kube-vip-ds')) ||
+          (object.metadata.namespace == 'metallb-system' && object.metadata.name.startsWith('speaker')) ||
+          (object.metadata.namespace == 'monitoring' && object.metadata.name.startsWith('kube-prometheus-stack-prometheus-node-exporter')) ||
+          (object.metadata.namespace == 'network' && ['csi-smb-controller', 'csi-smb-node'].exists(p, object.metadata.name.startsWith(p)))
+        )
+  validations:
+    - expression: >-
+        !object.spec.?hostPID.orValue(false) &&
+        !object.spec.?hostIPC.orValue(false) &&
+        !object.spec.?hostNetwork.orValue(false)
+      message: >-
+        Sharing the host namespaces is disallowed. The fields spec.hostNetwork,
+        spec.hostIPC, and spec.hostPID must be unset or set to `false`.
