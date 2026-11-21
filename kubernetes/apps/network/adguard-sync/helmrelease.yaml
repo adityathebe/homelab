@@ -41,7 +41,7 @@ spec:
               tag: v0.9.0
             args: ['run']
             env:
-              TZ: '${TIMEZONE}'
+              TZ: '${TZ}'
               API_PORT: '0'
               CRON: '*/30 * * * *'
             envFrom:
