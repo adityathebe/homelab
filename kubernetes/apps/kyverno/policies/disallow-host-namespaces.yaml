@@ -17,7 +17,7 @@ spec:
   # Pod-only, like the legacy ClusterPolicies: name exclusions don't apply to pod templates.
   autogen:
     podControllers:
-      enabled: false
+      controllers: []
   evaluation:
     background:
       enabled: true
