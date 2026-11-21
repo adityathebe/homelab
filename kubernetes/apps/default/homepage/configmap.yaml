@@ -42,13 +42,6 @@ data:
             description: Deezer music downlader
 
     - Applications:
-        - IT Tools:
-            icon: it-tools.png
-            namespace: default
-            app: ittools
-            href: https://ittools.${HOMELAB_DOMAIN}
-            description: Swiss army knife for IT
-
         - LubeLogger:
             icon: lubelogger.png
             namespace: default

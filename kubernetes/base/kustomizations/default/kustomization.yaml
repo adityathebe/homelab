@@ -2,10 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 buildMetadata: [originAnnotations]
 resources:
-  - echo-server.yaml
   - gickup.yaml
   - homepage.yaml
-  - ittools.yaml
   - lubelogger.yaml
   - nepse.yaml
   - radicale.yaml
