@@ -12,6 +12,10 @@ metadata:
       This policy ensures the `allowPrivilegeEscalation` field is set to `false`.
 spec:
   validationActions: [Deny]
+  # Pod-only, like the legacy ClusterPolicies: name exclusions don't apply to pod templates.
+  autogen:
+    podControllers:
+      enabled: false
   evaluation:
     background:
       enabled: true

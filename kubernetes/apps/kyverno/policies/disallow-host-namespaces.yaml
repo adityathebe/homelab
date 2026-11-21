@@ -14,6 +14,10 @@ metadata:
       fields which make use of these host namespaces are unset or set to `false`.
 spec:
   validationActions: [Deny]
+  # Pod-only, like the legacy ClusterPolicies: name exclusions don't apply to pod templates.
+  autogen:
+    podControllers:
+      enabled: false
   evaluation:
     background:
       enabled: true

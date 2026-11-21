@@ -12,6 +12,10 @@ metadata:
       ensures Pods do not call for privileged mode.
 spec:
   validationActions: [Deny]
+  # Pod-only, like the legacy ClusterPolicies: name exclusions don't apply to pod templates.
+  autogen:
+    podControllers:
+      enabled: false
   evaluation:
     background:
       enabled: true
