@@ -10,9 +10,7 @@ spec:
   chart:
     spec:
       chart: mission-control
-      # the `-0` prerelease suffix makes the range match beta/rc builds too
-      version: '>=0.1.329-0'
-      interval: 10m # re-resolve the range against the repo index
+      version: 0.1.347-beta.11
       sourceRef:
         kind: HelmRepository
         name: flanksource
