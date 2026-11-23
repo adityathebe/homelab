@@ -40,7 +40,8 @@ spec:
           fern:
             image:
               repository: ghcr.io/adityathebe/fern
-              tag: 0.4.0
+              tag: latest
+              pullPolicy: Always
             env:
               ADDR: :8181
               DB_DRIVER: postgres
@@ -77,7 +78,8 @@ spec:
           worker:
             image:
               repository: ghcr.io/adityathebe/fern
-              tag: 0.4.0
+              tag: latest
+              pullPolicy: Always
             command:
               - /worker
             env:
@@ -113,7 +115,8 @@ spec:
           fern-admin:
             image:
               repository: ghcr.io/adityathebe/fern-admin
-              tag: 0.4.0
+              tag: latest
+              pullPolicy: Always
             env:
               ADMIN_ADDR: :8182
               ADMIN_ALLOWED_HOSTS: "fern-admin.${HOMELAB_DOMAIN}"
