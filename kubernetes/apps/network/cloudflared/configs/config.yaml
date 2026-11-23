@@ -41,5 +41,11 @@ ingress:
     originRequest:
       httpHostHeader: navidrome.${HOMELAB_DOMAIN}
 
+  # Immich Public Proxy (shared photos)
+  - hostname: imageshare.${HOMELAB_DOMAIN}
+    service: http://envoy-external.network.svc.cluster.local
+    originRequest:
+      httpHostHeader: imageshare.${HOMELAB_DOMAIN}
+
   # Catch-all
   - service: http_status:503
