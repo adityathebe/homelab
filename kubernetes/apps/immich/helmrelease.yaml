@@ -185,7 +185,51 @@ spec:
                 drop:
                   - ALL
               readOnlyRootFilesystem: true
+      public-proxy:
+        type: deployment
+        replicas: 1
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+        containers:
+          app:
+            image:
+              repository: ghcr.io/alangrainger/immich-public-proxy
+              tag: 4.2.0
+            env:
+              IMMICH_URL: http://immich-server:2283
+              PUBLIC_BASE_URL: https://imageshare.${HOMELAB_DOMAIN}
+            probes:
+              liveness: &ipp-probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /share/healthcheck
+                    port: 3000
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+              readiness: *ipp-probe
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
     service:
+      public-proxy:
+        controller: public-proxy
+        ports:
+          http:
+            port: 3000
       machine-learning:
         controller: machine-learning
         ports:
@@ -253,4 +297,23 @@ spec:
               request: 0s
             backendRefs:
               - identifier: server
+                port: http
+      # Only the proxy is public; Immich itself stays on envoy-internal.
+      public-proxy:
+        hostnames:
+          - imageshare.${HOMELAB_DOMAIN}
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+          - name: envoy-external
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            timeouts:
+              request: 0s
+            backendRefs:
+              - identifier: public-proxy
                 port: http
