@@ -46,6 +46,8 @@ spec:
               ADDR: :8181
               DB_DRIVER: postgres
               PUBLIC_BASE_URL: "https://fern.${HOMELAB_DOMAIN}"
+              JEV_API_URL: https://openrouter.ai/api/v1/systemone
+              JEV_MODEL: typesafe/jev-1.13
               TZ: ${TZ}
             envFrom:
               - secretRef:
@@ -54,6 +56,8 @@ spec:
                   name: fern-db
               - secretRef:
                   name: fern-paddle
+              - secretRef:
+                  name: fern-jev
             resources:
               requests:
                 cpu: 50m
