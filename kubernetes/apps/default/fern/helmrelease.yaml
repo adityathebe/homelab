@@ -58,6 +58,8 @@ spec:
                   name: fern-paddle
               - secretRef:
                   name: fern-jev
+              - secretRef:
+                  name: fern-turnstile
             resources:
               requests:
                 cpu: 50m

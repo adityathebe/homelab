@@ -9,3 +9,4 @@ resources:
   - admin-secret.sops.yaml
   - paddle-secret.sops.yaml
   - jev-secret.sops.yaml
+  - turnstile-secret.sops.yaml
