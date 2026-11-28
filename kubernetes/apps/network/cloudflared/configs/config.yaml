@@ -6,10 +6,10 @@ originRequest:
 
 ingress:
   # Fern
-  - hostname: fern.${HOMELAB_DOMAIN}
+  - hostname: ${FERN_DOMAIN}
     service: http://envoy-external.network.svc.cluster.local
     originRequest:
-      httpHostHeader: fern.${HOMELAB_DOMAIN}
+      httpHostHeader: ${FERN_DOMAIN}
 
   # NEPSE
   - hostname: nepse.${HOMELAB_DOMAIN}

@@ -36,6 +36,7 @@ spec:
     txtPrefix: k8s-
     domainFilters:
       - ${HOMELAB_DOMAIN}
+      - ${FERN_DOMAIN}
     resources:
       requests:
         cpu: 10m

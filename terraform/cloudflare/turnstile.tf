@@ -1,7 +1,7 @@
 resource "cloudflare_turnstile_widget" "fern" {
   account_id = data.sops_file.cloudflare_secrets.data["cloudflare_account_id"]
   name       = "fern"
-  domains    = ["fern.${data.sops_file.cloudflare_secrets.data["homelab_domain"]}"]
+  domains    = [data.sops_file.cloudflare_secrets.data["fern_domain"]]
   mode       = "managed"
   region     = "world"
 }

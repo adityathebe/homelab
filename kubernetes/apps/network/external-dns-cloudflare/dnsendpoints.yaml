@@ -6,7 +6,7 @@ metadata:
   name: homelab-fern
 spec:
   endpoints:
-    - dnsName: fern.${HOMELAB_DOMAIN}
+    - dnsName: ${FERN_DOMAIN}
       recordType: CNAME
       targets:
         - ${CF_TUNNEL_ID}.cfargotunnel.com
